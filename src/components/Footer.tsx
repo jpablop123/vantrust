@@ -1,3 +1,5 @@
+import Image from "next/image";
+import logoDark from "../../public/vantrustfondoazul.png";
 import { ShieldCheck, Phone, Mail, MessageCircle } from "lucide-react";
 
 export default function Footer() {
@@ -8,14 +10,12 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-10 md:gap-12">
           {/* Column 1 - Brand */}
           <div>
-            <div className="flex items-center gap-2.5 mb-4">
-              <ShieldCheck className="w-6 h-6 text-accent" strokeWidth={1.8} />
-              <span
-                className="text-xl tracking-wide text-white"
-                style={{ fontFamily: "var(--font-heading), Georgia, serif" }}
-              >
-                VANTRUST
-              </span>
+            <div className="mb-5">
+              <Image
+                src={logoDark}
+                alt="VanTrust"
+                style={{ height: "64px", width: "auto" }}
+              />
             </div>
             <p className="text-sm leading-relaxed mb-4">
               Intermediario autorizado de seguros en Colombia. Protegemos lo que

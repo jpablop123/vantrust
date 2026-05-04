@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import logoLight from "../../public/logovantrust-removebg-preview.png";
+import logoDark from "../../public/vantrustfondoazul.png";
 
 const navLinks = [
   { label: "Inicio", href: "#inicio" },
@@ -17,7 +19,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -26,24 +28,20 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-md shadow-black/5 border-b border-gray-100"
+          ? "bg-background/95 backdrop-blur-md border-b border-primary/10 shadow-sm shadow-primary/5"
           : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
-          <a href="#inicio" className="flex items-center gap-2.5">
-            <ShieldCheck
-              className={`w-7 h-7 transition-colors duration-300 ${scrolled ? "text-accent" : "text-accent"}`}
-              strokeWidth={1.8}
+        <div className="flex items-center justify-between h-20 lg:h-24">
+
+          <a href="#inicio" className="flex items-center">
+            <Image
+              src={scrolled ? logoLight : logoDark}
+              alt="VanTrust"
+              style={{ height: "56px", width: "auto" }}
+              priority
             />
-            <span
-              className={`text-xl tracking-wide transition-colors duration-300 font-heading ${scrolled ? "text-primary" : "text-white"}`}
-              style={{ fontFamily: "var(--font-heading), Georgia, serif" }}
-            >
-              VANTRUST
-            </span>
           </a>
 
           {/* Desktop nav */}
@@ -52,10 +50,8 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className={`nav-link text-sm font-medium transition-colors duration-200 ${
-                  scrolled
-                    ? "text-muted hover:text-primary"
-                    : "text-white/70 hover:text-white"
+                className={`text-sm font-medium transition-colors duration-200 ${
+                  scrolled ? "text-muted hover:text-primary" : "text-white/75 hover:text-white"
                 }`}
               >
                 {link.label}
@@ -69,28 +65,16 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile hamburger - animated X/≡ */}
+          {/* Mobile hamburger */}
           <button
             className="lg:hidden p-2 relative w-10 h-10 flex items-center justify-center"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Menú"
           >
             <div className="relative w-6 h-5">
-              <span
-                className={`absolute left-0 h-0.5 w-6 rounded transition-all duration-300 ${scrolled ? "bg-primary" : "bg-white"} ${
-                  mobileOpen ? "top-2.5 rotate-45" : "top-0"
-                }`}
-              />
-              <span
-                className={`absolute left-0 top-2.5 h-0.5 w-6 rounded transition-all duration-300 ${scrolled ? "bg-primary" : "bg-white"} ${
-                  mobileOpen ? "opacity-0 scale-x-0" : "opacity-100"
-                }`}
-              />
-              <span
-                className={`absolute left-0 h-0.5 w-6 rounded transition-all duration-300 ${scrolled ? "bg-primary" : "bg-white"} ${
-                  mobileOpen ? "top-2.5 -rotate-45" : "top-5"
-                }`}
-              />
+              <span className={`absolute left-0 h-0.5 w-6 rounded transition-all duration-300 ${scrolled ? "bg-primary" : "bg-white"} ${mobileOpen ? "top-2.5 rotate-45" : "top-0"}`} />
+              <span className={`absolute left-0 top-2.5 h-0.5 w-6 rounded transition-all duration-300 ${scrolled ? "bg-primary" : "bg-white"} ${mobileOpen ? "opacity-0 scale-x-0" : "opacity-100"}`} />
+              <span className={`absolute left-0 h-0.5 w-6 rounded transition-all duration-300 ${scrolled ? "bg-primary" : "bg-white"} ${mobileOpen ? "top-2.5 -rotate-45" : "top-5"}`} />
             </div>
           </button>
         </div>
@@ -103,8 +87,8 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden bg-white border-t border-gray-100 shadow-lg"
+            transition={{ duration: 0.25 }}
+            className="lg:hidden bg-background border-t border-primary/10"
           >
             <div className="px-6 py-5 space-y-1">
               {navLinks.map((link) => (
@@ -117,7 +101,7 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <div className="pt-3 border-t border-gray-100 mt-2 space-y-3">
+              <div className="pt-3 border-t border-primary/10 mt-2">
                 <a
                   href="#cotizar"
                   onClick={() => setMobileOpen(false)}

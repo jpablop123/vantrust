@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+import logoDark from "../../public/vantrustfondoazul.png";
 
 interface LegalLayoutProps {
   title: string;
@@ -13,6 +15,17 @@ export default function LegalLayout({ title, subtitle, lastUpdated, children }: 
       {/* Navbar spacer + breadcrumb */}
       <div className="bg-primary pt-24 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Logo */}
+          <div className="mb-8">
+            <Link href="/">
+              <Image
+                src={logoDark}
+                alt="VanTrust"
+                style={{ height: "56px", width: "auto" }}
+              />
+            </Link>
+          </div>
+
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-white/40 mb-8">
             <Link href="/" className="hover:text-accent transition-colors">
