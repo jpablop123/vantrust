@@ -74,11 +74,11 @@ export default function FAQ() {
             return (
               <div
                 key={i}
-                className="border border-gray-200 rounded-xl overflow-hidden bg-white"
+                className="border border-primary/10 rounded-xl overflow-hidden bg-surface"
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-surface/50 transition-colors cursor-pointer"
+                  className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-surface-dark/40 transition-colors cursor-pointer"
                 >
                   <span className="font-semibold text-primary text-sm sm:text-base pr-4">
                     {faq.question}

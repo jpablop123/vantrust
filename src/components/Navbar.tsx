@@ -9,8 +9,6 @@ import logoDark from "../../public/vantrustfondoazul.png";
 const navLinks = [
   { label: "Inicio", href: "#inicio" },
   { label: "Servicios", href: "#servicios" },
-  { label: "Cómo Funciona", href: "#como-funciona" },
-  { label: "Nosotros", href: "#nosotros" },
   { label: "Cotizar", href: "#cotizar" },
 ];
 
@@ -58,6 +56,21 @@ export default function Navbar() {
               </a>
             ))}
             <a
+              href="https://vantrust.aswebseguros.co/index.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`group inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full border-2 transition-all duration-200 hover:scale-105 ${
+                scrolled
+                  ? "border-primary text-primary hover:bg-primary hover:text-white"
+                  : "border-white/70 text-white hover:bg-white hover:text-primary"
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+              </svg>
+              Iniciar Sesión
+            </a>
+            <a
               href="#cotizar"
               className="bg-accent hover:bg-accent-light text-primary font-semibold text-sm px-6 py-2.5 rounded-full transition-all duration-200 hover:scale-105"
             >
@@ -101,7 +114,19 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <div className="pt-3 border-t border-primary/10 mt-2">
+              <div className="pt-3 border-t border-primary/10 mt-2 space-y-3">
+                <a
+                  href="https://vantrust.aswebseguros.co/index.php"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center justify-center gap-2 border-2 border-primary text-primary font-semibold text-sm px-5 py-3 rounded-full transition-colors hover:bg-primary hover:text-white"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                  </svg>
+                  Iniciar Sesión
+                </a>
                 <a
                   href="#cotizar"
                   onClick={() => setMobileOpen(false)}

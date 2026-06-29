@@ -1,19 +1,40 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-primary: #0A1628;
-  --color-primary-light: #162240;
-  --color-accent: #C9A84C;
-  --color-accent-light: #D4B960;
-  --color-accent-dark: #B89A3F;
-  --color-background: #ffffff;
-  --color-foreground: #1a1a1a;
-  --color-muted: #6b7280;
-  --color-surface: #F7F8FA;
-  --color-surface-dark: #ECEEF2;
-  --font-heading: var(--font-playfair);
-  --font-body: var(--font-inter);
+  /* ── Tres colores oficiales Vantrust ── */
+  --color-primary:       #002C55;   /* Azul marino corporativo */
+  --color-primary-light: #003F7A;   /* Tinte claro del navy */
+  --color-accent:        #BFA15C;   /* Dorado corporativo */
+  --color-accent-light:  #D4B97A;   /* Tinte claro del dorado */
+  --color-accent-dark:   #9E8240;   /* Tono oscuro del dorado */
+  --color-background:    #FFFFE3;   /* Crema corporativa */
+  /* ── Derivados de los colores de marca ── */
+  --color-foreground:    #002C55;   /* Texto: navy — coherencia de marca */
+  --color-muted:         #5B7A9A;   /* Azul grisáceo: tint del navy */
+  --color-surface:       #FFFFF8;   /* Sección clara: crema casi blanca */
+  --color-surface-dark:  #F0EDD8;   /* Sección alternativa: crema saturada */
+  /* ── Tipografías ──
+     · Nourd W05 Bold → self-hosting (ver instrucciones abajo)
+     · Montserrat Regular / Bold Italic → Google Fonts (layout.tsx)
+  */
+  --font-heading: var(--font-montserrat); /* reemplazar por var(--font-nourd) al self-hostear */
+  --font-body:    var(--font-montserrat);
 }
+
+/*
+  PARA ACTIVAR NOURD W05 BOLD:
+  1. Coloca el archivo en /public/fonts/nourd-bold.woff2
+  2. Descomenta el bloque @font-face de abajo
+  3. Cambia --font-heading a: var(--font-nourd, var(--font-montserrat))
+
+  @font-face {
+    font-family: "Nourd";
+    src: url("/fonts/nourd-bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+*/
 
 body {
   background: var(--color-background);
@@ -25,19 +46,32 @@ html {
   scroll-behavior: smooth;
 }
 
-h1, h2, h3 {
-  font-family: var(--font-heading), Georgia, serif;
+/* @layer base: utility classes de Tailwind pueden sobreescribir estos estilos */
+@layer base {
+  h1, h2, h3 {
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
 }
 
-/* Animated grid background */
+/* Tipografía de apoyo: Montserrat Bold Italic */
+.font-support {
+  font-family: var(--font-body), sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* Grid sutil (secciones oscuras: hero, CTA) */
 .bg-grid {
   background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
-/* Nav link underline animation */
+/* Nav link underline en dorado */
 .nav-link {
   position: relative;
 }
@@ -79,21 +113,21 @@ h1, h2, h3 {
   width: 100%;
 }
 
-/* Custom scrollbar for brand grid */
+/* Scrollbar en colores de marca */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 44, 85, 0.05);
   border-radius: 2px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(201, 168, 76, 0.3);
+  background: rgba(191, 161, 92, 0.35);
   border-radius: 2px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(201, 168, 76, 0.5);
+  background: rgba(191, 161, 92, 0.6);
 }

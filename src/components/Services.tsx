@@ -154,7 +154,7 @@ export default function Services() {
               key={service.id}
               variants={cardVariants}
               onClick={() => handleSelect(service.id)}
-              className="card-accent-top relative bg-white rounded-2xl p-8 sm:p-10 shadow-sm hover:shadow-xl transition-all duration-300 group border border-gray-100 hover:border-accent/30 cursor-pointer"
+              className="card-accent-top relative bg-white rounded-2xl p-8 sm:p-10 shadow-sm hover:shadow-xl transition-all duration-300 group border border-primary/10 hover:border-accent/40 cursor-pointer"
             >
               {/* Decorative number */}
               <span className="absolute top-6 right-6 text-6xl font-bold text-primary/[0.04] leading-none select-none pointer-events-none">
@@ -198,12 +198,12 @@ export default function Services() {
                 ))}
               </ul>
 
-              <div className="flex items-center gap-2 text-xs text-muted/60 pt-4 border-t border-gray-50">
+              <div className="flex items-center gap-2 text-xs text-muted/60 pt-4 border-t border-primary/10">
                 <span>Aseguradoras:</span>
                 {service.insurers.map((ins) => (
                   <span
                     key={ins}
-                    className="bg-surface px-2 py-0.5 rounded text-muted"
+                    className="bg-background px-2 py-0.5 rounded text-primary/50 text-xs"
                   >
                     {ins}
                   </span>

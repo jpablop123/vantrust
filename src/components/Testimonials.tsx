@@ -36,7 +36,7 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-16"
@@ -49,10 +49,10 @@ export default function Testimonials() {
             Lo que dicen nuestros clientes
           </span>
           <div className="w-10 h-[3px] bg-accent rounded-full mx-auto mt-4 mb-4" />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
             Historias reales
           </h2>
-          <p className="text-muted mt-4 max-w-2xl mx-auto text-lg">
+          <p className="text-white/50 mt-4 max-w-2xl mx-auto text-lg">
             Más de 500 personas ya confían en VanTrust para proteger lo que más
             les importa.
           </p>
@@ -62,7 +62,7 @@ export default function Testimonials() {
           {testimonials.map((t, i) => (
             <motion.div
               key={t.name}
-              className="bg-surface border border-gray-100 rounded-2xl p-6 sm:p-8 hover:shadow-lg transition-shadow duration-300"
+              className="bg-primary-light border border-accent/20 rounded-2xl p-6 sm:p-8 hover:border-accent/50 transition-colors duration-300"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -79,22 +79,22 @@ export default function Testimonials() {
               </div>
 
               {/* Quote */}
-              <p className="text-primary text-sm sm:text-base leading-relaxed mb-6">
+              <p className="text-white/80 text-sm sm:text-base leading-relaxed mb-6">
                 &ldquo;{t.text}&rdquo;
               </p>
 
               {/* Author */}
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center">
                   <span className="text-accent text-xs font-bold">
                     {t.initials}
                   </span>
                 </div>
                 <div>
-                  <p className="text-primary font-semibold text-sm">
+                  <p className="text-white font-semibold text-sm">
                     {t.name}
                   </p>
-                  <p className="text-muted text-xs">
+                  <p className="text-accent/70 text-xs">
                     {t.city} · {t.type}
                   </p>
                 </div>
