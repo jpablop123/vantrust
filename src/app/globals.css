@@ -113,6 +113,95 @@ html {
   width: 100%;
 }
 
+/* ── Texto dorado con degradado (headlines) ── */
+.text-gold-gradient {
+  background: linear-gradient(120deg, #D4B97A 0%, #BFA15C 45%, #9E8240 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ── Glow dorado reutilizable ── */
+.glow-accent {
+  box-shadow: 0 10px 40px -10px rgba(191, 161, 92, 0.5),
+    0 0 0 1px rgba(191, 161, 92, 0.1);
+}
+
+/* ── Botón premium con brillo que se desliza ── */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: none;
+}
+.btn-shine:hover::after {
+  animation: shine 0.85s ease;
+}
+@keyframes shine {
+  100% {
+    left: 125%;
+  }
+}
+
+/* ── Card glass con borde luminoso ── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  transition: transform 0.35s ease, border-color 0.35s ease,
+    background 0.35s ease;
+}
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(191, 161, 92, 0.4);
+  background: rgba(191, 161, 92, 0.06);
+}
+
+/* ── Marco cónico giratorio (destaca la tarjeta de stats) ── */
+@keyframes spin-slow {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.conic-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(191, 161, 92, 0.6) 60deg,
+    transparent 140deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: spin-slow 6s linear infinite;
+}
+
+/* ── Ruido sutil para dar textura a secciones oscuras ── */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+}
+
 /* Scrollbar en colores de marca */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;

@@ -57,16 +57,22 @@ export default function Hero() {
       {/* Gradient overlays */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light/80 to-primary" />
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-accent/5 to-transparent" />
+      {/* Spotlight desde arriba */}
+      <div className="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[120%] h-[70%] bg-[radial-gradient(ellipse_at_top,rgba(191,161,92,0.14),transparent_60%)]" />
+      {/* Textura de ruido */}
+      <div className="absolute inset-0 bg-noise opacity-[0.15] mix-blend-overlay pointer-events-none" />
+      {/* Fade inferior hacia la crema */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background/20 to-transparent" />
 
       {/* Animated orbs */}
       <motion.div
-        className="absolute top-20 right-[10%] w-80 h-80 bg-accent/10 rounded-full blur-3xl"
-        animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }}
+        className="absolute top-20 right-[10%] w-80 h-80 bg-accent/15 rounded-full blur-3xl"
+        animate={{ scale: [1, 1.3, 1], opacity: [0.35, 0.6, 0.35] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute bottom-20 left-[5%] w-60 h-60 bg-accent/5 rounded-full blur-3xl"
-        animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.4, 0.2] }}
+        className="absolute bottom-20 left-[5%] w-60 h-60 bg-accent/10 rounded-full blur-3xl"
+        animate={{ scale: [1.2, 1, 1.2], opacity: [0.25, 0.45, 0.25] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
 
@@ -92,7 +98,10 @@ export default function Hero() {
               transition={{ duration: 0.7, delay: 0.15 }}
             >
               Protege lo que{" "}
-              <span className="text-accent italic">más importa</span>
+              <span className="relative inline-block italic text-gold-gradient">
+                más importa
+                <span className="absolute -inset-x-4 -inset-y-2 -z-10 bg-accent/20 blur-2xl rounded-full" />
+              </span>
               <br />
               al mejor precio
             </motion.h1>
@@ -116,7 +125,7 @@ export default function Hero() {
             >
               <a
                 href="#cotizar"
-                className="bg-accent hover:bg-accent-light text-primary font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105 shadow-lg shadow-accent/20"
+                className="btn-shine glow-accent bg-gradient-to-r from-accent-light via-accent to-accent-dark hover:from-accent hover:to-accent text-primary font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"
               >
                 Cotizar Gratis
               </a>
@@ -170,7 +179,7 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <div className="flex items-stretch gap-0">
+            <div className="conic-border relative flex items-stretch gap-0 rounded-3xl bg-white/[0.03] backdrop-blur-sm px-2 py-8 shadow-2xl shadow-black/30">
               {stats.map((stat, i) => (
                 <motion.div
                   key={stat.label}
@@ -179,7 +188,7 @@ export default function Hero() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 + i * 0.1 }}
                 >
-                  <div className="text-3xl xl:text-4xl font-bold text-accent mb-2">
+                  <div className="text-3xl xl:text-4xl font-bold text-gold-gradient mb-2">
                     <AnimatedCounter
                       target={stat.value}
                       suffix={stat.suffix}
@@ -224,10 +233,10 @@ export default function Hero() {
           {trustSignals.map((signal) => (
             <div
               key={signal.text}
-              className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3"
+              className="glass-card group flex items-center gap-3 rounded-xl px-4 py-3.5"
             >
-              <signal.icon className="w-4 h-4 text-white/30 shrink-0" />
-              <span className="text-white/40 text-xs leading-tight">
+              <signal.icon className="w-4 h-4 text-accent/70 group-hover:text-accent shrink-0 transition-colors" />
+              <span className="text-white/50 group-hover:text-white/70 text-xs leading-tight transition-colors">
                 {signal.text}
               </span>
             </div>
