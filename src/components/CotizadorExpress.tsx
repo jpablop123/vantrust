@@ -13,7 +13,17 @@ import {
   ChevronDown,
   Search,
 } from "lucide-react";
+import { Heart, Home as HomeIcon } from "lucide-react";
 import { INSURERS, waLink } from "@/lib/site";
+import RamoForm from "@/components/cotizador/RamoForm";
+import { RAMO_FIELDS } from "@/data/formFields";
+
+type Ramo = "auto" | "salud" | "hogar";
+const ramoTabs: { id: Ramo; label: string; icon: typeof Car }[] = [
+  { id: "auto", label: "Automóvil", icon: Car },
+  { id: "salud", label: "Salud", icon: Heart },
+  { id: "hogar", label: "Hogar", icon: HomeIcon },
+];
 
 type Step = 1 | 2 | 3 | 4 | "loading" | "result";
 
@@ -419,7 +429,13 @@ function ValidatedInput({
 // --- Main Component ---
 
 export default function CotizadorExpress() {
+  const [ramo, setRamo] = useState<Ramo>("auto");
   const [step, setStep] = useState<Step>(1);
+
+  useEffect(() => {
+    const r = new URLSearchParams(window.location.search).get("ramo");
+    if (r === "salud" || r === "hogar" || r === "auto") setRamo(r);
+  }, []);
   const [direction, setDirection] = useState(1);
   const [submitError, setSubmitError] = useState<string | false>(false);
   const [shakeFields, setShakeFields] = useState<string[]>([]);
@@ -587,15 +603,39 @@ export default function CotizadorExpress() {
             <span className="text-accent italic">minutos</span>
           </h2>
           <p className="text-white/40 mt-3 text-base">
-            Sin precios sorpresa. Responde 4 preguntas y te contactamos con
+            Sin precios sorpresa. Cuéntanos qué necesitas y te contactamos con
             opciones reales.
           </p>
         </motion.div>
 
-        <ProgressBar step={step} />
+        {/* Selector de ramo */}
+        <div className="flex justify-center gap-2 sm:gap-3 mb-8">
+          {ramoTabs.map((t) => {
+            const Icon = t.icon;
+            const active = ramo === t.id;
+            return (
+              <button
+                key={t.id}
+                onClick={() => setRamo(t.id)}
+                className={`flex items-center gap-2 px-4 sm:px-6 py-3 rounded-full border text-sm font-semibold transition-all duration-200 ${
+                  active
+                    ? "bg-accent border-accent text-primary shadow-lg shadow-accent/20"
+                    : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {t.label}
+              </button>
+            );
+          })}
+        </div>
 
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-10 min-h-[380px] flex flex-col">
-          <AnimatePresence mode="wait" custom={direction}>
+        {ramo === "auto" ? (
+          <>
+            <ProgressBar step={step} />
+
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-10 min-h-[380px] flex flex-col">
+              <AnimatePresence mode="wait" custom={direction}>
             {/* STEP 1 - Brand + Model + Year */}
             {step === 1 && (
               <motion.div
@@ -1148,7 +1188,30 @@ export default function CotizadorExpress() {
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
+            </div>
+          </>
+        ) : (
+          <motion.div
+            key={ramo}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 sm:p-10"
+          >
+            <h3 className="text-xl sm:text-2xl font-bold text-white text-center mb-1">
+              {ramo === "salud" ? "Cotiza tu Seguro de Salud" : "Cotiza tu Seguro de Hogar"}
+            </h3>
+            <p className="text-white/40 text-sm text-center mb-6">
+              Completa tus datos y un asesor te contacta en aproximadamente 1 hora
+            </p>
+            <RamoForm
+              key={ramo}
+              tipoSeguro={ramo}
+              fields={RAMO_FIELDS[ramo]}
+              fuente={`cotizador_${ramo}`}
+            />
+          </motion.div>
+        )}
       </div>
     </section>
   );

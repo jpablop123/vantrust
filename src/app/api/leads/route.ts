@@ -16,9 +16,15 @@ function cleanupOldEntries() {
 }
 
 const INSURANCE_LABELS: Record<string, string> = {
-  vehiculo: "Seguro Vehicular",
+  vehiculo: "Seguro de Automóvil",
   salud: "Seguro de Salud",
-  vivienda: "Seguro de Vivienda",
+  hogar: "Seguro de Hogar",
+  vivienda: "Seguro de Hogar",
+  vida: "Seguro de Vida",
+  accidentes: "Accidentes Personales",
+  exequial: "Seguro Exequial",
+  viajes: "Seguro de Viajes",
+  mascotas: "Seguro de Mascotas",
   otro: "Otro / No está seguro",
 };
 
@@ -43,6 +49,22 @@ interface LeadData {
   anno_carro?: string;
   uso_diario?: string;
   fuente?: string;
+  // Campos específicos por ramo (salud, hogar, vida, etc.) como pares clave-valor
+  detalles?: Record<string, string>;
+}
+
+function renderDetalleRows(detalles?: Record<string, string>): string {
+  if (!detalles) return "";
+  return Object.entries(detalles)
+    .filter(([, v]) => v && String(v).trim())
+    .map(
+      ([k, v]) => `
+      <tr style="border-top: 1px solid #f3f4f6;">
+        <td style="padding: 10px 0; color: #6b7280; font-size: 13px; vertical-align: top;">${k}</td>
+        <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${v}</td>
+      </tr>`
+    )
+    .join("");
 }
 
 async function sendEmail(data: LeadData) {
@@ -123,6 +145,7 @@ async function sendEmail(data: LeadData) {
               <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${data.uso_diario}</td>
             </tr>
             ` : ""}
+            ${renderDetalleRows(data.detalles)}
             <tr style="border-top: 1px solid #f3f4f6;">
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Horario preferido</td>
               <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${horarioLabel}</td>
@@ -150,6 +173,43 @@ async function sendEmail(data: LeadData) {
   });
 }
 
+async function sendConfirmationToCustomer(data: LeadData) {
+  const resend = getResend();
+  if (!resend || !data.email) return;
+
+  const waHref = `https://wa.me/573106083637?text=${encodeURIComponent(
+    "Hola, acabo de enviar una solicitud de cotización en la web"
+  )}`;
+  const tipoLabel = INSURANCE_LABELS[data.tipoSeguro] || "seguro";
+  const firstName = (data.nombre || "").trim().split(" ")[0] || "";
+
+  await resend.emails.send({
+    from: process.env.RESEND_FROM_EMAIL || "VanTrust <onboarding@resend.dev>",
+    to: data.email,
+    subject: "¡Gracias por confiar en VanTrust! Recibimos tu solicitud",
+    html: `
+      <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 560px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden;">
+        <div style="background: linear-gradient(135deg, #002C55 0%, #003F7A 100%); padding: 32px 24px; text-align: center;">
+          <h1 style="color: #BFA15C; margin: 0; font-size: 24px; font-weight: 700;">VanTrust</h1>
+          <p style="color: rgba(255,255,255,0.7); margin: 6px 0 0; font-size: 13px;">Soluciones seguras para proteger lo que más valoras</p>
+        </div>
+        <div style="padding: 32px 28px; background: #ffffff; color: #1f2937;">
+          <h2 style="color: #002C55; font-size: 20px; margin: 0 0 12px;">¡Gracias por confiar en VanTrust${firstName ? `, ${firstName}` : ""}!</h2>
+          <p style="font-size: 15px; line-height: 1.6; margin: 0 0 8px;">Hemos recibido tu solicitud de cotización de <strong>${tipoLabel}</strong>.</p>
+          <p style="font-size: 15px; line-height: 1.6; margin: 0 0 20px;">Uno de nuestros asesores se comunicará contigo en un plazo aproximado de <strong>1 hora hábil</strong>.</p>
+          <p style="font-size: 14px; line-height: 1.6; color: #6b7280; margin: 0 0 20px;">Mientras tanto, puedes escribirnos directamente por WhatsApp:</p>
+          <div style="text-align: center; margin: 0 0 8px;">
+            <a href="${waHref}" style="display: inline-block; background: #16a34a; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 999px;">Escribir por WhatsApp</a>
+          </div>
+        </div>
+        <div style="padding: 16px 24px; background: #f8f9fb; border-top: 1px solid #e5e7eb;">
+          <p style="color: #9ca3af; font-size: 11px; margin: 0; text-align: center;">Vantrust Agencia de Seguros LTDA. · +57 310 608 3637 · coordinador@vantrust.com.co</p>
+        </div>
+      </div>
+    `,
+  });
+}
+
 async function saveToGoogleSheets(data: LeadData) {
   const sheetId = process.env.GOOGLE_SHEET_ID;
   const apiKey = process.env.GOOGLE_SHEETS_API_KEY;
@@ -159,17 +219,23 @@ async function saveToGoogleSheets(data: LeadData) {
     return;
   }
 
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Leads!A:N:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Leads!A:O:append?valueInputOption=USER_ENTERED&key=${apiKey}`;
 
   const tipoLabel = INSURANCE_LABELS[data.tipoSeguro] || data.tipoSeguro;
   const horarioLabel = HORARIO_LABELS[data.horario] || data.horario || "";
   const fecha = new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" });
+  const detallesStr = data.detalles
+    ? Object.entries(data.detalles)
+        .filter(([, v]) => v && String(v).trim())
+        .map(([k, v]) => `${k}: ${v}`)
+        .join(" | ")
+    : "";
 
   await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      values: [[fecha, data.nombre, data.email, data.telefono, data.ciudad, tipoLabel, data.placa, horarioLabel, data.mensaje, data.marca_carro || "", data.modelo_carro || "", data.anno_carro || "", data.uso_diario || "", data.fuente || ""]],
+      values: [[fecha, data.nombre, data.email, data.telefono, data.ciudad, tipoLabel, data.placa, horarioLabel, data.mensaje, data.marca_carro || "", data.modelo_carro || "", data.anno_carro || "", data.uso_diario || "", data.fuente || "", detallesStr]],
     }),
   });
 }
@@ -231,11 +297,12 @@ export async function POST(req: NextRequest) {
       sendEmail(data),
       saveToGoogleSheets(data),
       sendWhatsAppNotification(data),
+      sendConfirmationToCustomer(data),
     ]);
 
     results.forEach((result, i) => {
       if (result.status === "rejected") {
-        const names = ["Email", "Google Sheets", "WhatsApp"];
+        const names = ["Email", "Google Sheets", "WhatsApp", "Confirmación cliente"];
         console.error(`${names[i]} failed:`, result.reason);
       }
     });
