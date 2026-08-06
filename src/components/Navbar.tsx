@@ -8,7 +8,8 @@ import logoWhite from "../../public/vantrust-logo-white.png";
 const navLinks = [
   { label: "Inicio", href: "/#inicio" },
   { label: "Nuestros Seguros", href: "/seguros" },
-  { label: "Servicios", href: "/#servicios" },
+  { label: "Cómo Funciona", href: "/#como-funciona" },
+  { label: "Nosotros", href: "/#nosotros" },
   { label: "Cotizar", href: "/#cotizar" },
 ];
 

@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
+import ComoFunciona from "@/components/ComoFunciona";
+import Nosotros from "@/components/Nosotros";
 import Testimonials from "@/components/Testimonials";
 import CotizadorExpress from "@/components/CotizadorExpress";
 import FAQ from "@/components/FAQ";
@@ -14,8 +16,10 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Services />
-      <Testimonials />
+      <ComoFunciona />
       <CotizadorExpress />
+      <Nosotros />
+      <Testimonials />
       <FAQ />
       <CTAFinal />
       <Footer />
