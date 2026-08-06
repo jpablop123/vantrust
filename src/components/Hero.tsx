@@ -31,11 +31,11 @@ function AnimatedCounter({
   return <span ref={ref}>0{suffix}</span>;
 }
 
-const stats = [
+const stats: { value?: number; suffix?: string; text?: string; label: string }[] = [
   { value: 1, suffix: "h", label: "Tiempo de respuesta" },
   { value: 10, suffix: "", label: "Aseguradoras aliadas" },
-  { value: 500, suffix: "+", label: "Clientes protegidos" },
-  { value: 98, suffix: "%", label: "Satisfacción" },
+  { text: "Gratis", label: "Asesoría sin costo" },
+  { text: "Nacional", label: "Cobertura" },
 ];
 
 const trustSignals = [
@@ -66,8 +66,12 @@ function HeroCard() {
       <div className="grid grid-cols-2 gap-px bg-white/10 rounded-2xl overflow-hidden">
         {stats.map((stat) => (
           <div key={stat.label} className="bg-primary/40 px-4 py-5 text-center">
-            <div className="text-3xl xl:text-4xl font-bold text-gold-gradient mb-1">
-              <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+            <div className="text-2xl xl:text-3xl font-bold text-gold-gradient mb-1">
+              {stat.text ? (
+                stat.text
+              ) : (
+                <AnimatedCounter target={stat.value ?? 0} suffix={stat.suffix} />
+              )}
             </div>
             <div className="text-white/45 text-xs leading-tight">
               {stat.label}
