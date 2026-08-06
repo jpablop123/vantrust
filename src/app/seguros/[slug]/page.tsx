@@ -5,8 +5,15 @@ import { ArrowLeft, Check, ShieldCheck, Target, Sparkles, Users } from "lucide-r
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeguroCTA from "@/components/seguros/SeguroCTA";
+import RamoForm from "@/components/cotizador/RamoForm";
 import { getSeguroIcon } from "@/components/seguros/icons";
 import { SEGUROS, getSeguro } from "@/data/seguros";
+import { RAMO_FIELDS } from "@/data/formFields";
+
+// Mapea slug de producto → clave del esquema de campos
+const FORM_KEY: Record<string, string> = {
+  "accidentes-personales": "accidentes",
+};
 
 export function generateStaticParams() {
   return SEGUROS.map((s) => ({ slug: s.slug }));
@@ -142,6 +149,34 @@ export default async function SeguroPage({
               <p className="text-muted text-sm leading-relaxed">{seguro.dirigidoA}</p>
             </div>
           )}
+
+          {seguro.quote.type === "form" &&
+            (() => {
+              const key = FORM_KEY[seguro.slug] ?? seguro.slug;
+              const fields = RAMO_FIELDS[key];
+              if (!fields) return null;
+              return (
+                <div
+                  id="cotizar-form"
+                  className="relative overflow-hidden rounded-3xl bg-primary bg-grid p-6 sm:p-10 scroll-mt-28"
+                >
+                  <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-[120%] h-40 bg-[radial-gradient(ellipse_at_top,rgba(191,161,92,0.16),transparent_70%)]" />
+                  <div className="relative z-10">
+                    <h2 className="text-2xl font-bold text-white text-center mb-1">
+                      Solicita tu cotización de {seguro.nombre}
+                    </h2>
+                    <p className="text-white/50 text-sm text-center mb-6">
+                      Completa tus datos y un asesor te contacta en aproximadamente 1 hora
+                    </p>
+                    <RamoForm
+                      tipoSeguro={key}
+                      fields={fields}
+                      fuente={`producto_${seguro.slug}`}
+                    />
+                  </div>
+                </div>
+              );
+            })()}
 
           <div className="pt-4">
             <SeguroCTA seguro={seguro} />

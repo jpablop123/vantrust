@@ -1,7 +1,7 @@
 "use client";
 
-import { MessageCircle, Mail, ArrowRight } from "lucide-react";
-import { waLink, mailtoLink } from "@/lib/site";
+import { Mail, ArrowRight } from "lucide-react";
+import { waLink } from "@/lib/site";
 import type { Seguro } from "@/data/seguros";
 
 const WA_ICON = (
@@ -28,10 +28,7 @@ export default function SeguroCTA({ seguro }: { seguro: Seguro }) {
   } else if (seguro.quote.type === "form") {
     primary = (
       <a
-        href={mailtoLink(
-          `Cotización ${seguro.nombre} — VanTrust`,
-          `Hola, quiero solicitar una cotización de ${seguro.nombre}.`
-        )}
+        href="#cotizar-form"
         className="btn-shine glow-accent inline-flex items-center justify-center gap-2 bg-gradient-to-r from-accent-light via-accent to-accent-dark text-primary font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"
       >
         <Mail className="w-5 h-5" />
