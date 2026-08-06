@@ -6,9 +6,10 @@ import Image from "next/image";
 import logoWhite from "../../public/vantrust-logo-white.png";
 
 const navLinks = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Cotizar", href: "#cotizar" },
+  { label: "Inicio", href: "/#inicio" },
+  { label: "Nuestros Seguros", href: "/seguros" },
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Cotizar", href: "/#cotizar" },
 ];
 
 export default function Navbar() {
@@ -32,7 +33,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 lg:h-24">
 
-          <a href="#inicio" className="flex items-center">
+          <a href="/#inicio" className="flex items-center">
             <Image
               src={logoWhite}
               alt="VanTrust"

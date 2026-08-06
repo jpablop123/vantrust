@@ -36,7 +36,7 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <a
-                  href="#inicio"
+                  href="/#inicio"
                   className="hover:text-accent transition-colors duration-200"
                 >
                   Inicio
@@ -44,7 +44,15 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#servicios"
+                  href="/seguros"
+                  className="hover:text-accent transition-colors duration-200"
+                >
+                  Nuestros Seguros
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/#servicios"
                   className="hover:text-accent transition-colors duration-200"
                 >
                   Servicios
@@ -52,7 +60,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#como-funciona"
+                  href="/#como-funciona"
                   className="hover:text-accent transition-colors duration-200"
                 >
                   Cómo funciona
