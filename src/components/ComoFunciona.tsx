@@ -61,12 +61,13 @@ export default function ComoFunciona() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+          <span className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 text-accent-dark px-4 py-1.5 rounded-full text-sm font-semibold mb-5">
+            <span className="w-1.5 h-1.5 bg-accent rounded-full" />
             Nuestro Proceso
           </span>
-          <div className="w-10 h-[3px] bg-accent rounded-full mx-auto mt-4 mb-4" />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary">
-            ¿Cómo funciona?
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary tracking-tight">
+            ¿Cómo{" "}
+            <span className="text-gold-gradient italic">funciona?</span>
           </h2>
           <p className="text-muted mt-4 max-w-2xl mx-auto text-lg">
             Así es nuestro proceso de atención, de principio a fin

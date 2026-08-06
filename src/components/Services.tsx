@@ -107,34 +107,33 @@ const cardVariants = {
 
 export default function Services() {
   const handleSelect = (serviceId: string) => {
-    const formSelect = document.getElementById(
-      "tipoSeguro"
-    ) as HTMLSelectElement | null;
-    if (formSelect) {
-      formSelect.value = serviceId;
-      formSelect.dispatchEvent(new Event("change", { bubbles: true }));
-    }
-    document
-      .getElementById("cotizar")
-      ?.scrollIntoView({ behavior: "smooth" });
+    const ramoMap: Record<string, string> = {
+      vehiculo: "auto",
+      salud: "salud",
+      vivienda: "hogar",
+    };
+    const ramo = ramoMap[serviceId] || "auto";
+    window.dispatchEvent(new CustomEvent("vt-ramo", { detail: ramo }));
+    document.getElementById("cotizar")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <section id="servicios" className="py-24 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-14 sm:mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+          <span className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 text-accent-dark px-4 py-1.5 rounded-full text-sm font-semibold mb-5">
+            <span className="w-1.5 h-1.5 bg-accent rounded-full" />
             Nuestros Servicios
           </span>
-          <div className="w-10 h-[3px] bg-accent rounded-full mx-auto mt-4 mb-4" />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary">
-            Soluciones para cada necesidad
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary tracking-tight">
+            Soluciones para{" "}
+            <span className="text-gold-gradient italic">cada necesidad</span>
           </h2>
           <p className="text-muted mt-4 max-w-2xl mx-auto text-lg">
             Comparamos entre las mejores aseguradoras para darte la cobertura
@@ -154,7 +153,7 @@ export default function Services() {
               key={service.id}
               variants={cardVariants}
               onClick={() => handleSelect(service.id)}
-              className="card-accent-top relative bg-white rounded-2xl p-8 sm:p-10 shadow-sm hover:shadow-xl transition-all duration-300 group border border-primary/10 hover:border-accent/40 cursor-pointer"
+              className="card-accent-top relative bg-gradient-to-b from-white to-surface rounded-2xl p-8 sm:p-10 shadow-[0_2px_12px_rgba(0,44,85,0.05)] hover:shadow-[0_20px_50px_-16px_rgba(0,44,85,0.25)] hover:-translate-y-1.5 transition-all duration-300 group border border-primary/10 hover:border-accent/40 cursor-pointer"
             >
               {/* Decorative number */}
               <span className="absolute top-6 right-6 text-6xl font-bold text-primary/[0.04] leading-none select-none pointer-events-none">

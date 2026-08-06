@@ -2,11 +2,15 @@
 
 import { motion } from "framer-motion";
 import { waLink } from "@/lib/site";
+import ShieldMotif from "@/components/ShieldMotif";
 
 export default function CTAFinal() {
   return (
     <section className="py-24 bg-primary relative overflow-hidden">
       <div className="absolute inset-0 bg-grid opacity-30" />
+      <div className="absolute inset-0 bg-noise opacity-[0.1] mix-blend-overlay pointer-events-none" />
+      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[120%] h-64 bg-[radial-gradient(ellipse_at_top,rgba(191,161,92,0.14),transparent_70%)]" />
+      <ShieldMotif className="absolute -right-16 top-1/2 -translate-y-1/2 w-[320px] h-[400px] opacity-[0.05] hidden md:block" />
       <motion.div
         className="absolute -top-20 -left-20 w-72 h-72 bg-accent/10 rounded-full blur-3xl"
         animate={{ scale: [1, 1.2, 1] }}
@@ -20,8 +24,9 @@ export default function CTAFinal() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            ¿Sigues pensando si vale la pena?
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 tracking-tight">
+            ¿Sigues pensando si{" "}
+            <span className="text-gold-gradient italic">vale la pena?</span>
           </h2>
           <p className="text-white/50 text-lg mb-10 max-w-lg mx-auto">
             Cotiza gratis y compruébalo tú mismo. Nos comunicamos contigo en un

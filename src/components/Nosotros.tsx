@@ -36,12 +36,13 @@ export default function Nosotros() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+            <span className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 text-accent-dark px-4 py-1.5 rounded-full text-sm font-semibold mb-5">
+              <span className="w-1.5 h-1.5 bg-accent rounded-full" />
               Nosotros
             </span>
-            <div className="w-10 h-[3px] bg-accent rounded-full mt-4 mb-4" />
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6">
-              Quiénes somos
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary mb-6 tracking-tight">
+              Quiénes{" "}
+              <span className="text-gold-gradient italic">somos</span>
             </h2>
             <p className="text-muted text-lg leading-relaxed mb-4">
               En <strong className="text-primary">VanTrust Agencia de Seguros</strong>{" "}

@@ -435,6 +435,13 @@ export default function CotizadorExpress() {
   useEffect(() => {
     const r = new URLSearchParams(window.location.search).get("ramo");
     if (r === "salud" || r === "hogar" || r === "auto") setRamo(r);
+    const onRamo = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail === "salud" || detail === "hogar" || detail === "auto")
+        setRamo(detail);
+    };
+    window.addEventListener("vt-ramo", onRamo);
+    return () => window.removeEventListener("vt-ramo", onRamo);
   }, []);
   const [direction, setDirection] = useState(1);
   const [submitError, setSubmitError] = useState<string | false>(false);
@@ -595,12 +602,13 @@ export default function CotizadorExpress() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+          <span className="inline-flex items-center gap-2 bg-white/5 border border-accent/25 text-accent px-4 py-1.5 rounded-full text-sm font-medium mb-4 backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 bg-accent rounded-full" />
             Cotizador Express
           </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mt-3">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
             Tu seguro ideal en{" "}
-            <span className="text-accent italic">minutos</span>
+            <span className="text-gold-gradient italic">minutos</span>
           </h2>
           <p className="text-white/40 mt-3 text-base">
             Sin precios sorpresa. Cuéntanos qué necesitas y te contactamos con

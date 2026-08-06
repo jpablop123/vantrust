@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
+import ShieldMotif from "@/components/ShieldMotif";
 
 const testimonials = [
   {
@@ -36,8 +37,11 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-24 bg-primary">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-24 bg-primary bg-grid overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#001a33] via-primary to-primary" />
+      <div className="absolute inset-0 bg-noise opacity-[0.1] mix-blend-overlay pointer-events-none" />
+      <ShieldMotif className="absolute -left-24 top-10 w-[360px] h-[440px] opacity-[0.04] hidden md:block" />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -45,12 +49,13 @@ export default function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+          <span className="inline-flex items-center gap-2 bg-white/5 border border-accent/25 text-accent px-4 py-1.5 rounded-full text-sm font-medium mb-5 backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 bg-accent rounded-full" />
             Lo que dicen nuestros clientes
           </span>
-          <div className="w-10 h-[3px] bg-accent rounded-full mx-auto mt-4 mb-4" />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
-            Historias reales
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+            Historias{" "}
+            <span className="text-gold-gradient italic">reales</span>
           </h2>
           <p className="text-white/50 mt-4 max-w-2xl mx-auto text-lg">
             Más de 500 personas ya confían en VanTrust para proteger lo que más
