@@ -27,7 +27,7 @@ export default function PrivacyContent() {
               </tr>
               <tr className="border-b border-gray-100">
                 <td className="py-2 font-medium text-primary">Domicilio:</td>
-                <td className="py-2">Calle 77b No. 59-61, oficina 612, Bogotá D.C., Colombia</td>
+                <td className="py-2">Calle 77b No. 59-61, oficina 612, Barranquilla, Colombia</td>
               </tr>
               <tr className="border-b border-gray-100">
                 <td className="py-2 font-medium text-primary">Correo electrónico:</td>
@@ -534,7 +534,7 @@ export default function PrivacyContent() {
           <ul className="list-disc pl-5 space-y-1">
             <li><strong>Correo electrónico:</strong> agencia@vantrust.com.co</li>
             <li><strong>WhatsApp:</strong> +57 310 608 3637</li>
-            <li><strong>Dirección:</strong> Calle 77b No. 59-61, oficina 612, Bogotá D.C., Colombia</li>
+            <li><strong>Dirección:</strong> Calle 77b No. 59-61, oficina 612, Barranquilla, Colombia</li>
           </ul>
           <p>
             Si el titular considera que VanTrust no ha atendido adecuadamente su solicitud, podrá

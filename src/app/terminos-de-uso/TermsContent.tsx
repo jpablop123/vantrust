@@ -284,7 +284,7 @@ export default function TermsContent() {
           <p>
             Para cualquier controversia o disputa que surja en relación con estos Términos, las
             partes se someten a la jurisdicción de los{" "}
-            <strong>jueces y tribunales de Bogotá D.C., Colombia</strong>, renunciando expresamente
+            <strong>jueces y tribunales de Barranquilla, Colombia</strong>, renunciando expresamente
             a cualquier otro fuero que pudiera corresponderles.
           </p>
           <p>
@@ -306,7 +306,7 @@ export default function TermsContent() {
           <ul className="list-disc pl-5 space-y-1">
             <li><strong>Correo electrónico:</strong> coordinador@vantrust.com.co</li>
             <li><strong>WhatsApp:</strong> +57 310 608 3637</li>
-            <li><strong>Dirección:</strong> Calle 77b No. 59-61, oficina 612, Bogotá D.C., Colombia</li>
+            <li><strong>Dirección:</strong> Calle 77b No. 59-61, oficina 612, Barranquilla, Colombia</li>
           </ul>
           <p>
             VanTrust se compromete a atender las reclamaciones en un plazo máximo de{" "}
