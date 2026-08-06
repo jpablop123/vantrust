@@ -4,6 +4,7 @@ import { ArrowUpRight, User, Building2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getSeguroIcon } from "@/components/seguros/icons";
+import ShieldMotif from "@/components/ShieldMotif";
 import { PERSONAS, EMPRESAS, type Seguro } from "@/data/seguros";
 
 export const metadata: Metadata = {
@@ -17,14 +18,14 @@ function SeguroCard({ seguro }: { seguro: Seguro }) {
   return (
     <Link
       href={`/seguros/${seguro.slug}`}
-      className="group relative bg-white rounded-2xl border border-primary/10 hover:border-accent/40 p-6 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+      className="card-accent-top group relative bg-gradient-to-b from-white to-surface rounded-2xl border border-primary/10 hover:border-accent/40 p-6 shadow-[0_2px_12px_rgba(0,44,85,0.05)] hover:shadow-[0_16px_40px_-12px_rgba(0,44,85,0.22)] hover:-translate-y-1 transition-all duration-300 flex flex-col"
     >
       {seguro.destacado && (
         <span className="absolute top-4 right-4 bg-accent/10 text-accent-dark text-[10px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide">
           Popular
         </span>
       )}
-      <div className="w-12 h-12 rounded-xl bg-primary/5 text-primary group-hover:bg-accent group-hover:text-white flex items-center justify-center transition-colors duration-300 mb-4">
+      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/[0.07] to-primary/[0.02] border border-primary/5 text-primary group-hover:from-accent group-hover:to-accent-dark group-hover:text-white group-hover:border-transparent flex items-center justify-center transition-all duration-300 mb-4 shadow-sm">
         <Icon className="w-6 h-6" />
       </div>
       <h3 className="text-base font-bold text-primary mb-1.5">{seguro.nombre}</h3>
@@ -45,21 +46,32 @@ export default function SegurosIndex() {
       <Navbar />
 
       {/* Header */}
-      <header className="relative bg-primary bg-grid overflow-hidden pt-32 pb-16">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light/70 to-primary" />
-        <div className="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[120%] h-[70%] bg-[radial-gradient(ellipse_at_top,rgba(191,161,92,0.14),transparent_60%)]" />
+      <header className="relative bg-primary bg-grid overflow-hidden pt-32 pb-14">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light/70 to-[#001a33]" />
+        <div className="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[130%] h-[80%] bg-[radial-gradient(ellipse_at_top,rgba(191,161,92,0.16),transparent_60%)]" />
+        <div className="absolute inset-0 bg-noise opacity-[0.12] mix-blend-overlay pointer-events-none" />
+        <ShieldMotif className="absolute -right-24 -top-10 w-[420px] h-[500px] opacity-[0.05] hidden md:block" />
+        <ShieldMotif className="absolute -left-28 top-16 w-[360px] h-[440px] opacity-[0.04] hidden md:block" />
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+          <span className="inline-flex items-center gap-2 bg-white/5 border border-accent/25 text-accent px-4 py-1.5 rounded-full text-sm font-medium mb-6 backdrop-blur-sm">
+            <span className="w-2 h-2 bg-accent rounded-full" />
             Nuestros Seguros
           </span>
-          <h1 className="text-3xl sm:text-5xl font-bold text-white mt-3 mb-4">
+          <h1 className="text-4xl sm:text-6xl font-bold text-white mb-5 tracking-tight">
             Soluciones para{" "}
             <span className="text-gold-gradient italic">personas y empresas</span>
           </h1>
-          <p className="text-white/60 text-lg max-w-2xl mx-auto">
+          <p className="text-white/55 text-lg max-w-2xl mx-auto mb-8">
             Comparamos las principales aseguradoras del país para ayudarte a
             encontrar la mejor opción en precio y cobertura.
           </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-white/40 text-sm">
+            <span>{PERSONAS.length} seguros para personas</span>
+            <span className="hidden sm:inline text-white/15">·</span>
+            <span>{EMPRESAS.length} seguros para empresas</span>
+            <span className="hidden sm:inline text-white/15">·</span>
+            <span>10 aseguradoras aliadas</span>
+          </div>
         </div>
       </header>
 

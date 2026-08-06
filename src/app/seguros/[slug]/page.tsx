@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SeguroCTA from "@/components/seguros/SeguroCTA";
 import RamoForm from "@/components/cotizador/RamoForm";
+import ShieldMotif from "@/components/ShieldMotif";
 import { getSeguroIcon } from "@/components/seguros/icons";
 import { SEGUROS, getSeguro } from "@/data/seguros";
 import { RAMO_FIELDS } from "@/data/formFields";
@@ -87,8 +88,10 @@ export default async function SeguroPage({
 
       {/* Header */}
       <header className="relative bg-primary bg-grid overflow-hidden pt-32 pb-16">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light/70 to-primary" />
-        <div className="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[120%] h-[70%] bg-[radial-gradient(ellipse_at_top,rgba(191,161,92,0.14),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light/70 to-[#001a33]" />
+        <div className="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[130%] h-[80%] bg-[radial-gradient(ellipse_at_top,rgba(191,161,92,0.15),transparent_60%)]" />
+        <div className="absolute inset-0 bg-noise opacity-[0.12] mix-blend-overlay pointer-events-none" />
+        <ShieldMotif className="absolute -right-20 -top-8 w-[380px] h-[460px] opacity-[0.05] hidden md:block" />
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/seguros"
