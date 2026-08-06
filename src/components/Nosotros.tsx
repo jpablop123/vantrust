@@ -26,7 +26,7 @@ const diferenciales = [
 
 export default function Nosotros() {
   return (
-    <section id="nosotros" className="py-24 bg-surface-dark">
+    <section id="nosotros" className="py-24 bg-surface-dark overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Intro */}
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">

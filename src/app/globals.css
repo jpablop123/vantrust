@@ -46,6 +46,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Evita scroll horizontal en mobile (animaciones/orbs que se salen del viewport) */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 /* @layer base: utility classes de Tailwind pueden sobreescribir estos estilos */
 @layer base {
   h1, h2, h3 {

@@ -13,6 +13,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://vantrust.vercel.app"),
   title: "VanTrust | Agencia de Seguros en Colombia",
   description:
     "Soluciones seguras para proteger lo que más valoras. Comparamos las principales aseguradoras del país para ayudarte a encontrar la mejor opción en precio y cobertura. Cotiza gratis para personas y empresas.",

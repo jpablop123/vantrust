@@ -15,7 +15,12 @@ export const RAMO_FIELDS: Record<string, FieldDef[]> = {
     { name: "ciudad", label: "Ciudad", half: true },
     { name: "celular", label: "Celular", type: "tel", required: true, half: true },
     { name: "correo", label: "Correo", type: "email", required: true, half: true },
-    { name: "eps", label: "EPS actual", type: "select", options: SI_NO, half: true },
+    {
+      name: "eps",
+      label: "EPS actual",
+      placeholder: "Ej: Sura, Sanitas, Nueva EPS, Compensar…",
+      half: true,
+    },
     {
       name: "prepagada",
       label: "¿Tiene medicina prepagada?",

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle, Clock } from "lucide-react";
 import { waLink } from "@/lib/site";
+import SelectDropdown from "@/components/cotizador/SelectDropdown";
 
 export interface FieldDef {
   name: string;
@@ -178,20 +179,12 @@ export default function RamoForm({
               {f.label} {f.required && <span className="text-accent">*</span>}
             </label>
             {f.type === "select" ? (
-              <select
+              <SelectDropdown
                 value={values[f.name] || ""}
-                onChange={(e) => set(f.name, e.target.value)}
-                className={`${inputCls} appearance-none`}
-              >
-                <option value="" className="bg-[#162240]">
-                  Selecciona…
-                </option>
-                {f.options?.map((o) => (
-                  <option key={o} value={o} className="bg-[#162240]">
-                    {o}
-                  </option>
-                ))}
-              </select>
+                onChange={(v) => set(f.name, v)}
+                options={f.options || []}
+                placeholder={f.placeholder || "Selecciona…"}
+              />
             ) : f.type === "textarea" ? (
               <textarea
                 value={values[f.name] || ""}
