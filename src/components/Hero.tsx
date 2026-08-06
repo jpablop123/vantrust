@@ -4,6 +4,7 @@ import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { ShieldCheck, BarChart3, DollarSign, Headphones } from "lucide-react";
 import { INSURERS, waLink } from "@/lib/site";
+import ShieldMotif from "@/components/ShieldMotif";
 
 function AnimatedCounter({
   target,
@@ -20,10 +21,7 @@ function AnimatedCounter({
     const unsubscribe = rounded.on("change", (v) => {
       if (ref.current) ref.current.textContent = v + suffix;
     });
-    const controls = animate(count, target, {
-      duration: 2.5,
-      ease: "easeOut",
-    });
+    const controls = animate(count, target, { duration: 2.2, ease: "easeOut" });
     return () => {
       controls.stop();
       unsubscribe();
@@ -40,8 +38,6 @@ const stats = [
   { value: 98, suffix: "%", label: "Satisfacción" },
 ];
 
-const insurers = [...INSURERS];
-
 const trustSignals = [
   { icon: ShieldCheck, text: "Registro RUI Superfinanciera" },
   { icon: BarChart3, text: "10 aseguradoras comparadas" },
@@ -49,54 +45,101 @@ const trustSignals = [
   { icon: Headphones, text: "Asesor humano asignado" },
 ];
 
+function HeroCard() {
+  return (
+    <div className="conic-border relative rounded-[28px] border border-white/10 bg-gradient-to-b from-white/[0.09] to-white/[0.02] backdrop-blur-xl p-7 sm:p-8 shadow-2xl shadow-black/40">
+      {/* Badge flotante */}
+      <div className="absolute -top-3 right-6 bg-accent text-primary text-[11px] font-bold px-3 py-1.5 rounded-full shadow-lg shadow-accent/30">
+        RUI · Superfinanciera
+      </div>
+
+      <div className="flex items-center gap-4 mb-6">
+        <ShieldMotif className="w-12 h-14 shrink-0" />
+        <div>
+          <p className="text-white font-bold text-lg leading-tight">
+            Protección VanTrust
+          </p>
+          <p className="text-white/45 text-sm">Personas y empresas</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-px bg-white/10 rounded-2xl overflow-hidden">
+        {stats.map((stat) => (
+          <div key={stat.label} className="bg-primary/40 px-4 py-5 text-center">
+            <div className="text-3xl xl:text-4xl font-bold text-gold-gradient mb-1">
+              <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+            </div>
+            <div className="text-white/45 text-xs leading-tight">
+              {stat.label}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-6 pt-5 border-t border-white/10">
+        <p className="text-white/30 text-[10px] uppercase tracking-wider font-medium mb-2.5">
+          Trabajamos con
+        </p>
+        <div className="flex flex-wrap gap-x-2.5 gap-y-1.5">
+          {INSURERS.slice(0, 6).map((name) => (
+            <span key={name} className="text-white/45 text-xs font-medium">
+              {name}
+            </span>
+          ))}
+          <span className="text-accent/70 text-xs font-medium">+4 más</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Hero() {
   return (
     <section
       id="inicio"
       className="relative min-h-screen flex items-center overflow-hidden bg-primary bg-grid"
     >
-      {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light/80 to-primary" />
+      {/* Capas de fondo premium */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-light/70 to-[#001a33]" />
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-accent/5 to-transparent" />
-      {/* Spotlight desde arriba */}
-      <div className="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[120%] h-[70%] bg-[radial-gradient(ellipse_at_top,rgba(191,161,92,0.14),transparent_60%)]" />
-      {/* Textura de ruido */}
-      <div className="absolute inset-0 bg-noise opacity-[0.15] mix-blend-overlay pointer-events-none" />
-      {/* Fade inferior hacia la crema */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background/20 to-transparent" />
+      <div className="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[130%] h-[80%] bg-[radial-gradient(ellipse_at_top,rgba(191,161,92,0.16),transparent_60%)]" />
+      <div className="absolute inset-0 bg-noise opacity-[0.13] mix-blend-overlay pointer-events-none" />
+      {/* Escudo watermark (profundidad) */}
+      <ShieldMotif className="absolute -right-20 top-1/2 -translate-y-1/2 w-[520px] h-[620px] opacity-[0.04] hidden lg:block" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#001a33] to-transparent" />
 
-      {/* Animated orbs */}
+      {/* Orbs */}
       <motion.div
-        className="absolute top-20 right-[10%] w-80 h-80 bg-accent/15 rounded-full blur-3xl"
-        animate={{ scale: [1, 1.3, 1], opacity: [0.35, 0.6, 0.35] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-20 right-[8%] w-80 h-80 bg-accent/12 rounded-full blur-3xl"
+        animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.55, 0.3] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute bottom-20 left-[5%] w-60 h-60 bg-accent/10 rounded-full blur-3xl"
-        animate={{ scale: [1.2, 1, 1.2], opacity: [0.25, 0.45, 0.25] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-24 left-[4%] w-64 h-64 bg-accent/8 rounded-full blur-3xl"
+        animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-32 pb-24">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-32 pb-20">
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
+          {/* Left */}
           <div>
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
-              <span className="inline-flex items-center gap-2 bg-accent/15 text-accent px-4 py-1.5 rounded-full text-sm font-medium mb-8 border border-accent/20">
+              <span className="inline-flex items-center gap-2 bg-white/5 border border-accent/25 text-accent px-4 py-1.5 rounded-full text-sm font-medium mb-7 backdrop-blur-sm">
                 <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
                 Agencia de seguros en Colombia
               </span>
             </motion.div>
 
             <motion.h1
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.08] mb-8"
-              initial={{ opacity: 0, y: 30 }}
+              className="text-[2.75rem] leading-[1.05] sm:text-6xl lg:text-7xl font-bold text-white mb-7 tracking-tight"
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.15 }}
+              transition={{ duration: 0.7, delay: 0.12 }}
             >
               Protege lo que{" "}
               <span className="relative inline-block italic text-gold-gradient">
@@ -108,25 +151,25 @@ export default function Hero() {
             </motion.h1>
 
             <motion.p
-              className="text-lg sm:text-xl text-white/60 max-w-lg mb-10 leading-relaxed"
-              initial={{ opacity: 0, y: 30 }}
+              className="text-lg sm:text-xl text-white/55 max-w-lg mb-9 leading-relaxed"
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.26 }}
             >
-              Responde unas preguntas, comparamos las principales aseguradoras
-              del país y nos comunicamos contigo en un plazo aproximado de 1
-              hora con opciones reales. Sin costo extra.
+              Comparamos las principales aseguradoras del país y nos comunicamos
+              contigo en un plazo aproximado de 1 hora con opciones reales. Sin
+              costo extra.
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row items-start gap-4"
-              initial={{ opacity: 0, y: 30 }}
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4"
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.45 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
             >
               <a
                 href="#cotizar"
-                className="btn-shine glow-accent bg-gradient-to-r from-accent-light via-accent to-accent-dark hover:from-accent hover:to-accent text-primary font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"
+                className="btn-shine glow-accent bg-gradient-to-r from-accent-light via-accent to-accent-dark text-primary font-bold px-8 py-4 rounded-full text-lg text-center transition-all duration-200 hover:scale-105"
               >
                 Cotizar Gratis
               </a>
@@ -134,100 +177,32 @@ export default function Hero() {
                 href={waLink()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 border-2 border-white/20 hover:border-white/40 text-white font-medium px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"
+                className="flex items-center justify-center gap-2 border-2 border-white/15 hover:border-white/35 bg-white/[0.03] text-white font-medium px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"
               >
-                <svg
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                 </svg>
                 Hablar con asesor
               </a>
             </motion.div>
-
-            {/* Insurer row */}
-            <motion.div
-              className="mt-14 pt-8 border-t border-white/10"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.7 }}
-            >
-              <span className="text-white/30 text-xs uppercase tracking-wider font-medium">
-                Trabajamos con:
-              </span>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-3">
-                {insurers.map((name, i) => (
-                  <span
-                    key={name}
-                    className="text-white/40 text-sm font-medium flex items-center gap-3"
-                  >
-                    {i > 0 && <span className="text-white/15">·</span>}
-                    {name}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
           </div>
 
-          {/* Right - stats with separators */}
+          {/* Right — premium card */}
           <motion.div
-            className="hidden lg:flex items-center justify-center"
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <div className="conic-border relative flex items-stretch gap-0 rounded-3xl bg-white/[0.03] backdrop-blur-sm px-2 py-8 shadow-2xl shadow-black/30">
-              {stats.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  className={`text-center px-6 xl:px-8 ${i < stats.length - 1 ? "border-r border-white/10" : ""}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 + i * 0.1 }}
-                >
-                  <div className="text-3xl xl:text-4xl font-bold text-gold-gradient mb-2">
-                    <AnimatedCounter
-                      target={stat.value}
-                      suffix={stat.suffix}
-                    />
-                  </div>
-                  <div className="text-white/40 text-sm whitespace-nowrap">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Mobile stats */}
-          <motion.div
-            className="lg:hidden grid grid-cols-2 gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            {stats.map((stat, i) => (
-              <div
-                key={stat.label}
-                className={`text-center py-4 ${i % 2 === 0 ? "border-r border-white/10" : ""} ${i < 2 ? "border-b border-white/10" : ""}`}
-              >
-                <div className="text-2xl font-bold text-accent mb-1">
-                  <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-                </div>
-                <div className="text-white/40 text-xs">{stat.label}</div>
-              </div>
-            ))}
+            <HeroCard />
           </motion.div>
         </div>
 
-        {/* Trust signals row */}
+        {/* Trust signals */}
         <motion.div
-          className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6"
+          className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.9 }}
+          transition={{ duration: 0.7, delay: 0.8 }}
         >
           {trustSignals.map((signal) => (
             <div
@@ -245,22 +220,12 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden sm:block"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <svg
-          className="w-6 h-6 text-white/30"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          />
+        <svg className="w-6 h-6 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
         </svg>
       </motion.div>
     </section>
