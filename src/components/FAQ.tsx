@@ -23,7 +23,7 @@ const faqs = [
   {
     question: "¿Cuánto tiempo toma todo el proceso?",
     answer:
-      "Cotizar te toma menos de 3 minutos en nuestra web. Un asesor te contacta en máximo 2 horas con opciones reales. Si decides comprar, la póliza puede quedar activa el mismo día.",
+      "Cotizar te toma pocos minutos en nuestra web. Un asesor te contacta en un plazo aproximado de 1 hora con opciones reales. Si decides comprar, la póliza puede quedar activa el mismo día.",
   },
   {
     question: "¿Es seguro darles mis datos personales?",

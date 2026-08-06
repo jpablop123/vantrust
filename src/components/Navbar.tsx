@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import logoLight from "../../public/logovantrust-removebg-preview.png";
-import logoDark from "../../public/vantrustfondoazul.png";
+import logoWhite from "../../public/vantrust-logo-white.png";
 
 const navLinks = [
   { label: "Inicio", href: "#inicio" },
@@ -26,7 +25,7 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-background/95 backdrop-blur-md border-b border-primary/10 shadow-sm shadow-primary/5"
+          ? "bg-primary/95 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/20"
           : "bg-transparent"
       }`}
     >
@@ -35,9 +34,9 @@ export default function Navbar() {
 
           <a href="#inicio" className="flex items-center">
             <Image
-              src={scrolled ? logoLight : logoDark}
+              src={logoWhite}
               alt="VanTrust"
-              style={{ height: "56px", width: "auto" }}
+              style={{ height: "44px", width: "auto" }}
               priority
             />
           </a>
@@ -48,9 +47,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors duration-200 ${
-                  scrolled ? "text-muted hover:text-primary" : "text-white/75 hover:text-white"
-                }`}
+                className="text-sm font-medium text-white/75 hover:text-white transition-colors duration-200"
               >
                 {link.label}
               </a>
@@ -59,11 +56,7 @@ export default function Navbar() {
               href="https://vantrust.aswebseguros.co/index.php"
               target="_blank"
               rel="noopener noreferrer"
-              className={`group inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full border-2 transition-all duration-200 hover:scale-105 ${
-                scrolled
-                  ? "border-primary text-primary hover:bg-primary hover:text-white"
-                  : "border-white/70 text-white hover:bg-white hover:text-primary"
-              }`}
+              className="group inline-flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-full border-2 border-white/70 text-white hover:bg-white hover:text-primary transition-all duration-200 hover:scale-105"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
@@ -85,9 +78,9 @@ export default function Navbar() {
             aria-label="Menú"
           >
             <div className="relative w-6 h-5">
-              <span className={`absolute left-0 h-0.5 w-6 rounded transition-all duration-300 ${scrolled ? "bg-primary" : "bg-white"} ${mobileOpen ? "top-2.5 rotate-45" : "top-0"}`} />
-              <span className={`absolute left-0 top-2.5 h-0.5 w-6 rounded transition-all duration-300 ${scrolled ? "bg-primary" : "bg-white"} ${mobileOpen ? "opacity-0 scale-x-0" : "opacity-100"}`} />
-              <span className={`absolute left-0 h-0.5 w-6 rounded transition-all duration-300 ${scrolled ? "bg-primary" : "bg-white"} ${mobileOpen ? "top-2.5 -rotate-45" : "top-5"}`} />
+              <span className={`absolute left-0 h-0.5 w-6 rounded bg-white transition-all duration-300 ${mobileOpen ? "top-2.5 rotate-45" : "top-0"}`} />
+              <span className={`absolute left-0 top-2.5 h-0.5 w-6 rounded bg-white transition-all duration-300 ${mobileOpen ? "opacity-0 scale-x-0" : "opacity-100"}`} />
+              <span className={`absolute left-0 h-0.5 w-6 rounded bg-white transition-all duration-300 ${mobileOpen ? "top-2.5 -rotate-45" : "top-5"}`} />
             </div>
           </button>
         </div>

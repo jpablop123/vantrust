@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { waLink } from "@/lib/site";
 
 export default function CTAFinal() {
   return (
@@ -23,8 +24,8 @@ export default function CTAFinal() {
             ¿Sigues pensando si vale la pena?
           </h2>
           <p className="text-white/50 text-lg mb-10 max-w-lg mx-auto">
-            Cotiza gratis en 3 minutos y compruébalo tú mismo. Sin compromiso,
-            sin letra pequeña.
+            Cotiza gratis y compruébalo tú mismo. Nos comunicamos contigo en un
+            plazo aproximado de 1 hora. Sin compromiso, sin letra pequeña.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -35,7 +36,7 @@ export default function CTAFinal() {
               Cotizar ahora
             </a>
             <a
-              href="https://wa.me/57300000000?text=Hola%2C%20quiero%20hablar%20con%20un%20asesor%20de%20seguros"
+              href={waLink("Hola, quiero hablar con un asesor de seguros de VanTrust")}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 border-2 border-white/20 hover:border-white/40 text-white font-medium px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"

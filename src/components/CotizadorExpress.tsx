@@ -13,6 +13,7 @@ import {
   ChevronDown,
   Search,
 } from "lucide-react";
+import { INSURERS, waLink } from "@/lib/site";
 
 type Step = 1 | 2 | 3 | 4 | "loading" | "result";
 
@@ -148,7 +149,7 @@ const horarioOptions = [
   { id: "noche", label: "Noche", desc: "6pm - 8pm" },
 ];
 
-const insurers = ["Bolívar", "Sura", "AXA", "Allianz"];
+const insurers = INSURERS.slice(0, 6);
 
 const stepIconComponents = [Car, Route, MapPin, User, CheckCircle];
 const stepLabels = ["Carro", "Uso", "Ciudad", "Datos", "Listo"];
@@ -547,7 +548,7 @@ export default function CotizadorExpress() {
     if (data.horario === "manana") return "12:00 p.m.";
     if (data.horario === "tarde") return "6:00 p.m.";
     if (data.horario === "noche") return "8:00 p.m.";
-    return "las próximas 2 horas hábiles";
+    return "aproximadamente 1 hora";
   };
 
   const firstName = data.nombre.trim().split(" ")[0] || "";
@@ -819,7 +820,7 @@ export default function CotizadorExpress() {
                   ¿A dónde te enviamos las opciones?
                 </h3>
                 <p className="text-white/40 text-sm text-center mb-6">
-                  Un asesor te contacta en menos de 2 horas
+                  Nos comunicamos contigo en un plazo aproximado de 1 hora
                 </p>
 
                 {submitError && (
@@ -1120,7 +1121,7 @@ export default function CotizadorExpress() {
                 >
                   <span className="text-green-400 font-semibold text-sm flex items-center justify-center gap-2">
                     <Clock className="w-4 h-4" />
-                    Respuesta en menos de 2 horas hábiles
+                    Respuesta en un plazo aproximado de 1 hora
                   </span>
                 </motion.div>
 
@@ -1130,7 +1131,7 @@ export default function CotizadorExpress() {
 
                 {/* WhatsApp CTA */}
                 <a
-                  href="https://wa.me/57300000000?text=Hola%2C%20acabo%20de%20cotizar%20en%20la%20web%20y%20quiero%20m%C3%A1s%20info"
+                  href={waLink("Hola, acabo de cotizar en la web y quiero más info")}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border border-green-500/30 text-green-400 hover:bg-green-500/10 font-semibold transition-all text-sm"

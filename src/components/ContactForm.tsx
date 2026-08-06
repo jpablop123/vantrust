@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { waLink } from "@/lib/site";
 
 const insuranceTypes = [
   { value: "vehiculo", label: "Seguro Vehicular" },
@@ -107,7 +108,7 @@ export default function ContactForm() {
             </h2>
             <p className="text-muted text-lg leading-relaxed mb-8">
               Llena el formulario y un asesor se comunicará contigo en
-              menos de 2 horas con las mejores opciones personalizadas.
+              un plazo aproximado de 1 hora con las mejores opciones personalizadas.
             </p>
 
             <div className="space-y-5">
@@ -128,7 +129,7 @@ export default function ContactForm() {
                     </svg>
                   ),
                   title: "Respuesta rápida",
-                  text: "Te contactamos en menos de 2 horas",
+                  text: "Te contactamos en un plazo aproximado de 1 hora",
                 },
                 {
                   icon: (
@@ -158,7 +159,7 @@ export default function ContactForm() {
                 ¿Prefieres WhatsApp?
               </p>
               <a
-                href="https://wa.me/57300000000?text=Hola%2C%20quiero%20cotizar%20un%20seguro"
+                href={waLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors"
@@ -230,7 +231,7 @@ export default function ContactForm() {
                     value={formData.telefono}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all text-sm"
-                    placeholder="+57 300 000 0000"
+                    placeholder="+57 310 608 3637"
                   />
                 </div>
                 <div>
@@ -351,7 +352,7 @@ export default function ContactForm() {
                     ¡Solicitud enviada con éxito!
                   </p>
                   <p className="text-green-600 text-sm mt-1">
-                    Un asesor se comunicará contigo en menos de 2 horas.
+                    Un asesor se comunicará contigo en un plazo aproximado de 1 hora.
                   </p>
                 </motion.div>
               )}

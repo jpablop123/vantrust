@@ -15,24 +15,28 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "VanTrust | Agencia de Seguros en Colombia",
   description:
-    "Protege lo que más importa. Seguros de vehículo, salud y vivienda con asesoría personalizada. Cotiza gratis y compara entre las mejores aseguradoras de Colombia.",
+    "Soluciones seguras para proteger lo que más valoras. Comparamos las principales aseguradoras del país para ayudarte a encontrar la mejor opción en precio y cobertura. Cotiza gratis para personas y empresas.",
   keywords: [
     "seguros Colombia",
     "seguro vehicular",
     "seguro de salud",
-    "seguro de vivienda",
+    "seguro de hogar",
+    "seguro de vida",
+    "seguros empresariales",
     "cotizar seguros",
     "agencia de seguros",
-    "Bolívar",
-    "Sura",
-    "AXA",
     "Allianz",
+    "AXA Colpatria",
+    "Seguros Bolívar",
+    "Sura",
+    "Zurich",
   ],
   openGraph: {
     title: "VanTrust | Agencia de Seguros en Colombia",
     description:
-      "Cotiza y compara seguros de vehículo, salud y vivienda con las mejores aseguradoras. Asesoría gratuita.",
+      "Soluciones seguras para proteger lo que más valoras. Comparamos las principales aseguradoras del país. Asesoría gratuita.",
     siteName: "VanTrust",
+    images: [{ url: "/vantrust-banner.jpeg", width: 1920, height: 1080 }],
     locale: "es_CO",
     type: "website",
   },
@@ -40,7 +44,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "VanTrust | Agencia de Seguros en Colombia",
     description:
-      "Cotiza y compara seguros con las mejores aseguradoras de Colombia.",
+      "Comparamos las principales aseguradoras del país para proteger lo que más valoras.",
+    images: ["/vantrust-banner.jpeg"],
   },
 };
 

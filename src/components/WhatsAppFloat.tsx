@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
+import { waLink } from "@/lib/site";
 
 export default function WhatsAppFloat() {
   const [hovered, setHovered] = useState(false);
@@ -21,7 +22,7 @@ export default function WhatsAppFloat() {
 
       {/* Button */}
       <a
-        href="https://wa.me/57300000000?text=Hola%2C%20quiero%20cotizar%20un%20seguro"
+        href={waLink()}
         target="_blank"
         rel="noopener noreferrer"
         onMouseEnter={() => setHovered(true)}

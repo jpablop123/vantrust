@@ -49,7 +49,7 @@ const steps = [
     step: "03",
     title: "Asesor te contacta",
     description:
-      "En menos de 2 horas un asesor experto te llama para resolver dudas y guiarte en tu elección.",
+      "En un plazo aproximado de 1 hora un asesor experto te llama para resolver dudas y guiarte en tu elección.",
     icon: (
       <svg
         className="w-6 h-6"

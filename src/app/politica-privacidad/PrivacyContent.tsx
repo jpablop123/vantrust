@@ -35,7 +35,7 @@ export default function PrivacyContent() {
               </tr>
               <tr>
                 <td className="py-2 font-medium text-primary">Teléfono:</td>
-                <td className="py-2">+57 300 000 0000</td>
+                <td className="py-2">+57 310 608 3637</td>
               </tr>
             </tbody>
           </table>
@@ -281,7 +281,7 @@ export default function PrivacyContent() {
               &quot;Ejercicio de derechos — [nombre del derecho]&quot;.
             </li>
             <li>
-              Escribir al WhatsApp +57 300 000 0000 indicando su solicitud.
+              Escribir al WhatsApp +57 310 608 3637 indicando su solicitud.
             </li>
           </ul>
           <p>
@@ -533,7 +533,7 @@ export default function PrivacyContent() {
           </p>
           <ul className="list-disc pl-5 space-y-1">
             <li><strong>Correo electrónico:</strong> privacidad@vantrust.co</li>
-            <li><strong>WhatsApp:</strong> +57 300 000 0000</li>
+            <li><strong>WhatsApp:</strong> +57 310 608 3637</li>
             <li><strong>Dirección:</strong> Bogotá D.C., Colombia [dirección completa pendiente]</li>
           </ul>
           <p>

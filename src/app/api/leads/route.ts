@@ -47,9 +47,10 @@ interface LeadData {
 
 async function sendEmail(data: LeadData) {
   const resend = getResend();
-  const commercialEmail = process.env.COMMERCIAL_EMAIL;
-  if (!resend || !commercialEmail) {
-    console.warn("Email not configured, skipping");
+  const commercialEmail =
+    process.env.COMMERCIAL_EMAIL || "coordinador@vantrust.com.co";
+  if (!resend) {
+    console.warn("Email not configured (missing RESEND_API_KEY), skipping");
     return;
   }
 

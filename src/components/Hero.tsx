@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { ShieldCheck, BarChart3, DollarSign, Headphones } from "lucide-react";
+import { INSURERS, waLink } from "@/lib/site";
 
 function AnimatedCounter({
   target,
@@ -33,17 +34,17 @@ function AnimatedCounter({
 }
 
 const stats = [
-  { value: 3, suffix: " min", label: "Tiempo de cotización" },
-  { value: 10, suffix: "+", label: "Aseguradoras aliadas" },
+  { value: 1, suffix: "h", label: "Tiempo de respuesta" },
+  { value: 10, suffix: "", label: "Aseguradoras aliadas" },
   { value: 500, suffix: "+", label: "Clientes protegidos" },
   { value: 98, suffix: "%", label: "Satisfacción" },
 ];
 
-const insurers = ["Bolívar", "Sura", "AXA", "Allianz", "Mapfre"];
+const insurers = [...INSURERS];
 
 const trustSignals = [
   { icon: ShieldCheck, text: "Registro RUI Superfinanciera" },
-  { icon: BarChart3, text: "8+ aseguradoras comparadas" },
+  { icon: BarChart3, text: "10 aseguradoras comparadas" },
   { icon: DollarSign, text: "Mismo precio que ir directo" },
   { icon: Headphones, text: "Asesor humano asignado" },
 ];
@@ -112,9 +113,9 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
             >
-              Responde 4 preguntas, comparamos entre las mejores aseguradoras y
-              un asesor te llama en menos de 2 horas con opciones reales. Sin
-              costo extra.
+              Responde unas preguntas, comparamos las principales aseguradoras
+              del país y nos comunicamos contigo en un plazo aproximado de 1
+              hora con opciones reales. Sin costo extra.
             </motion.p>
 
             <motion.div
@@ -130,7 +131,7 @@ export default function Hero() {
                 Cotizar Gratis
               </a>
               <a
-                href="https://wa.me/57300000000?text=Hola%2C%20quiero%20cotizar%20un%20seguro"
+                href={waLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 border-2 border-white/20 hover:border-white/40 text-white font-medium px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"
@@ -156,15 +157,13 @@ export default function Hero() {
               <span className="text-white/30 text-xs uppercase tracking-wider font-medium">
                 Trabajamos con:
               </span>
-              <div className="flex items-center gap-5 mt-3">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-3">
                 {insurers.map((name, i) => (
                   <span
                     key={name}
-                    className="text-white/35 text-sm font-medium flex items-center gap-5"
+                    className="text-white/40 text-sm font-medium flex items-center gap-3"
                   >
-                    {i > 0 && (
-                      <span className="text-white/15 mr-0">·</span>
-                    )}
+                    {i > 0 && <span className="text-white/15">·</span>}
                     {name}
                   </span>
                 ))}

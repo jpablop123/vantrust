@@ -304,8 +304,8 @@ export default function TermsContent() {
             directamente a VanTrust a través de los siguientes canales:
           </p>
           <ul className="list-disc pl-5 space-y-1">
-            <li><strong>Correo electrónico:</strong> info@vantrust.co</li>
-            <li><strong>WhatsApp:</strong> +57 300 000 0000</li>
+            <li><strong>Correo electrónico:</strong> coordinador@vantrust.com.co</li>
+            <li><strong>WhatsApp:</strong> +57 310 608 3637</li>
             <li><strong>Dirección:</strong> Bogotá D.C., Colombia [dirección completa pendiente]</li>
           </ul>
           <p>

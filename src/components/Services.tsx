@@ -31,7 +31,7 @@ const services = [
       "Asistencia en carretera",
       "Hurto y pérdida total",
     ],
-    insurers: ["Bolívar", "Sura", "AXA"],
+    insurers: ["Seguros Bolívar", "Sura", "AXA Colpatria"],
   },
   {
     id: "salud",
@@ -61,7 +61,7 @@ const services = [
       "Cobertura internacional",
       "Sin preexistencias",
     ],
-    insurers: ["Sura", "Allianz", "Bolívar"],
+    insurers: ["Sura", "Allianz", "Coomeva"],
   },
   {
     id: "vivienda",
@@ -91,7 +91,7 @@ const services = [
       "Contenidos del hogar",
       "Responsabilidad civil",
     ],
-    insurers: ["AXA", "Allianz", "Sura"],
+    insurers: ["AXA Colpatria", "Allianz", "HDI Seguros"],
   },
 ];
 
