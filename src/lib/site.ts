@@ -3,7 +3,8 @@
 export const SITE = {
   name: "VanTrust",
   legalName: "Vantrust Agencia de Seguros LTDA.",
-  nit: "902.039.863-1",
+  nit: "902.039.863-0", // DV calculado con algoritmo DIAN — confirmar con RUT
+  city: "Bogotá D.C.",
   tagline: "Soluciones seguras para proteger lo que más valoras.",
 
   // Contacto

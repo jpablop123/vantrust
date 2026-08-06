@@ -57,12 +57,24 @@ export default function RamoForm({
   const celularVal = getByRole(["celular", "telefono"]);
   const nombreVal = getByRole(["nombre"]);
 
+  const emailField = fields.find((f) => ["email", "correo"].includes(f.name.toLowerCase()));
+  const celField = fields.find((f) => ["celular", "telefono"].includes(f.name.toLowerCase()));
+
   const missingRequired = fields.some(
     (f) => f.required && !(values[f.name] || "").trim()
   );
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal.trim());
-  const celOk = celularVal.replace(/\D/g, "").length >= 7;
-  const canSubmit = !missingRequired && emailOk && celOk && nombreVal.trim();
+  // Solo valida el formato si el campo existe y tiene valor (o es requerido)
+  const emailOk = !emailField
+    ? true
+    : emailVal.trim()
+      ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal.trim())
+      : !emailField.required;
+  const celOk = !celField
+    ? true
+    : celularVal.trim()
+      ? celularVal.replace(/\D/g, "").length >= 7
+      : !celField.required;
+  const canSubmit = !missingRequired && emailOk && celOk && !!nombreVal.trim();
 
   const handleSubmit = async () => {
     if (!canSubmit) return;

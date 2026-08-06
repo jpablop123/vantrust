@@ -15,23 +15,23 @@ export default function PrivacyContent() {
             <tbody>
               <tr className="border-b border-gray-100">
                 <td className="py-2 font-medium text-primary w-44">Razón Social:</td>
-                <td className="py-2">VanTrust S.A.S.</td>
+                <td className="py-2">Vantrust Agencia de Seguros LTDA.</td>
               </tr>
               <tr className="border-b border-gray-100">
                 <td className="py-2 font-medium text-primary">NIT:</td>
-                <td className="py-2">[Pendiente de registro]</td>
+                <td className="py-2">902.039.863-0</td>
               </tr>
               <tr className="border-b border-gray-100">
                 <td className="py-2 font-medium text-primary">Actividad:</td>
-                <td className="py-2">Agencia de seguros — intermediación en seguros de vehículo, salud y vivienda</td>
+                <td className="py-2">Agencia de seguros — intermediación en seguros para personas y empresas</td>
               </tr>
               <tr className="border-b border-gray-100">
                 <td className="py-2 font-medium text-primary">Domicilio:</td>
-                <td className="py-2">Bogotá D.C., Colombia</td>
+                <td className="py-2">Calle 77b No. 59-61, oficina 612, Bogotá D.C., Colombia</td>
               </tr>
               <tr className="border-b border-gray-100">
                 <td className="py-2 font-medium text-primary">Correo electrónico:</td>
-                <td className="py-2">privacidad@vantrust.co</td>
+                <td className="py-2">agencia@vantrust.com.co</td>
               </tr>
               <tr>
                 <td className="py-2 font-medium text-primary">Teléfono:</td>
@@ -214,7 +214,7 @@ export default function PrivacyContent() {
               El usuario podrá revocar la autorización de contacto por cualquier canal específico en
               cualquier momento, sin necesidad de revocar la totalidad del tratamiento de sus datos.
               Para ello, podrá enviar un correo a{" "}
-              <strong>privacidad@vantrust.co</strong> indicando el canal o canales que desea desactivar.
+              <strong>agencia@vantrust.com.co</strong> indicando el canal o canales que desea desactivar.
             </li>
             <li>
               VanTrust atenderá las solicitudes de exclusión en un plazo máximo de{" "}
@@ -277,7 +277,7 @@ export default function PrivacyContent() {
           <p>Para ejercer cualquiera de estos derechos, el titular o su representante legal podrá:</p>
           <ul className="list-disc pl-5 space-y-1">
             <li>
-              Enviar un correo electrónico a <strong>privacidad@vantrust.co</strong> con el asunto
+              Enviar un correo electrónico a <strong>agencia@vantrust.com.co</strong> con el asunto
               &quot;Ejercicio de derechos — [nombre del derecho]&quot;.
             </li>
             <li>
@@ -532,9 +532,9 @@ export default function PrivacyContent() {
             personales, el titular podrá contactar al responsable del tratamiento a través de:
           </p>
           <ul className="list-disc pl-5 space-y-1">
-            <li><strong>Correo electrónico:</strong> privacidad@vantrust.co</li>
+            <li><strong>Correo electrónico:</strong> agencia@vantrust.com.co</li>
             <li><strong>WhatsApp:</strong> +57 310 608 3637</li>
-            <li><strong>Dirección:</strong> Bogotá D.C., Colombia [dirección completa pendiente]</li>
+            <li><strong>Dirección:</strong> Calle 77b No. 59-61, oficina 612, Bogotá D.C., Colombia</li>
           </ul>
           <p>
             Si el titular considera que VanTrust no ha atendido adecuadamente su solicitud, podrá

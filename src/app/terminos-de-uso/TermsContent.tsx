@@ -10,8 +10,8 @@ export default function TermsContent() {
         <div className="space-y-3">
           <p>
             Los presentes Términos y Condiciones de Uso (en adelante, los &quot;Términos&quot;) regulan
-            el acceso y uso del sitio web de <strong>VanTrust S.A.S.</strong> (en adelante,
-            &quot;VanTrust&quot; o el &quot;Sitio Web&quot;), disponible en el dominio vantrust.co y sus
+            el acceso y uso del sitio web de <strong>Vantrust Agencia de Seguros LTDA.</strong> (en adelante,
+            &quot;VanTrust&quot; o el &quot;Sitio Web&quot;), disponible en el dominio vantrust.com.co y sus
             subdominios.
           </p>
           <p>
@@ -232,7 +232,7 @@ export default function TermsContent() {
             El tratamiento de los datos personales recolectados a través del Sitio Web se rige por
             la <strong>Política de Privacidad</strong> de VanTrust, disponible en{" "}
             <a href="/politica-privacidad" className="text-accent hover:underline font-medium">
-              vantrust.co/politica-privacidad
+              vantrust.com.co/politica-privacidad
             </a>.
           </p>
           <p>
@@ -306,7 +306,7 @@ export default function TermsContent() {
           <ul className="list-disc pl-5 space-y-1">
             <li><strong>Correo electrónico:</strong> coordinador@vantrust.com.co</li>
             <li><strong>WhatsApp:</strong> +57 310 608 3637</li>
-            <li><strong>Dirección:</strong> Bogotá D.C., Colombia [dirección completa pendiente]</li>
+            <li><strong>Dirección:</strong> Calle 77b No. 59-61, oficina 612, Bogotá D.C., Colombia</li>
           </ul>
           <p>
             VanTrust se compromete a atender las reclamaciones en un plazo máximo de{" "}
