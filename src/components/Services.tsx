@@ -197,16 +197,20 @@ export default function Services() {
                 ))}
               </ul>
 
-              <div className="flex items-center gap-2 text-xs text-muted/60 pt-4 border-t border-primary/10">
-                <span>Aseguradoras:</span>
-                {service.insurers.map((ins) => (
-                  <span
-                    key={ins}
-                    className="bg-background px-2 py-0.5 rounded text-primary/50 text-xs"
-                  >
-                    {ins}
-                  </span>
-                ))}
+              <div className="pt-4 border-t border-primary/10">
+                <span className="block text-[11px] text-muted/60 mb-2">
+                  Aseguradoras:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {service.insurers.map((ins) => (
+                    <span
+                      key={ins}
+                      className="bg-background px-2.5 py-1 rounded-md text-primary/60 text-[11px] font-medium"
+                    >
+                      {ins}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               <div className="mt-5 flex items-center text-accent font-semibold text-sm group-hover:translate-x-1 transition-transform">
