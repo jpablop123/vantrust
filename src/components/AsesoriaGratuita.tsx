@@ -1,9 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone } from "lucide-react";
 import RamoForm, { type FieldDef } from "@/components/cotizador/RamoForm";
-import { SITE } from "@/lib/site";
 
 const fields: FieldDef[] = [
   { name: "nombre", label: "Nombre completo", required: true },
@@ -56,16 +54,6 @@ export default function AsesoriaGratuita() {
             fuente="asesoria_gratuita"
             submitLabel="Solicita una asesoría gratuita"
           />
-          <div className="mt-5 pt-5 border-t border-white/10 text-center">
-            <p className="text-white/40 text-sm mb-3">¿Prefieres llamarnos ahora?</p>
-            <a
-              href={`tel:${SITE.phoneTel}`}
-              className="inline-flex items-center justify-center gap-2 border-2 border-white/20 hover:border-accent hover:text-accent text-white font-semibold px-6 py-3 rounded-full transition-all"
-            >
-              <Phone className="w-4 h-4" />
-              Solicita una llamada · {SITE.phoneDisplay}
-            </a>
-          </div>
         </motion.div>
       </div>
     </section>
