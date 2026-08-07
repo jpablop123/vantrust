@@ -163,7 +163,7 @@ export default function RamoForm({
   }
 
   const inputCls =
-    "w-full px-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder-white/25 outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all text-sm";
+    "w-full px-4 py-3.5 rounded-xl border border-white/15 bg-white/[0.07] text-white placeholder-white/30 outline-none focus:border-accent focus:bg-white/[0.1] focus:ring-2 focus:ring-accent/25 transition-all text-[15px]";
 
   return (
     <div>
@@ -172,10 +172,15 @@ export default function RamoForm({
           <p className="text-red-400 text-sm font-medium">{errorMsg}</p>
         </div>
       )}
-      <div className="grid sm:grid-cols-2 gap-4">
-        {fields.map((f) => (
-          <div key={f.name} className={f.half ? "" : "sm:col-span-2"}>
-            <label className="block text-sm font-medium text-white/60 mb-1.5">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-4">
+        {fields.map((f) => {
+          // Campos cortos van a media columna (2 por fila) también en mobile;
+          // los de etiqueta larga o textarea ocupan la fila completa.
+          const compact =
+            f.half && f.type !== "textarea" && (f.label?.length ?? 0) <= 20;
+          return (
+          <div key={f.name} className={compact ? "col-span-1" : "col-span-2"}>
+            <label className="block text-[13px] font-medium text-white/55 mb-1.5">
               {f.label} {f.required && <span className="text-accent">*</span>}
             </label>
             {f.type === "select" ? (
@@ -204,7 +209,8 @@ export default function RamoForm({
               />
             )}
           </div>
-        ))}
+          );
+        })}
       </div>
 
       <button

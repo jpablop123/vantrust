@@ -31,9 +31,9 @@ export default function SelectDropdown({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`w-full flex items-center justify-between px-4 py-3 rounded-lg border bg-white/5 text-sm transition-all cursor-pointer ${
-          value ? "border-accent/40 text-white" : "border-white/10 text-white/25"
-        } ${open ? "border-accent ring-2 ring-accent/20" : "hover:border-white/20"}`}
+        className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl border bg-white/[0.07] text-[15px] transition-all cursor-pointer ${
+          value ? "border-accent/40 text-white" : "border-white/15 text-white/30"
+        } ${open ? "border-accent ring-2 ring-accent/25" : "hover:border-white/25"}`}
       >
         <span className="truncate">{value || placeholder}</span>
         <ChevronDown
