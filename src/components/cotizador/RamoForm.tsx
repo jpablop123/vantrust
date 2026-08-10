@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, Fragment } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle, Clock } from "lucide-react";
 import { waLink } from "@/lib/site";
 import SelectDropdown from "@/components/cotizador/SelectDropdown";
@@ -14,6 +14,9 @@ export interface FieldDef {
   required?: boolean;
   placeholder?: string;
   half?: boolean; // ocupa media columna en desktop
+  // Muestra un campo adicional solo cuando este campo tiene cierto valor
+  // (ej. un select "¿Tiene EPS?" que al elegir "Sí" revela "¿Cuál EPS?").
+  reveal?: { when: string; field: FieldDef };
 }
 
 const WA_ICON = (
@@ -54,6 +57,15 @@ export default function RamoForm({
     return f ? values[f.name] || "" : "";
   };
 
+  // Campos actualmente visibles (incluye los revelados cuyo padre cumple la condición)
+  const activeFields: FieldDef[] = [];
+  for (const f of fields) {
+    activeFields.push(f);
+    if (f.reveal && values[f.name] === f.reveal.when) {
+      activeFields.push(f.reveal.field);
+    }
+  }
+
   const emailVal = getByRole(["email", "correo"]);
   const celularVal = getByRole(["celular", "telefono"]);
   const nombreVal = getByRole(["nombre"]);
@@ -61,7 +73,7 @@ export default function RamoForm({
   const emailField = fields.find((f) => ["email", "correo"].includes(f.name.toLowerCase()));
   const celField = fields.find((f) => ["celular", "telefono"].includes(f.name.toLowerCase()));
 
-  const missingRequired = fields.some(
+  const missingRequired = activeFields.some(
     (f) => f.required && !(values[f.name] || "").trim()
   );
   // Solo valida el formato si el campo existe y tiene valor (o es requerido)
@@ -82,9 +94,9 @@ export default function RamoForm({
     setStatus("loading");
     setErrorMsg("");
 
-    // Construye detalles con todos los campos no-estándar
+    // Construye detalles con todos los campos visibles no-estándar
     const detalles: Record<string, string> = {};
-    for (const f of fields) {
+    for (const f of activeFields) {
       if (!isStandard(f.name)) {
         const v = (values[f.name] || "").trim();
         if (v) detalles[f.label] = v;
@@ -165,6 +177,46 @@ export default function RamoForm({
   const inputCls =
     "w-full px-4 py-3.5 rounded-xl border border-white/15 bg-white/[0.07] text-white placeholder-white/30 outline-none focus:border-accent focus:bg-white/[0.1] focus:ring-2 focus:ring-accent/25 transition-all text-[15px]";
 
+  const renderField = (f: FieldDef, forceFull = false) => {
+    const compact =
+      !forceFull &&
+      f.half &&
+      f.type !== "textarea" &&
+      (f.label?.length ?? 0) <= 20;
+    return (
+      <div className={compact ? "col-span-1" : "col-span-2"}>
+        <label className="block text-[13px] font-medium text-white/55 mb-1.5">
+          {f.label} {f.required && <span className="text-accent">*</span>}
+        </label>
+        {f.type === "select" ? (
+          <SelectDropdown
+            value={values[f.name] || ""}
+            onChange={(v) => set(f.name, v)}
+            options={f.options || []}
+            placeholder={f.placeholder || "Selecciona…"}
+          />
+        ) : f.type === "textarea" ? (
+          <textarea
+            value={values[f.name] || ""}
+            onChange={(e) => set(f.name, e.target.value)}
+            rows={2}
+            placeholder={f.placeholder}
+            className={`${inputCls} resize-none`}
+          />
+        ) : (
+          <input
+            type={f.type || "text"}
+            inputMode={f.type === "tel" ? "numeric" : undefined}
+            value={values[f.name] || ""}
+            onChange={(e) => set(f.name, e.target.value)}
+            placeholder={f.placeholder}
+            className={inputCls}
+          />
+        )}
+      </div>
+    );
+  };
+
   return (
     <div>
       {status === "error" && (
@@ -174,41 +226,26 @@ export default function RamoForm({
       )}
       <div className="grid grid-cols-2 gap-x-3 gap-y-4">
         {fields.map((f) => {
-          // Campos cortos van a media columna (2 por fila) también en mobile;
-          // los de etiqueta larga o textarea ocupan la fila completa.
-          const compact =
-            f.half && f.type !== "textarea" && (f.label?.length ?? 0) <= 20;
+          const revealActive =
+            f.reveal && values[f.name] === f.reveal.when;
           return (
-          <div key={f.name} className={compact ? "col-span-1" : "col-span-2"}>
-            <label className="block text-[13px] font-medium text-white/55 mb-1.5">
-              {f.label} {f.required && <span className="text-accent">*</span>}
-            </label>
-            {f.type === "select" ? (
-              <SelectDropdown
-                value={values[f.name] || ""}
-                onChange={(v) => set(f.name, v)}
-                options={f.options || []}
-                placeholder={f.placeholder || "Selecciona…"}
-              />
-            ) : f.type === "textarea" ? (
-              <textarea
-                value={values[f.name] || ""}
-                onChange={(e) => set(f.name, e.target.value)}
-                rows={2}
-                placeholder={f.placeholder}
-                className={`${inputCls} resize-none`}
-              />
-            ) : (
-              <input
-                type={f.type || "text"}
-                inputMode={f.type === "tel" ? "numeric" : undefined}
-                value={values[f.name] || ""}
-                onChange={(e) => set(f.name, e.target.value)}
-                placeholder={f.placeholder}
-                className={inputCls}
-              />
-            )}
-          </div>
+            <Fragment key={f.name}>
+              {renderField(f)}
+              <AnimatePresence>
+                {revealActive && f.reveal && (
+                  <motion.div
+                    key={f.reveal.field.name}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="col-span-2 overflow-hidden"
+                  >
+                    {renderField(f.reveal.field, true)}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </Fragment>
           );
         })}
       </div>

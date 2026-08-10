@@ -16,10 +16,19 @@ export const RAMO_FIELDS: Record<string, FieldDef[]> = {
     { name: "celular", label: "Celular", type: "tel", required: true, half: true },
     { name: "correo", label: "Correo", type: "email", required: true, half: true },
     {
-      name: "eps",
-      label: "EPS actual",
-      placeholder: "Ej: Sura, Sanitas, Nueva EPS, Compensar…",
+      name: "tiene_eps",
+      label: "¿Actualmente tiene EPS?",
+      type: "select",
+      options: SI_NO,
       half: true,
+      reveal: {
+        when: "Sí",
+        field: {
+          name: "eps",
+          label: "¿Cuál EPS?",
+          placeholder: "Ej: Sura, Sanitas, Nueva EPS, Compensar…",
+        },
+      },
     },
     {
       name: "prepagada",
@@ -27,6 +36,14 @@ export const RAMO_FIELDS: Record<string, FieldDef[]> = {
       type: "select",
       options: SI_NO,
       half: true,
+      reveal: {
+        when: "Sí",
+        field: {
+          name: "prepagada_cual",
+          label: "¿Cuál medicina prepagada?",
+          placeholder: "Ej: Colsanitas, Medisanitas, Coomeva…",
+        },
+      },
     },
     {
       name: "beneficiarios",
@@ -49,8 +66,36 @@ export const RAMO_FIELDS: Record<string, FieldDef[]> = {
       label: "Valor asegurado de equipos electrónicos",
       half: true,
     },
-    { name: "joyas", label: "¿Tiene joyas? Valor", half: true },
-    { name: "arte", label: "¿Tiene obras de arte? Valor", half: true },
+    {
+      name: "tiene_joyas",
+      label: "¿Tiene joyas?",
+      type: "select",
+      options: SI_NO,
+      half: true,
+      reveal: {
+        when: "Sí",
+        field: {
+          name: "joyas_valor",
+          label: "Valor asegurado de joyas",
+          placeholder: "$",
+        },
+      },
+    },
+    {
+      name: "tiene_arte",
+      label: "¿Tiene obras de arte?",
+      type: "select",
+      options: SI_NO,
+      half: true,
+      reveal: {
+        when: "Sí",
+        field: {
+          name: "arte_valor",
+          label: "Valor asegurado de obras de arte",
+          placeholder: "$",
+        },
+      },
+    },
   ],
   vida: [
     { name: "nombre", label: "Nombre completo", required: true },
