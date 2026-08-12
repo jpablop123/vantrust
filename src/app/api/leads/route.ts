@@ -270,6 +270,64 @@ async function sendWhatsAppNotification(data: LeadData) {
   });
 }
 
+function escapeHtml(s: string): string {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+async function sendTelegramNotification(data: LeadData) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+
+  if (!token || !chatId) {
+    console.warn("Telegram not configured, skipping");
+    return;
+  }
+
+  const tipoLabel = INSURANCE_LABELS[data.tipoSeguro] || data.tipoSeguro;
+  const horarioLabel = HORARIO_LABELS[data.horario] || data.horario || "No especificado";
+  const vehiculo = [data.marca_carro, data.modelo_carro, data.anno_carro]
+    .filter(Boolean)
+    .join(" ");
+
+  const detalleLines = data.detalles
+    ? Object.entries(data.detalles)
+        .filter(([, v]) => v && String(v).trim())
+        .map(([k, v]) => `• ${escapeHtml(k)}: ${escapeHtml(String(v))}`)
+        .join("\n")
+    : "";
+
+  const lines = [
+    "🔔 <b>Nuevo Lead VanTrust</b>",
+    "",
+    `👤 <b>${escapeHtml(data.nombre)}</b>`,
+    `📧 ${escapeHtml(data.email || "N/A")}`,
+    `📱 ${escapeHtml(data.telefono)}`,
+    data.ciudad ? `📍 ${escapeHtml(data.ciudad)}` : "",
+    `🛡️ ${escapeHtml(tipoLabel)}`,
+    data.placa ? `🚗 Placa: ${escapeHtml(data.placa)}` : "",
+    vehiculo ? `🚙 Vehículo: ${escapeHtml(vehiculo)}` : "",
+    data.uso_diario ? `📊 Uso: ${escapeHtml(data.uso_diario)}` : "",
+    detalleLines,
+    data.horario ? `🕒 Horario: ${escapeHtml(horarioLabel)}` : "",
+    data.mensaje ? `💬 ${escapeHtml(data.mensaje)}` : "",
+    data.fuente ? `🔗 Fuente: ${escapeHtml(data.fuente)}` : "",
+  ].filter(Boolean);
+
+  await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: lines.join("\n"),
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+    }),
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const data: LeadData = await req.json();
@@ -297,12 +355,19 @@ export async function POST(req: NextRequest) {
       sendEmail(data),
       saveToGoogleSheets(data),
       sendWhatsAppNotification(data),
+      sendTelegramNotification(data),
       sendConfirmationToCustomer(data),
     ]);
 
     results.forEach((result, i) => {
       if (result.status === "rejected") {
-        const names = ["Email", "Google Sheets", "WhatsApp", "Confirmación cliente"];
+        const names = [
+          "Email",
+          "Google Sheets",
+          "WhatsApp",
+          "Telegram",
+          "Confirmación cliente",
+        ];
         console.error(`${names[i]} failed:`, result.reason);
       }
     });
