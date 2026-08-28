@@ -70,7 +70,7 @@ function renderDetalleRows(detalles?: Record<string, string>): string {
     .map(
       ([k, v]) => `
       <tr style="border-top: 1px solid #f3f4f6;">
-        <td style="padding: 10px 0; color: #6b7280; font-size: 13px; vertical-align: top;">${escapeHtml(k)}</td>
+        <td style="padding: 10px 16px 10px 0; color: #6b7280; font-size: 13px; vertical-align: top; width: 150px;">${escapeHtml(k)}</td>
         <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${escapeHtml(String(v))}</td>
       </tr>`
     )
@@ -313,21 +313,28 @@ async function sendTelegramNotification(data: LeadData) {
     : "";
 
   const lines = [
+    // El filter() va solo sobre las líneas opcionales: aplicarlo al arreglo
+    // completo se comía los separadores en blanco, que también son falsy.
     "🔔 <b>Nuevo Lead VanTrust</b>",
     "",
-    `👤 <b>${escapeHtml(data.nombre)}</b>`,
-    `📧 ${escapeHtml(data.email || "N/A")}`,
-    `📱 ${escapeHtml(data.telefono)}`,
-    data.ciudad ? `📍 ${escapeHtml(data.ciudad)}` : "",
-    `🛡️ ${escapeHtml(tipoLabel)}`,
-    data.placa ? `🚗 Placa: ${escapeHtml(data.placa)}` : "",
-    vehiculo ? `🚙 Vehículo: ${escapeHtml(vehiculo)}` : "",
-    data.uso_diario ? `📊 Uso: ${escapeHtml(data.uso_diario)}` : "",
-    detalleLines,
-    data.horario ? `🕒 Horario: ${escapeHtml(horarioLabel)}` : "",
-    data.mensaje ? `💬 ${escapeHtml(data.mensaje)}` : "",
-    data.fuente ? `🔗 Fuente: ${escapeHtml(data.fuente)}` : "",
-  ].filter(Boolean);
+    ...[
+      `👤 <b>${escapeHtml(data.nombre)}</b>`,
+      `📧 ${escapeHtml(data.email || "N/A")}`,
+      `📱 ${escapeHtml(data.telefono)}`,
+      data.ciudad ? `📍 ${escapeHtml(data.ciudad)}` : "",
+      `🛡️ ${escapeHtml(tipoLabel)}`,
+      data.placa ? `🚗 Placa: ${escapeHtml(data.placa)}` : "",
+      vehiculo ? `🚙 Vehículo: ${escapeHtml(vehiculo)}` : "",
+      data.uso_diario ? `📊 Uso: ${escapeHtml(data.uso_diario)}` : "",
+    ].filter(Boolean),
+    ...(detalleLines ? ["", detalleLines] : []),
+    "",
+    ...[
+      data.horario ? `🕒 Horario: ${escapeHtml(horarioLabel)}` : "",
+      data.mensaje ? `💬 ${escapeHtml(data.mensaje)}` : "",
+      data.fuente ? `🔗 Fuente: ${escapeHtml(data.fuente)}` : "",
+    ].filter(Boolean),
+  ];
 
   const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: "POST",
