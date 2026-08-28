@@ -7,19 +7,43 @@ canal de notificación está configurado**, así que los leads no llegan a nadie
 
 ---
 
-**Asunto:** Acceso al DNS de vantrust.com.co
+**Asunto:** Dos cosas para dejar la página funcionando — VanTrust
 
 Buen día,
 
-Para activar el envío de correos de la página necesito acceso a los registros
-DNS del dominio en GoDaddy.
+Necesito dos cosas de su lado para terminar:
+
+**1. Acceso al DNS del dominio, en GoDaddy**
+
+Para publicar la página en `vantrust.com.co` y habilitar el envío de correos.
 
 La forma más simple es el Acceso delegado, que no implica compartir contraseñas:
 *Configuración de la cuenta → Acceso delegado → Invitar a alguien → mi correo →
 permiso "Administrar productos"*.
 
-El correo de la agencia no se ve afectado: solo agrego subdominios nuevos, el MX
-de Microsoft 365 queda intacto.
+El correo de la agencia no se ve afectado: los registros de Microsoft 365 quedan
+intactos.
+
+**2. Crear el bot de Telegram**
+
+Es por donde les van a llegar los leads al instante. Toma unos 10 minutos:
+
+1. En Telegram, buscar el contacto **@BotFather** (tiene la marca de
+   verificación azul)
+2. Enviarle el mensaje `/newbot`
+3. Les pide un nombre: escribir **VanTrust Leads**
+4. Les pide un usuario: escribir **vantrust_leads_bot** (si está ocupado, probar
+   otro que termine en `_bot`)
+5. BotFather responde con un **token**: una línea larga tipo `8123456789:AAH...`
+   → ese es el que necesito
+6. Crear un **grupo** de Telegram con los asesores que deben recibir los leads
+7. Agregar el bot a ese grupo, buscándolo por el usuario del paso 4
+8. Escribir cualquier mensaje dentro del grupo
+
+Cuando terminen, me pasan el token por WhatsApp (no por correo) y me avisan que
+el grupo ya está creado.
+
+Con esas dos cosas queda todo funcionando.
 
 Quedo atento.
 
