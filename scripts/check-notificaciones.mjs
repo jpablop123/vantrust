@@ -9,8 +9,10 @@
  */
 
 import { readFileSync } from "node:fs";
+import { Resolver } from "node:dns/promises";
 
 const ENVIAR = process.argv.includes("--enviar");
+const SOLO_DNS = process.argv.includes("--dns");
 
 // ── .env.local ────────────────────────────────────────────────────────────
 let env = {};
@@ -33,6 +35,96 @@ const info = (m) => console.log(`  ·  ${m}`);
 
 let listos = 0;
 let fallos = 0;
+
+// ── DNS: que añadir Resend no rompa el correo de Microsoft 365 ─────────────
+// Se consulta contra 1.1.1.1 para no leer una caché local desactualizada.
+async function revisarDns() {
+  const dominio =
+    (env.RESEND_FROM_EMAIL || "").match(/@([^>\s]+)/)?.[1] || "vantrust.com.co";
+  console.log(`\n── DNS de ${dominio} ──`);
+
+  const r = new Resolver();
+  r.setServers(["1.1.1.1", "8.8.8.8"]);
+  const intenta = async (fn) => { try { return await fn(); } catch { return null; } };
+
+  // 1. El correo entrante NO se debe tocar nunca.
+  const mx = await intenta(() => r.resolveMx(dominio));
+  if (!mx?.length) {
+    no("El dominio NO tiene registros MX: el correo entrante está caído");
+    fallos++;
+  } else {
+    const host = mx.map((m) => m.exchange).join(", ");
+    const proveedor = /outlook|microsoft/i.test(host)
+      ? "Microsoft 365"
+      : /google/i.test(host)
+        ? "Google Workspace"
+        : "otro proveedor";
+    ok(`MX intacto -> ${host}  (${proveedor})`);
+    info("Este registro NO debe cambiar al configurar Resend.");
+  }
+
+  // 2. Un solo SPF en la raíz. Dos registros SPF invalidan la autenticación.
+  const txt = (await intenta(() => r.resolveTxt(dominio)))?.map((t) => t.join("")) || [];
+  const spf = txt.filter((t) => t.toLowerCase().startsWith("v=spf1"));
+  if (spf.length === 0) {
+    no("No hay SPF en la raíz");
+    fallos++;
+  } else if (spf.length > 1) {
+    no(`Hay ${spf.length} registros SPF en la raíz: eso INVALIDA la autenticación`);
+    spf.forEach((s) => info(s));
+    info("Debe quedar uno solo. Nunca añadas un segundo SPF para Resend.");
+    fallos++;
+  } else {
+    ok(`SPF único en la raíz: ${spf[0]}`);
+    if (/-all\s*$/.test(spf[0]))
+      info("Termina en -all (rechazo duro): con más razón, no lo modifiques.");
+  }
+
+  // 3. Registros que Resend sí debe crear, todos bajo subdominio.
+  const sendMx = await intenta(() => r.resolveMx(`send.${dominio}`));
+  const sendTxt = (await intenta(() => r.resolveTxt(`send.${dominio}`)))?.map((t) => t.join("")) || [];
+  const dkim = (await intenta(() => r.resolveTxt(`resend._domainkey.${dominio}`)))?.map((t) => t.join("")) || [];
+
+  console.log("");
+  if (!sendMx && !dkim.length) {
+    info(`Resend aún no está configurado (no existe resend._domainkey.${dominio}).`);
+    info("Cuando lo hagas, los registros deben quedar bajo 'send' y");
+    info("'resend._domainkey', NUNCA en la raíz.");
+  } else {
+    sendMx?.length
+      ? ok(`send.${dominio} MX -> ${sendMx.map((m) => m.exchange).join(", ")}`)
+      : no(`Falta el MX de send.${dominio} (bounces de Resend)`);
+    sendTxt.some((t) => /spf1/.test(t))
+      ? ok(`send.${dominio} SPF presente`)
+      : no(`Falta el SPF de send.${dominio}`);
+    dkim.length
+      ? ok(`DKIM presente en resend._domainkey.${dominio}`)
+      : no(`Falta el DKIM en resend._domainkey.${dominio}`);
+
+    // Error clásico de GoDaddy: escribir el nombre completo en el campo Name.
+    const duplicado = await intenta(() => r.resolveTxt(`resend._domainkey.${dominio}.${dominio}`));
+    if (duplicado) {
+      no(`¡Ojo! Existe resend._domainkey.${dominio}.${dominio}`);
+      info("En GoDaddy escribiste el nombre completo en 'Name'. Debe ir solo");
+      info("'resend._domainkey'; GoDaddy le añade el dominio automáticamente.");
+      fallos++;
+    }
+  }
+
+  // 4. DMARC: define qué pasa si algo no autentica.
+  const dmarc = (await intenta(() => r.resolveTxt(`_dmarc.${dominio}`)))?.map((t) => t.join("")) || [];
+  if (dmarc.length) {
+    const p = dmarc[0].match(/p=(\w+)/)?.[1];
+    ok(`DMARC: p=${p}`);
+    if (p !== "none")
+      info("Con p=quarantine/reject, un DKIM mal copiado manda tus correos a spam.");
+  }
+}
+
+if (SOLO_DNS) {
+  await revisarDns();
+  process.exit(0);
+}
 
 // ── Telegram ──────────────────────────────────────────────────────────────
 console.log("\n── Telegram ──");
