@@ -53,6 +53,16 @@ interface LeadData {
   detalles?: Record<string, string>;
 }
 
+// Los datos vienen del usuario: escaparlos antes de meterlos en el HTML del
+// correo evita que un lead pueda inyectar marcado en la bandeja del asesor.
+function escapeHtml(s: string): string {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function renderDetalleRows(detalles?: Record<string, string>): string {
   if (!detalles) return "";
   return Object.entries(detalles)
@@ -60,11 +70,19 @@ function renderDetalleRows(detalles?: Record<string, string>): string {
     .map(
       ([k, v]) => `
       <tr style="border-top: 1px solid #f3f4f6;">
-        <td style="padding: 10px 0; color: #6b7280; font-size: 13px; vertical-align: top;">${k}</td>
-        <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${v}</td>
+        <td style="padding: 10px 0; color: #6b7280; font-size: 13px; vertical-align: top;">${escapeHtml(k)}</td>
+        <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${escapeHtml(String(v))}</td>
       </tr>`
     )
     .join("");
+}
+
+// fetch() solo rechaza ante fallos de red, no ante un 4xx/5xx. Sin esto un
+// token vencido de Telegram/Sheets haría que el lead se perdiera en silencio.
+async function throwIfNotOk(res: Response, servicio: string) {
+  if (res.ok) return;
+  const detalle = await res.text().catch(() => "");
+  throw new Error(`${servicio} respondió ${res.status}: ${detalle.slice(0, 300)}`);
 }
 
 async function sendEmail(data: LeadData) {
@@ -83,7 +101,7 @@ async function sendEmail(data: LeadData) {
   await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL || "VanTrust <onboarding@resend.dev>",
     to: commercialEmail,
-    subject: `Nuevo Lead - ${tipoLabel} | ${data.nombre}`,
+    subject: `Nuevo Lead - ${tipoLabel} | ${data.nombre.replace(/[\r\n]+/g, " ").slice(0, 80)}`,
     html: `
       <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden;">
         <div style="background: linear-gradient(135deg, #0A1628 0%, #162240 100%); padding: 28px 24px;">
@@ -94,7 +112,7 @@ async function sendEmail(data: LeadData) {
                 <p style="color: rgba(255,255,255,0.6); margin: 4px 0 0; font-size: 13px;">Nuevo lead recibido</p>
               </td>
               <td style="text-align: right;">
-                <span style="background: #C9A84C; color: #0A1628; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;">${tipoLabel}</span>
+                <span style="background: #C9A84C; color: #0A1628; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;">${escapeHtml(tipoLabel)}</span>
               </td>
             </tr>
           </table>
@@ -103,64 +121,64 @@ async function sendEmail(data: LeadData) {
           <table style="width: 100%; border-collapse: collapse;">
             <tr>
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px; width: 150px; vertical-align: top;">Nombre</td>
-              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px;">${data.nombre}</td>
+              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px;">${escapeHtml(data.nombre)}</td>
             </tr>
             <tr style="border-top: 1px solid #f3f4f6;">
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Email</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;"><a href="mailto:${data.email}" style="color: #0A1628;">${data.email}</a></td>
+              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${data.email ? `<a href="mailto:${escapeHtml(data.email)}" style="color: #0A1628;">${escapeHtml(data.email)}</a>` : "No especificado"}</td>
             </tr>
             <tr style="border-top: 1px solid #f3f4f6;">
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Teléfono</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;"><a href="tel:${data.telefono}" style="color: #0A1628;">${data.telefono}</a></td>
+              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;"><a href="tel:${escapeHtml(data.telefono)}" style="color: #0A1628;">${escapeHtml(data.telefono)}</a></td>
             </tr>
             <tr style="border-top: 1px solid #f3f4f6;">
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Ciudad</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${data.ciudad || "No especificada"}</td>
+              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${escapeHtml(data.ciudad) || "No especificada"}</td>
             </tr>
             <tr style="border-top: 1px solid #f3f4f6;">
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Tipo de seguro</td>
-              <td style="padding: 10px 0; font-weight: 600; color: #C9A84C; font-size: 14px;">${tipoLabel}</td>
+              <td style="padding: 10px 0; font-weight: 600; color: #C9A84C; font-size: 14px;">${escapeHtml(tipoLabel)}</td>
             </tr>
             ${data.placa ? `
             <tr style="border-top: 1px solid #f3f4f6;">
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Placa</td>
-              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px; font-family: monospace; letter-spacing: 2px;">${data.placa}</td>
+              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px; font-family: monospace; letter-spacing: 2px;">${escapeHtml(data.placa)}</td>
             </tr>
             ` : ""}
             ${data.marca_carro ? `
             <tr style="border-top: 1px solid #f3f4f6;">
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Vehículo</td>
-              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px;">${data.marca_carro}${data.modelo_carro ? ` ${data.modelo_carro}` : ""}</td>
+              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px;">${escapeHtml(data.marca_carro || "")}${data.modelo_carro ? ` ${escapeHtml(data.modelo_carro)}` : ""}</td>
             </tr>
             ` : ""}
             ${data.anno_carro ? `
             <tr style="border-top: 1px solid #f3f4f6;">
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Año del vehículo</td>
-              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px;">${data.anno_carro}</td>
+              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px;">${escapeHtml(String(data.anno_carro))}</td>
             </tr>
             ` : ""}
             ${data.uso_diario ? `
             <tr style="border-top: 1px solid #f3f4f6;">
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Uso diario</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${data.uso_diario}</td>
+              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${escapeHtml(data.uso_diario || "")}</td>
             </tr>
             ` : ""}
             ${renderDetalleRows(data.detalles)}
             <tr style="border-top: 1px solid #f3f4f6;">
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Horario preferido</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${horarioLabel}</td>
+              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${escapeHtml(horarioLabel)}</td>
             </tr>
             ${data.mensaje ? `
             <tr style="border-top: 1px solid #f3f4f6;">
               <td style="padding: 10px 0; color: #6b7280; font-size: 13px; vertical-align: top;">Mensaje</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px; line-height: 1.5;">${data.mensaje}</td>
+              <td style="padding: 10px 0; color: #0A1628; font-size: 14px; line-height: 1.5;">${escapeHtml(data.mensaje)}</td>
             </tr>
             ` : ""}
           </table>
 
           <div style="margin-top: 20px; padding: 12px 16px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;">
             <p style="margin: 0; color: #166534; font-size: 13px; font-weight: 600;">Acción requerida</p>
-            <p style="margin: 4px 0 0; color: #166534; font-size: 12px;">Contactar al cliente en el horario: ${horarioLabel}</p>
+            <p style="margin: 4px 0 0; color: #166534; font-size: 12px;">Contactar al cliente en el horario: ${escapeHtml(horarioLabel)}</p>
           </div>
         </div>
         <div style="padding: 16px 24px; background: #f8f9fb; border-top: 1px solid #e5e7eb;">
@@ -194,8 +212,8 @@ async function sendConfirmationToCustomer(data: LeadData) {
           <p style="color: rgba(255,255,255,0.7); margin: 6px 0 0; font-size: 13px;">Soluciones seguras para proteger lo que más valoras</p>
         </div>
         <div style="padding: 32px 28px; background: #ffffff; color: #1f2937;">
-          <h2 style="color: #002C55; font-size: 20px; margin: 0 0 12px;">¡Gracias por confiar en VanTrust${firstName ? `, ${firstName}` : ""}!</h2>
-          <p style="font-size: 15px; line-height: 1.6; margin: 0 0 8px;">Hemos recibido tu solicitud de cotización de <strong>${tipoLabel}</strong>.</p>
+          <h2 style="color: #002C55; font-size: 20px; margin: 0 0 12px;">¡Gracias por confiar en VanTrust${firstName ? `, ${escapeHtml(firstName)}` : ""}!</h2>
+          <p style="font-size: 15px; line-height: 1.6; margin: 0 0 8px;">Hemos recibido tu solicitud de cotización de <strong>${escapeHtml(tipoLabel)}</strong>.</p>
           <p style="font-size: 15px; line-height: 1.6; margin: 0 0 20px;">Uno de nuestros asesores se comunicará contigo en un plazo aproximado de <strong>1 hora hábil</strong>.</p>
           <p style="font-size: 14px; line-height: 1.6; color: #6b7280; margin: 0 0 20px;">Mientras tanto, puedes escribirnos directamente por WhatsApp:</p>
           <div style="text-align: center; margin: 0 0 8px;">
@@ -231,13 +249,14 @@ async function saveToGoogleSheets(data: LeadData) {
         .join(" | ")
     : "";
 
-  await fetch(url, {
+  const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       values: [[fecha, data.nombre, data.email, data.telefono, data.ciudad, tipoLabel, data.placa, horarioLabel, data.mensaje, data.marca_carro || "", data.modelo_carro || "", data.anno_carro || "", data.uso_diario || "", data.fuente || "", detallesStr]],
     }),
   });
+  await throwIfNotOk(res, "Google Sheets");
 }
 
 async function sendWhatsAppNotification(data: LeadData) {
@@ -255,7 +274,7 @@ async function sendWhatsAppNotification(data: LeadData) {
   const vehiculo = [data.marca_carro, data.modelo_carro, data.anno_carro].filter(Boolean).join(" ");
   const message = `*Nuevo Lead VanTrust*\n\n*${data.nombre}*\nEmail: ${data.email || "N/A"}\nTel: ${data.telefono}\nCiudad: ${data.ciudad || "N/A"}\nSeguro: ${tipoLabel}${data.placa ? `\nPlaca: ${data.placa}` : ""}${vehiculo ? `\nVehículo: ${vehiculo}` : ""}${data.uso_diario ? `\nUso: ${data.uso_diario}` : ""}\nHorario: ${horarioLabel}\n${data.mensaje ? `Mensaje: ${data.mensaje}` : ""}${data.fuente ? `\nFuente: ${data.fuente}` : ""}`;
 
-  await fetch(`https://graph.facebook.com/v18.0/${phoneId}/messages`, {
+  const res = await fetch(`https://graph.facebook.com/v18.0/${phoneId}/messages`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -268,13 +287,7 @@ async function sendWhatsAppNotification(data: LeadData) {
       text: { body: message },
     }),
   });
-}
-
-function escapeHtml(s: string): string {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  await throwIfNotOk(res, "WhatsApp");
 }
 
 async function sendTelegramNotification(data: LeadData) {
@@ -316,7 +329,7 @@ async function sendTelegramNotification(data: LeadData) {
     data.fuente ? `🔗 Fuente: ${escapeHtml(data.fuente)}` : "",
   ].filter(Boolean);
 
-  await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -326,13 +339,16 @@ async function sendTelegramNotification(data: LeadData) {
       disable_web_page_preview: true,
     }),
   });
+  await throwIfNotOk(res, "Telegram");
 }
 
 export async function POST(req: NextRequest) {
   try {
     const data: LeadData = await req.json();
 
-    if (!data.nombre || !data.telefono || !data.tipoSeguro || !data.email) {
+    // El correo NO es obligatorio: formularios como "Asesoría gratuita" lo
+    // ofrecen como opcional porque el contacto puede ser por WhatsApp o llamada.
+    if (!data.nombre || !data.telefono || !data.tipoSeguro) {
       return NextResponse.json(
         { error: "Campos requeridos faltantes" },
         { status: 400 }

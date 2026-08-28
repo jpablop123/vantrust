@@ -5,15 +5,28 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle, Clock } from "lucide-react";
 import { waLink } from "@/lib/site";
 import SelectDropdown from "@/components/cotizador/SelectDropdown";
+import CurrencyInput from "@/components/cotizador/CurrencyInput";
+import { copForSubmit } from "@/lib/currency";
 
 export interface FieldDef {
   name: string;
   label: string;
-  type?: "text" | "email" | "tel" | "date" | "number" | "select" | "textarea";
+  type?:
+    | "text"
+    | "email"
+    | "tel"
+    | "date"
+    | "number"
+    | "select"
+    | "textarea"
+    | "currency";
   options?: string[];
   required?: boolean;
   placeholder?: string;
   half?: boolean; // ocupa media columna en desktop
+  // Límites nativos para inputs de tipo number/date (ej. no nacer en el futuro)
+  min?: string | number;
+  max?: string | number;
   // Muestra un campo adicional solo cuando este campo tiene cierto valor
   // (ej. un select "¿Tiene EPS?" que al elegir "Sí" revela "¿Cuál EPS?").
   reveal?: { when: string; field: FieldDef };
@@ -32,6 +45,37 @@ function isStandard(name: string) {
   );
 }
 
+const isEmailField = (name: string) =>
+  ["email", "correo"].includes(name.toLowerCase());
+const isTelField = (name: string) =>
+  ["celular", "telefono"].includes(name.toLowerCase());
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/**
+ * Tipos cuyo valor necesita el ancho completo en móvil aunque el campo sea
+ * `half`: un correo o un monto en pesos no caben en media columna a 360px.
+ */
+const WIDE_ON_MOBILE = new Set(["date", "email", "currency"]);
+
+/** Mensaje de error de un campo, o null si está bien. */
+function fieldError(f: FieldDef, raw: string): string | null {
+  const v = (raw || "").trim();
+  if (f.required && !v) return "Este campo es obligatorio";
+  if (!v) return null;
+
+  if (isEmailField(f.name) && !EMAIL_RE.test(v))
+    return "El correo no parece válido (ej: nombre@correo.com)";
+
+  if (isTelField(f.name) && v.replace(/\D/g, "").length < 7)
+    return "Ingresa un número de contacto válido";
+
+  if (f.name.toLowerCase() === "nombre" && v.length < 3)
+    return "Ingresa tu nombre completo";
+
+  return null;
+}
+
 export default function RamoForm({
   tipoSeguro,
   fields,
@@ -44,6 +88,8 @@ export default function RamoForm({
   submitLabel?: string;
 }) {
   const [values, setValues] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [attempted, setAttempted] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle"
   );
@@ -51,6 +97,13 @@ export default function RamoForm({
 
   const set = (name: string, v: string) =>
     setValues((prev) => ({ ...prev, [name]: v }));
+
+  const markTouched = (name: string) =>
+    setTouched((prev) => ({ ...prev, [name]: true }));
+
+  // Id único por campo para asociar <label htmlFor> con el input (a11y + área táctil).
+  const fieldId = (name: string) =>
+    `vt-${tipoSeguro}-${fuente || "form"}-${name}`.replace(/[^\w-]/g, "-");
 
   const getByRole = (roles: string[]) => {
     const f = fields.find((x) => roles.includes(x.name.toLowerCase()));
@@ -70,27 +123,31 @@ export default function RamoForm({
   const celularVal = getByRole(["celular", "telefono"]);
   const nombreVal = getByRole(["nombre"]);
 
-  const emailField = fields.find((f) => ["email", "correo"].includes(f.name.toLowerCase()));
-  const celField = fields.find((f) => ["celular", "telefono"].includes(f.name.toLowerCase()));
+  // Errores de todos los campos visibles, calculados en cada render.
+  const errors: Record<string, string> = {};
+  for (const f of activeFields) {
+    const err = fieldError(f, values[f.name] || "");
+    if (err) errors[f.name] = err;
+  }
+  const canSubmit = Object.keys(errors).length === 0;
 
-  const missingRequired = activeFields.some(
-    (f) => f.required && !(values[f.name] || "").trim()
-  );
-  // Solo valida el formato si el campo existe y tiene valor (o es requerido)
-  const emailOk = !emailField
-    ? true
-    : emailVal.trim()
-      ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal.trim())
-      : !emailField.required;
-  const celOk = !celField
-    ? true
-    : celularVal.trim()
-      ? celularVal.replace(/\D/g, "").length >= 7
-      : !celField.required;
-  const canSubmit = !missingRequired && emailOk && celOk && !!nombreVal.trim();
+  /** Muestra el error solo si el usuario ya tocó el campo o ya intentó enviar. */
+  const visibleError = (name: string) =>
+    attempted || touched[name] ? errors[name] : undefined;
 
   const handleSubmit = async () => {
-    if (!canSubmit) return;
+    if (status === "loading") return;
+    if (!canSubmit) {
+      // En vez de un botón muerto, marca los campos y explica qué falta.
+      setAttempted(true);
+      const firstBad = activeFields.find((f) => errors[f.name]);
+      if (firstBad) {
+        document
+          .getElementById(fieldId(firstBad.name))
+          ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
     setStatus("loading");
     setErrorMsg("");
 
@@ -98,8 +155,10 @@ export default function RamoForm({
     const detalles: Record<string, string> = {};
     for (const f of activeFields) {
       if (!isStandard(f.name)) {
-        const v = (values[f.name] || "").trim();
-        if (v) detalles[f.label] = v;
+        const raw = (values[f.name] || "").trim();
+        if (!raw) continue;
+        // Los montos viajan ya formateados: "$ 350.000.000 COP".
+        detalles[f.label] = f.type === "currency" ? copForSubmit(raw) : raw;
       }
     }
 
@@ -174,44 +233,90 @@ export default function RamoForm({
     );
   }
 
-  const inputCls =
-    "w-full px-4 py-3.5 rounded-xl border border-white/15 bg-white/[0.07] text-white placeholder-white/30 outline-none focus:border-accent focus:bg-white/[0.1] focus:ring-2 focus:ring-accent/25 transition-all text-[15px]";
+  const baseInputCls =
+    "w-full px-4 py-3.5 rounded-xl border bg-white/[0.07] text-white placeholder-white/40 outline-none focus:bg-white/[0.1] transition-all text-[15px]";
 
   const renderField = (f: FieldDef, forceFull = false) => {
-    const compact =
+    const isHalf =
       !forceFull &&
       f.half &&
       f.type !== "textarea" &&
-      (f.label?.length ?? 0) <= 20;
+      // 22 deja "¿Tiene obras de arte?" a media columna, en pareja con "¿Tiene joyas?"
+      (f.label?.length ?? 0) <= 22;
+    // Media columna en desktop, pero ancho completo en móvil para los tipos
+    // cuyo contenido no cabe a 360px (correo, fecha, montos).
+    const colSpan = !isHalf
+      ? "col-span-2"
+      : WIDE_ON_MOBILE.has(f.type ?? "")
+        ? "col-span-2 sm:col-span-1"
+        : "col-span-1";
+
+    const id = fieldId(f.name);
+    const err = visibleError(f.name);
+    const value = values[f.name] || "";
+    const inputCls = `${baseInputCls} ${
+      err
+        ? "border-red-400/60 focus:border-red-400 focus:ring-2 focus:ring-red-400/25"
+        : "border-white/15 focus:border-accent focus:ring-2 focus:ring-accent/25"
+    }`;
+
     return (
-      <div className={compact ? "col-span-1" : "col-span-2"}>
-        <label className="block text-[13px] font-medium text-white/55 mb-1.5">
+      <div className={colSpan}>
+        <label
+          htmlFor={id}
+          className="block text-[13px] font-medium text-white/70 mb-1.5"
+        >
           {f.label} {f.required && <span className="text-accent">*</span>}
         </label>
         {f.type === "select" ? (
           <SelectDropdown
-            value={values[f.name] || ""}
-            onChange={(v) => set(f.name, v)}
+            id={id}
+            value={value}
+            onChange={(v) => {
+              set(f.name, v);
+              markTouched(f.name);
+            }}
             options={f.options || []}
             placeholder={f.placeholder || "Selecciona…"}
+            invalid={!!err}
           />
         ) : f.type === "textarea" ? (
           <textarea
-            value={values[f.name] || ""}
+            id={id}
+            value={value}
             onChange={(e) => set(f.name, e.target.value)}
+            onBlur={() => markTouched(f.name)}
             rows={2}
             placeholder={f.placeholder}
             className={`${inputCls} resize-none`}
           />
-        ) : (
-          <input
-            type={f.type || "text"}
-            inputMode={f.type === "tel" ? "numeric" : undefined}
-            value={values[f.name] || ""}
-            onChange={(e) => set(f.name, e.target.value)}
-            placeholder={f.placeholder}
+        ) : f.type === "currency" ? (
+          <CurrencyInput
+            id={id}
+            value={value}
+            onChange={(v) => set(f.name, v)}
+            placeholder={f.placeholder || "0"}
             className={inputCls}
           />
+        ) : (
+          <input
+            id={id}
+            type={f.type || "text"}
+            inputMode={
+              f.type === "tel" || f.type === "number" ? "numeric" : undefined
+            }
+            max={f.max}
+            min={f.min}
+            value={value}
+            onChange={(e) => set(f.name, e.target.value)}
+            onBlur={() => markTouched(f.name)}
+            placeholder={f.placeholder}
+            aria-invalid={!!err}
+            className={inputCls}
+          />
+        )}
+        {err && (
+          <p className="mt-1.5 text-[12px] text-red-400 leading-snug">{err}</p>
         )}
       </div>
     );
@@ -250,10 +355,18 @@ export default function RamoForm({
         })}
       </div>
 
+      {attempted && !canSubmit && (
+        <p className="mt-4 text-center text-[13px] text-red-400">
+          Revisa los campos marcados en rojo para continuar.
+        </p>
+      )}
+
       <button
         onClick={handleSubmit}
-        disabled={!canSubmit || status === "loading"}
-        className="mt-6 w-full bg-accent hover:bg-accent-light text-primary font-bold py-4 rounded-xl transition-all hover:scale-[1.01] text-lg disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        disabled={status === "loading"}
+        className={`mt-4 w-full bg-accent hover:bg-accent-light text-primary font-bold py-4 rounded-xl transition-all hover:scale-[1.01] text-lg disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
+          canSubmit ? "" : "opacity-60 hover:scale-100"
+        }`}
       >
         {status === "loading" ? (
           <>

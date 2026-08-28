@@ -56,11 +56,21 @@ interface TouchedFields {
 
 // --- Validators ---
 
+// Acepta apellidos compuestos y con apóstrofe: "Gómez-Pinzón", "O'Connor",
+// "de la Espriella". Solo bloquea dígitos y símbolos que no van en un nombre.
+const NOMBRE_RE = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'’.-]+$/;
+
+/** Quita el indicativo de país para que pegar "+57 300 123 4567" funcione. */
+function normalizeCelular(v: string): string {
+  let digits = v.replace(/\D/g, "");
+  if (digits.length > 10 && digits.startsWith("57")) digits = digits.slice(2);
+  return digits.slice(0, 10);
+}
+
 function validateNombre(v: string): string | null {
   const trimmed = v.trim();
   if (!trimmed) return null;
-  if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(trimmed))
-    return "Ingresa tu nombre y apellido";
+  if (!NOMBRE_RE.test(trimmed)) return "Ingresa tu nombre y apellido";
   if (trimmed.length < 3) return "Ingresa tu nombre y apellido";
   if (trimmed.split(/\s+/).filter(Boolean).length < 2)
     return "Ingresa tu nombre y apellido";
@@ -68,11 +78,9 @@ function validateNombre(v: string): string | null {
 }
 
 function validateCelular(v: string): string | null {
-  const digits = v.replace(/\D/g, "");
+  const digits = normalizeCelular(v);
   if (!digits) return null;
-  if (digits.length !== 10)
-    return "Ingresa un celular colombiano válido (ej: 3001234567)";
-  if (!digits.startsWith("3"))
+  if (digits.length !== 10 || !digits.startsWith("3"))
     return "Ingresa un celular colombiano válido (ej: 3001234567)";
   return null;
 }
@@ -90,16 +98,11 @@ function isEmailValid(v: string): boolean {
 }
 
 function isNombreValid(v: string): boolean {
-  const trimmed = v.trim();
-  return (
-    /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(trimmed) &&
-    trimmed.length >= 3 &&
-    trimmed.split(/\s+/).filter(Boolean).length >= 2
-  );
+  return !validateNombre(v) && !!v.trim();
 }
 
 function isCelularValid(v: string): boolean {
-  const digits = v.replace(/\D/g, "");
+  const digits = normalizeCelular(v);
   return digits.length === 10 && digits.startsWith("3");
 }
 
@@ -115,6 +118,19 @@ function isOffHours(): boolean {
 
 function capitalizeWords(str: string): string {
   return str.replace(/(?:^|\s)[a-záéíóúñü]/g, (c) => c.toUpperCase());
+}
+
+/**
+ * Ordena el nombre al salir del campo, pero solo si el usuario no se molestó en
+ * usar mayúsculas (todo minúsculas o TODO MAYÚSCULAS). Si escribió
+ * "Juan de la Espriella", se respeta tal cual.
+ */
+function tidyNombre(str: string): string {
+  const v = str.trim().replace(/\s+/g, " ");
+  if (!v) return v;
+  const sinMayusculas = v === v.toLowerCase();
+  const todoMayusculas = v === v.toUpperCase();
+  return sinMayusculas || todoMayusculas ? capitalizeWords(v.toLowerCase()) : v;
 }
 
 // --- Constants ---
@@ -898,13 +914,19 @@ export default function CotizadorExpress() {
                       id="cot-nombre"
                       value={data.nombre}
                       onChange={(e) => {
-                        const raw = e.target.value.replace(
-                          /[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]/g,
-                          ""
-                        );
-                        update({ nombre: capitalizeWords(raw) });
+                        // Sin capitalizar al vuelo: reescribir en cada tecla
+                        // rompe "de la Espriella" y parpadea en móvil.
+                        update({
+                          nombre: e.target.value.replace(
+                            /[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'’.-]/g,
+                            ""
+                          ),
+                        });
                       }}
-                      onBlur={() => handleBlur("nombre")}
+                      onBlur={() => {
+                        update({ nombre: tidyNombre(data.nombre) });
+                        handleBlur("nombre");
+                      }}
                       error={errors.nombre}
                       touched={touched.nombre}
                       isValid={isNombreValid(data.nombre)}
@@ -927,10 +949,9 @@ export default function CotizadorExpress() {
                       id="cot-celular"
                       inputMode="numeric"
                       value={data.celular}
-                      onChange={(e) => {
-                        const v = e.target.value.replace(/\D/g, "").slice(0, 10);
-                        update({ celular: v });
-                      }}
+                      onChange={(e) =>
+                        update({ celular: normalizeCelular(e.target.value) })
+                      }
                       onBlur={() => handleBlur("celular")}
                       error={errors.celular}
                       touched={touched.celular}

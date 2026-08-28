@@ -9,14 +9,19 @@ export default function SelectDropdown({
   onChange,
   options,
   placeholder = "Selecciona…",
+  id,
+  invalid = false,
 }: {
   value: string;
   onChange: (v: string) => void;
   options: string[];
   placeholder?: string;
+  id?: string;
+  invalid?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const listboxId = `${id || "vt-select"}-listbox`;
 
   useEffect(() => {
     function onClick(e: MouseEvent) {
@@ -29,10 +34,22 @@ export default function SelectDropdown({
   return (
     <div ref={ref} className="relative">
       <button
+        id={id}
         type="button"
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-controls={listboxId}
+        aria-expanded={open}
+        aria-invalid={invalid}
         onClick={() => setOpen((o) => !o)}
         className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl border bg-white/[0.07] text-[15px] transition-all cursor-pointer ${
-          value ? "border-accent/40 text-white" : "border-white/15 text-white/30"
+          value ? "text-white" : "text-white/40"
+        } ${
+          invalid
+            ? "border-red-400/60"
+            : value
+              ? "border-accent/40"
+              : "border-white/15"
         } ${open ? "border-accent ring-2 ring-accent/25" : "hover:border-white/25"}`}
       >
         <span className="truncate">{value || placeholder}</span>
@@ -50,12 +67,16 @@ export default function SelectDropdown({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.15 }}
+            id={listboxId}
+            role="listbox"
             className="absolute z-50 top-full mt-2 w-full bg-[#162240] border border-white/10 rounded-xl shadow-2xl shadow-black/40 overflow-hidden max-h-[220px] overflow-y-auto custom-scrollbar"
           >
             {options.map((opt) => (
               <button
                 key={opt}
                 type="button"
+                role="option"
+                aria-selected={value === opt}
                 onClick={() => {
                   onChange(opt);
                   setOpen(false);

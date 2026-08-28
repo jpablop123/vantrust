@@ -6,11 +6,14 @@ import type { FieldDef } from "@/components/cotizador/RamoForm";
 const SEXO = ["Masculino", "Femenino", "Otro"];
 const SI_NO = ["Sí", "No"];
 
+// Nadie nace en el futuro: tope para los campos de fecha de nacimiento.
+const HOY = new Date().toISOString().slice(0, 10);
+
 export const RAMO_FIELDS: Record<string, FieldDef[]> = {
   salud: [
     { name: "nombre", label: "Nombre completo", required: true },
     { name: "documento", label: "Documento", required: true, half: true },
-    { name: "fecha_nacimiento", label: "Fecha de nacimiento", type: "date", half: true },
+    { name: "fecha_nacimiento", label: "Fecha de nacimiento", type: "date", half: true, max: HOY },
     { name: "sexo", label: "Sexo", type: "select", options: SEXO, half: true },
     { name: "ciudad", label: "Ciudad", half: true },
     { name: "celular", label: "Celular", type: "tel", required: true, half: true },
@@ -59,11 +62,12 @@ export const RAMO_FIELDS: Record<string, FieldDef[]> = {
     { name: "correo", label: "Correo", type: "email", required: true, half: true },
     { name: "celular", label: "Celular", type: "tel", required: true, half: true },
     { name: "direccion", label: "Dirección" },
-    { name: "valor_vivienda", label: "Valor asegurado de la vivienda", half: true },
-    { name: "valor_muebles", label: "Valor asegurado de muebles y enseres", half: true },
+    { name: "valor_vivienda", label: "Valor asegurado de la vivienda", type: "currency", half: true },
+    { name: "valor_muebles", label: "Valor asegurado de muebles y enseres", type: "currency", half: true },
     {
       name: "valor_electronicos",
       label: "Valor asegurado de equipos electrónicos",
+      type: "currency",
       half: true,
     },
     {
@@ -77,7 +81,7 @@ export const RAMO_FIELDS: Record<string, FieldDef[]> = {
         field: {
           name: "joyas_valor",
           label: "Valor asegurado de joyas",
-          placeholder: "$",
+          type: "currency",
         },
       },
     },
@@ -92,7 +96,7 @@ export const RAMO_FIELDS: Record<string, FieldDef[]> = {
         field: {
           name: "arte_valor",
           label: "Valor asegurado de obras de arte",
-          placeholder: "$",
+          type: "currency",
         },
       },
     },
@@ -100,17 +104,17 @@ export const RAMO_FIELDS: Record<string, FieldDef[]> = {
   vida: [
     { name: "nombre", label: "Nombre completo", required: true },
     { name: "documento", label: "Documento", required: true, half: true },
-    { name: "fecha_nacimiento", label: "Fecha de nacimiento", type: "date", half: true },
+    { name: "fecha_nacimiento", label: "Fecha de nacimiento", type: "date", half: true, max: HOY },
     { name: "profesion", label: "Profesión", half: true },
     { name: "ciudad", label: "Ciudad", half: true },
     { name: "correo", label: "Correo", type: "email", required: true, half: true },
     { name: "celular", label: "Celular", type: "tel", required: true, half: true },
-    { name: "valor_asegurado", label: "Valor asegurado", half: true },
+    { name: "valor_asegurado", label: "Valor asegurado", type: "currency", half: true },
   ],
   accidentes: [
     { name: "nombre", label: "Nombre completo", required: true },
     { name: "documento", label: "Documento", required: true, half: true },
-    { name: "edad", label: "Edad", type: "number", half: true },
+    { name: "edad", label: "Edad", type: "number", half: true, min: 0, max: 120 },
     { name: "profesion", label: "Profesión", half: true },
     { name: "ciudad", label: "Ciudad", half: true },
     { name: "correo", label: "Correo", type: "email", required: true, half: true },
@@ -118,7 +122,7 @@ export const RAMO_FIELDS: Record<string, FieldDef[]> = {
   ],
   exequial: [
     { name: "nombre", label: "Nombre completo", required: true },
-    { name: "personas", label: "Número de personas", type: "number", half: true },
+    { name: "personas", label: "Número de personas", type: "number", half: true, min: 1, max: 20 },
     { name: "ciudad", label: "Ciudad", half: true },
     { name: "celular", label: "Celular", type: "tel", required: true, half: true },
     { name: "correo", label: "Correo", type: "email", required: true, half: true },
@@ -126,9 +130,9 @@ export const RAMO_FIELDS: Record<string, FieldDef[]> = {
   viajes: [
     { name: "nombre", label: "Nombre completo", required: true },
     { name: "destino", label: "Destino", half: true },
-    { name: "viajeros", label: "Número de viajeros", type: "number", half: true },
-    { name: "fecha_salida", label: "Fecha de salida", type: "date", half: true },
-    { name: "fecha_regreso", label: "Fecha de regreso", type: "date", half: true },
+    { name: "viajeros", label: "Número de viajeros", type: "number", half: true, min: 1, max: 20 },
+    { name: "fecha_salida", label: "Fecha de salida", type: "date", half: true, min: HOY },
+    { name: "fecha_regreso", label: "Fecha de regreso", type: "date", half: true, min: HOY },
     { name: "edades", label: "Edades de los viajeros", half: true },
     { name: "correo", label: "Correo", type: "email", required: true, half: true },
     { name: "celular", label: "Celular", type: "tel", required: true, half: true },
