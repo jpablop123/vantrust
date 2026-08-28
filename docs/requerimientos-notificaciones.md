@@ -7,24 +7,19 @@ canal de notificación está configurado**, así que los leads no llegan a nadie
 
 ---
 
-**Asunto:** Dos pendientes para activar la llegada de leads — VanTrust
+**Asunto:** Acceso al DNS de vantrust.com.co
 
 Buen día,
 
-La página ya está publicada y los formularios funcionan, pero los leads todavía
-no le están llegando al equipo comercial. Para activarlo necesito dos cosas de
-su lado:
+Para activar el envío de correos de la página necesito acceso a los registros
+DNS del dominio en GoDaddy.
 
-**1. Agregar tres registros DNS en GoDaddy.** Les envío los valores exactos en
-los próximos días. No afectan el correo de la agencia: van en subdominios
-nuevos y el MX de Microsoft 365 queda intacto.
+La forma más simple es el Acceso delegado, que no implica compartir contraseñas:
+*Configuración de la cuenta → Acceso delegado → Invitar a alguien → mi correo →
+permiso "Administrar productos"*.
 
-**2. Crear un bot de Telegram.** Escribirle a **@BotFather** en Telegram,
-enviarle `/newbot` y compartirme el token que devuelve (por WhatsApp, no por
-correo). Aparte, crear un grupo con los asesores y agregar ahí el bot: a ese
-grupo llegarán los avisos.
-
-Con lo segundo los leads empiezan a llegar de una vez.
+El correo de la agencia no se ve afectado: solo agrego subdominios nuevos, el MX
+de Microsoft 365 queda intacto.
 
 Quedo atento.
 
