@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Heart, Home as HomeIcon } from "lucide-react";
 import { INSURERS, waLink } from "@/lib/site";
+import { HORARIOS, limiteDe } from "@/lib/horarios";
 import RamoForm from "@/components/cotizador/RamoForm";
 import { RAMO_FIELDS } from "@/data/formFields";
 
@@ -169,11 +170,7 @@ const cities = [
   "Otra",
 ];
 
-const horarioOptions = [
-  { id: "manana", label: "Mañana", desc: "8am - 12pm" },
-  { id: "tarde", label: "Tarde", desc: "12pm - 6pm" },
-  { id: "noche", label: "Noche", desc: "6pm - 8pm" },
-];
+const horarioOptions = HORARIOS;
 
 const insurers = INSURERS.slice(0, 6);
 
@@ -583,12 +580,7 @@ export default function CotizadorExpress() {
     }
   };
 
-  const getHorarioTime = () => {
-    if (data.horario === "manana") return "12:00 p.m.";
-    if (data.horario === "tarde") return "6:00 p.m.";
-    if (data.horario === "noche") return "8:00 p.m.";
-    return "aproximadamente 1 hora";
-  };
+  const getHorarioTime = () => limiteDe(data.horario);
 
   const firstName = data.nombre.trim().split(" ")[0] || "";
 
@@ -1009,7 +1001,7 @@ export default function CotizadorExpress() {
                             {h.label}
                           </span>
                           <span className="text-[10px] opacity-60">
-                            {h.desc}
+                            {h.rango}
                           </span>
                         </motion.button>
                       ))}

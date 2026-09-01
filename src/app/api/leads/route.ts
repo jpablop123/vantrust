@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getResend } from "@/lib/resend";
+import { HORARIO_LABELS } from "@/lib/horarios";
 
 // Anti-spam: track recent submissions by phone number
 const recentSubmissions = new Map<string, number>();
@@ -28,12 +29,7 @@ const INSURANCE_LABELS: Record<string, string> = {
   otro: "Otro / No está seguro",
 };
 
-const HORARIO_LABELS: Record<string, string> = {
-  manana: "Mañana (8am - 12pm)",
-  tarde: "Tarde (12pm - 5pm)",
-  noche: "Noche (5pm - 8pm)",
-  cualquiera: "Cualquier horario",
-};
+
 
 interface LeadData {
   nombre: string;
