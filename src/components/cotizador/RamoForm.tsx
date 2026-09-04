@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, Fragment } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle, Clock } from "lucide-react";
 import { waLink } from "@/lib/site";
 import SelectDropdown from "@/components/cotizador/SelectDropdown";
 import CurrencyInput from "@/components/cotizador/CurrencyInput";
 import { copForSubmit } from "@/lib/currency";
+import { GRACIAS_KEY } from "@/app/gracias/GraciasContent";
 
 export interface FieldDef {
   name: string;
@@ -52,6 +54,18 @@ const isTelField = (name: string) =>
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Nombre legible del ramo para el mensaje de la página de gracias.
+const RAMO_LABELS: Record<string, string> = {
+  salud: "Seguro de Salud",
+  hogar: "Seguro de Hogar",
+  vida: "Seguro de Vida",
+  accidentes: "Accidentes Personales",
+  exequial: "Seguro Exequial",
+  viajes: "Seguro de Viajes",
+  mascotas: "Seguro de Mascotas",
+  otro: "asesoría",
+};
+
 /**
  * Tipos cuyo valor necesita el ancho completo en móvil aunque el campo sea
  * `half`: un correo o un monto en pesos no caben en media columna a 360px.
@@ -87,6 +101,8 @@ export default function RamoForm({
   fuente?: string;
   submitLabel?: string;
 }) {
+  const router = useRouter();
+  const ramoLabel = RAMO_LABELS[tipoSeguro] || "tu seguro";
   const [values, setValues] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [attempted, setAttempted] = useState(false);
@@ -188,7 +204,18 @@ export default function RamoForm({
         }
         throw new Error("Error");
       }
-      setStatus("success");
+      // Se va a /gracias en vez de mostrar el mensaje aquí mismo: en móvil el
+      // bloque de éxito es más corto que el formulario y quedaba fuera de
+      // pantalla, así que parecía que no había pasado nada.
+      try {
+        sessionStorage.setItem(
+          GRACIAS_KEY,
+          JSON.stringify({ nombre: nombreVal.trim(), tipoSeguro: ramoLabel })
+        );
+      } catch {
+        // sessionStorage bloqueado: /gracias muestra el mensaje genérico.
+      }
+      router.push("/gracias");
     } catch {
       setErrorMsg("Hubo un problema, intenta de nuevo o escríbenos por WhatsApp");
       setStatus("error");

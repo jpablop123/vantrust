@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Car,
@@ -18,6 +19,7 @@ import { INSURERS, waLink } from "@/lib/site";
 import { HORARIOS, limiteDe } from "@/lib/horarios";
 import RamoForm from "@/components/cotizador/RamoForm";
 import { RAMO_FIELDS } from "@/data/formFields";
+import { GRACIAS_KEY } from "@/app/gracias/GraciasContent";
 
 type Ramo = "auto" | "salud" | "hogar";
 const ramoTabs: { id: Ramo; label: string; icon: typeof Car }[] = [
@@ -442,6 +444,7 @@ function ValidatedInput({
 // --- Main Component ---
 
 export default function CotizadorExpress() {
+  const router = useRouter();
   const [ramo, setRamo] = useState<Ramo>("auto");
   const [step, setStep] = useState<Step>(1);
 
@@ -573,7 +576,31 @@ export default function CotizadorExpress() {
         }
         throw new Error("Error");
       }
-      setTimeout(() => setStep("result"), 2500);
+      // Se deja correr la animación de carga y luego se va a /gracias, que
+      // lleva el mismo resumen. En móvil, mostrarlo aquí dejaba el mensaje
+      // fuera de pantalla y parecía que no había pasado nada.
+      setTimeout(() => {
+        try {
+          sessionStorage.setItem(
+            GRACIAS_KEY,
+            JSON.stringify({
+              nombre: data.nombre.trim(),
+              tipoSeguro: "Seguro de Automóvil",
+              resumen: [
+                { label: "Vehículo", value: carSummary },
+                { label: "Ciudad", value: data.city },
+                { label: "Celular", value: data.celular },
+                ...(data.horarioLabel
+                  ? [{ label: "Te llamamos", value: data.horarioLabel }]
+                  : []),
+              ].filter((r) => r.value),
+            })
+          );
+        } catch {
+          // sessionStorage bloqueado: /gracias muestra el mensaje genérico.
+        }
+        router.push("/gracias");
+      }, 2200);
     } catch {
       setSubmitError("Hubo un problema, intenta de nuevo");
       setStep(4);
