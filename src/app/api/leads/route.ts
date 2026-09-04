@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getResend } from "@/lib/resend";
 import { HORARIO_LABELS } from "@/lib/horarios";
+import {
+  leadEmailHtml,
+  confirmationEmailHtml,
+  escapeHtml,
+} from "@/lib/email-templates";
 
 // Anti-spam: track recent submissions by phone number
 const recentSubmissions = new Map<string, number>();
@@ -49,30 +54,6 @@ interface LeadData {
   detalles?: Record<string, string>;
 }
 
-// Los datos vienen del usuario: escaparlos antes de meterlos en el HTML del
-// correo evita que un lead pueda inyectar marcado en la bandeja del asesor.
-function escapeHtml(s: string): string {
-  return String(s ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function renderDetalleRows(detalles?: Record<string, string>): string {
-  if (!detalles) return "";
-  return Object.entries(detalles)
-    .filter(([, v]) => v && String(v).trim())
-    .map(
-      ([k, v]) => `
-      <tr style="border-top: 1px solid #f3f4f6;">
-        <td style="padding: 10px 16px 10px 0; color: #6b7280; font-size: 13px; vertical-align: top; width: 150px;">${escapeHtml(k)}</td>
-        <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${escapeHtml(String(v))}</td>
-      </tr>`
-    )
-    .join("");
-}
-
 // fetch() solo rechaza ante fallos de red, no ante un 4xx/5xx. Sin esto un
 // token vencido de Telegram/Sheets haría que el lead se perdiera en silencio.
 async function throwIfNotOk(res: Response, servicio: string) {
@@ -85,111 +66,33 @@ async function sendEmail(data: LeadData) {
   const resend = getResend();
   // Admite varios destinatarios separados por coma, para que más de un asesor
   // reciba el lead sin tener que tocar el código.
-  const commercialEmail = (
+  const destinatarios = (
     process.env.COMMERCIAL_EMAIL || "coordinador@vantrust.com.co"
   )
     .split(",")
     .map((e) => e.trim())
     .filter(Boolean);
+
   if (!resend) {
     console.warn("Email not configured (missing RESEND_API_KEY), skipping");
     return;
   }
 
   const tipoLabel = INSURANCE_LABELS[data.tipoSeguro] || data.tipoSeguro;
-  const horarioLabel = HORARIO_LABELS[data.horario] || data.horario || "No especificado";
-  const fecha = new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" });
+  const horarioLabel =
+    HORARIO_LABELS[data.horario] || data.horario || "No especificado";
+  const fecha = new Date().toLocaleString("es-CO", {
+    timeZone: "America/Bogota",
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
 
   await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL || "VanTrust <onboarding@resend.dev>",
-    to: commercialEmail,
+    to: destinatarios,
+    replyTo: data.email || undefined,
     subject: `Nuevo Lead - ${tipoLabel} | ${data.nombre.replace(/[\r\n]+/g, " ").slice(0, 80)}`,
-    html: `
-      <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden;">
-        <div style="background: linear-gradient(135deg, #0A1628 0%, #162240 100%); padding: 28px 24px;">
-          <table style="width: 100%;">
-            <tr>
-              <td>
-                <h1 style="color: #C9A84C; margin: 0; font-size: 22px; font-weight: 700;">VanTrust</h1>
-                <p style="color: rgba(255,255,255,0.6); margin: 4px 0 0; font-size: 13px;">Nuevo lead recibido</p>
-              </td>
-              <td style="text-align: right;">
-                <span style="background: #C9A84C; color: #0A1628; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;">${escapeHtml(tipoLabel)}</span>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div style="padding: 28px 24px; background: #ffffff;">
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr>
-              <td style="padding: 10px 0; color: #6b7280; font-size: 13px; width: 150px; vertical-align: top;">Nombre</td>
-              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px;">${escapeHtml(data.nombre)}</td>
-            </tr>
-            <tr style="border-top: 1px solid #f3f4f6;">
-              <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Email</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${data.email ? `<a href="mailto:${escapeHtml(data.email)}" style="color: #0A1628;">${escapeHtml(data.email)}</a>` : "No especificado"}</td>
-            </tr>
-            <tr style="border-top: 1px solid #f3f4f6;">
-              <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Teléfono</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;"><a href="tel:${escapeHtml(data.telefono)}" style="color: #0A1628;">${escapeHtml(data.telefono)}</a></td>
-            </tr>
-            <tr style="border-top: 1px solid #f3f4f6;">
-              <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Ciudad</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${escapeHtml(data.ciudad) || "No especificada"}</td>
-            </tr>
-            <tr style="border-top: 1px solid #f3f4f6;">
-              <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Tipo de seguro</td>
-              <td style="padding: 10px 0; font-weight: 600; color: #C9A84C; font-size: 14px;">${escapeHtml(tipoLabel)}</td>
-            </tr>
-            ${data.placa ? `
-            <tr style="border-top: 1px solid #f3f4f6;">
-              <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Placa</td>
-              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px; font-family: monospace; letter-spacing: 2px;">${escapeHtml(data.placa)}</td>
-            </tr>
-            ` : ""}
-            ${data.marca_carro ? `
-            <tr style="border-top: 1px solid #f3f4f6;">
-              <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Vehículo</td>
-              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px;">${escapeHtml(data.marca_carro || "")}${data.modelo_carro ? ` ${escapeHtml(data.modelo_carro)}` : ""}</td>
-            </tr>
-            ` : ""}
-            ${data.anno_carro ? `
-            <tr style="border-top: 1px solid #f3f4f6;">
-              <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Año del vehículo</td>
-              <td style="padding: 10px 0; font-weight: 600; color: #0A1628; font-size: 14px;">${escapeHtml(String(data.anno_carro))}</td>
-            </tr>
-            ` : ""}
-            ${data.uso_diario ? `
-            <tr style="border-top: 1px solid #f3f4f6;">
-              <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Uso diario</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${escapeHtml(data.uso_diario || "")}</td>
-            </tr>
-            ` : ""}
-            ${renderDetalleRows(data.detalles)}
-            <tr style="border-top: 1px solid #f3f4f6;">
-              <td style="padding: 10px 0; color: #6b7280; font-size: 13px;">Horario preferido</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px;">${escapeHtml(horarioLabel)}</td>
-            </tr>
-            ${data.mensaje ? `
-            <tr style="border-top: 1px solid #f3f4f6;">
-              <td style="padding: 10px 0; color: #6b7280; font-size: 13px; vertical-align: top;">Mensaje</td>
-              <td style="padding: 10px 0; color: #0A1628; font-size: 14px; line-height: 1.5;">${escapeHtml(data.mensaje)}</td>
-            </tr>
-            ` : ""}
-          </table>
-
-          <div style="margin-top: 20px; padding: 12px 16px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;">
-            <p style="margin: 0; color: #166534; font-size: 13px; font-weight: 600;">Acción requerida</p>
-            <p style="margin: 4px 0 0; color: #166534; font-size: 12px;">Contactar al cliente en el horario: ${escapeHtml(horarioLabel)}</p>
-          </div>
-        </div>
-        <div style="padding: 16px 24px; background: #f8f9fb; border-top: 1px solid #e5e7eb;">
-          <p style="color: #9ca3af; font-size: 11px; margin: 0; text-align: center;">
-            Recibido el ${fecha} | VanTrust - Agencia de Seguros
-          </p>
-        </div>
-      </div>
-    `,
+    html: leadEmailHtml(data, tipoLabel, horarioLabel, fecha),
   });
 }
 
@@ -197,36 +100,13 @@ async function sendConfirmationToCustomer(data: LeadData) {
   const resend = getResend();
   if (!resend || !data.email) return;
 
-  const waHref = `https://wa.me/573106083637?text=${encodeURIComponent(
-    "Hola, acabo de enviar una solicitud de cotización en la web"
-  )}`;
   const tipoLabel = INSURANCE_LABELS[data.tipoSeguro] || "seguro";
-  const firstName = (data.nombre || "").trim().split(" ")[0] || "";
 
   await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL || "VanTrust <onboarding@resend.dev>",
     to: data.email,
     subject: "¡Gracias por confiar en VanTrust! Recibimos tu solicitud",
-    html: `
-      <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 560px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden;">
-        <div style="background: linear-gradient(135deg, #002C55 0%, #003F7A 100%); padding: 32px 24px; text-align: center;">
-          <h1 style="color: #BFA15C; margin: 0; font-size: 24px; font-weight: 700;">VanTrust</h1>
-          <p style="color: rgba(255,255,255,0.7); margin: 6px 0 0; font-size: 13px;">Soluciones seguras para proteger lo que más valoras</p>
-        </div>
-        <div style="padding: 32px 28px; background: #ffffff; color: #1f2937;">
-          <h2 style="color: #002C55; font-size: 20px; margin: 0 0 12px;">¡Gracias por confiar en VanTrust${firstName ? `, ${escapeHtml(firstName)}` : ""}!</h2>
-          <p style="font-size: 15px; line-height: 1.6; margin: 0 0 8px;">Hemos recibido tu solicitud de cotización de <strong>${escapeHtml(tipoLabel)}</strong>.</p>
-          <p style="font-size: 15px; line-height: 1.6; margin: 0 0 20px;">Uno de nuestros asesores se comunicará contigo en un plazo aproximado de <strong>1 hora hábil</strong>.</p>
-          <p style="font-size: 14px; line-height: 1.6; color: #6b7280; margin: 0 0 20px;">Mientras tanto, puedes escribirnos directamente por WhatsApp:</p>
-          <div style="text-align: center; margin: 0 0 8px;">
-            <a href="${waHref}" style="display: inline-block; background: #16a34a; color: #ffffff; text-decoration: none; font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 999px;">Escribir por WhatsApp</a>
-          </div>
-        </div>
-        <div style="padding: 16px 24px; background: #f8f9fb; border-top: 1px solid #e5e7eb;">
-          <p style="color: #9ca3af; font-size: 11px; margin: 0; text-align: center;">Vantrust Agencia de Seguros LTDA. · +57 310 608 3637 · coordinador@vantrust.com.co</p>
-        </div>
-      </div>
-    `,
+    html: confirmationEmailHtml(data.nombre, tipoLabel),
   });
 }
 
