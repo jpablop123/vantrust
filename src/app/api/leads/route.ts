@@ -83,8 +83,14 @@ async function throwIfNotOk(res: Response, servicio: string) {
 
 async function sendEmail(data: LeadData) {
   const resend = getResend();
-  const commercialEmail =
-    process.env.COMMERCIAL_EMAIL || "coordinador@vantrust.com.co";
+  // Admite varios destinatarios separados por coma, para que más de un asesor
+  // reciba el lead sin tener que tocar el código.
+  const commercialEmail = (
+    process.env.COMMERCIAL_EMAIL || "coordinador@vantrust.com.co"
+  )
+    .split(",")
+    .map((e) => e.trim())
+    .filter(Boolean);
   if (!resend) {
     console.warn("Email not configured (missing RESEND_API_KEY), skipping");
     return;
