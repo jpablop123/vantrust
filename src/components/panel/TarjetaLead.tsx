@@ -69,6 +69,8 @@ function detalleEvento(e: EventoLead): string {
   const d = e.detalle as Record<string, string | number | undefined>;
   if (e.tipo === "creado") return [etiquetaRamo(String(d.tipo_seguro ?? "")), d.fuente].filter(Boolean).join(" · ");
   if (e.tipo === "asignado") return d.regla === "mismo_cliente" ? "mismo asesor de antes" : "por turno";
+  if (e.tipo === "reasignado")
+    return d.regla === "sin_atender" ? "automático: nadie lo atendió en 1 h" : d.masivo ? "en bloque" : d.a_nombre ? `a ${d.a_nombre}` : "";
   if (d.resultado) return textoResultado(String(d.resultado));
   if (d.motivo) return textoMotivo(String(d.motivo));
   if (d.prima) return `${pesos(Number(d.prima))} · ${d.aseguradora ?? ""}`;

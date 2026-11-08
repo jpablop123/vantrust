@@ -12,6 +12,7 @@ El panel vive en `/panel` (rama `feat/panel-leads`). Usa Supabase para dos cosas
    4. `20261109000100_panel_cola.sql` (etapas, asignación por turnos e historial)
    5. `20261109000200_panel_accesos_leads.sql` (cierra la API pública y registra quién ve cada lead)
    6. `20261109000300_panel_ventas.sql` (ventas, renovaciones, comisión y participación)
+   7. `20261109000400_panel_sin_atender.sql` (alerta y reasignación de leads sin atender)
 
    Las siguientes partes del panel agregan más migraciones; se aplican igual.
 3. En **Authentication > Sign In / Providers**, deja activo "Email" y **desactiva "Allow new users to sign up"**. Las cuentas solo las crea el admin.
@@ -47,6 +48,38 @@ El script muestra una contraseña temporal una sola vez. Después se cambia en `
 - Cada lead nuevo del sitio se asigna por turnos entre los asesores con `rol = asesor`, `activo = true` y `acceso = true`. Los admin no entran en la rotación. Si el mismo teléfono ya tuvo asesor, vuelve con él. Lo hace la función `asignar_lead` de la base de datos, con un candado para que dos leads simultáneos no se crucen.
 - Si el asesor tiene `telegram_chat_id`, el bot le escribe por privado cuando le llega un lead. Para obtener su chat id, el asesor le escribe al bot y se consulta `https://api.telegram.org/bot<TOKEN>/getUpdates`. El aviso al grupo sigue igual.
 - Sin asesores activos, el lead queda sin asignar y el admin lo ve en "Todos los leads".
+
+## Leads sin atender
+
+- Un lead está "atendido" cuando el asesor asignado abrió WhatsApp, llamó o registró un contacto desde el panel.
+- A los **5 minutos** sin atender, Telegram a los admin con chat configurado (si ninguno tiene, al grupo del equipo).
+- A la **hora**, se reasigna al siguiente asesor por turno y se avisa al nuevo asesor y al admin. El reloj vuelve a empezar. Como máximo se reasigna 2 veces; después queda en manos del admin.
+- El reloj solo corre en horario laboral: lunes a viernes de 8:00 a 19:00, hora de Colombia (`HORARIO` en `src/lib/panel/sin-atender.ts`).
+- Lo ejecuta `GET /api/cron/leads-sin-atender` cada minuto, con el encabezado `Authorization: Bearer <CRON_SECRET>`.
+
+### Programarlo cada minuto (Supabase pg_cron)
+
+Vercel solo permite crons diarios en el plan gratis, así que el disparo cada minuto lo hace Supabase:
+
+1. En Vercel, define `CRON_SECRET` (Production y Preview), un texto largo al azar.
+2. En Supabase: **Database > Extensions**, activa `pg_cron` y `pg_net`.
+3. En **SQL Editor**, con tu dominio y el mismo secreto:
+
+```sql
+select vault.create_secret('EL_MISMO_CRON_SECRET', 'vantrust_cron_secret');
+
+select cron.schedule('vantrust-leads-sin-atender', '* * * * *', $$
+  select net.http_get(
+    url := 'https://vantrust.com.co/api/cron/leads-sin-atender',
+    headers := jsonb_build_object(
+      'Authorization',
+      'Bearer ' || (select decrypted_secret from vault.decrypted_secrets where name = 'vantrust_cron_secret')
+    )
+  );
+$$);
+```
+
+Para pausarlo: `select cron.unschedule('vantrust-leads-sin-atender');`
 
 ## Ventas y comisión
 
