@@ -31,6 +31,12 @@ export async function iniciarSesion(_: EstadoForm, form: FormData): Promise<Esta
   const { error } = await auth.auth.signInWithPassword({ email, password });
   if (error) {
     await registrarAcceso("login_fallido", email, { ip, userAgent });
+    // El motivo va al log del servidor (nunca la contraseña) para diagnosticar.
+    console.warn("panel login fallido:", { email, codigo: error.code, estado: error.status });
+    // Supabase solo responde "no confirmado" si la contraseña era correcta,
+    // así que este mensaje no le revela nada a quien no la sabe.
+    if (error.code === "email_not_confirmed")
+      return { error: "Tu cuenta existe pero no está confirmada. En Supabase > Authentication > Users, confírmala (o créala con Auto Confirm User)." };
     // Mismo mensaje para correo inexistente y contraseña errada.
     return { error: "Correo o contraseña incorrectos." };
   }
