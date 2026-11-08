@@ -37,7 +37,7 @@ export async function avisarAsesor(leadId: string, asesorId: string, reasignado 
       `<b>${esc(lead.nombre)}</b> · ${esc(etiquetaRamo(lead.tipo_seguro))}`,
       `📱 ${esc(lead.telefono)}`,
       lead.fuente ? `🔗 ${esc(lead.fuente)}` : "",
-      base ? `\nÁbrelo en el panel: ${base}/panel` : "",
+      base ? `\n👉 <a href="${base}/panel?lead=${leadId}">Abrir este lead en el panel</a>` : "",
     ]
       .filter(Boolean)
       .join("\n"),

@@ -29,7 +29,9 @@ export async function proxy(request: NextRequest) {
   if (!data.user && !PUBLICAS.some((p) => ruta.startsWith(p))) {
     const login = request.nextUrl.clone();
     login.pathname = "/panel/login";
-    login.search = "";
+    // Para volver al mismo lugar después de entrar (p. ej. el enlace de Telegram).
+    const volver = ruta + request.nextUrl.search;
+    login.search = volver !== "/panel" ? `?next=${encodeURIComponent(volver)}` : "";
     return NextResponse.redirect(login);
   }
   return response;

@@ -104,3 +104,12 @@ export async function registrarAcceso(
     // el registro de accesos es informativo
   }
 }
+
+/**
+ * A dónde volver después de entrar: solo rutas internas del panel, nunca
+ * otro sitio (evita redirecciones abiertas como "//otro.com").
+ */
+export function destinoSeguro(next: unknown): string {
+  const v = typeof next === "string" ? next : "";
+  return /^\/panel(?:[/?#]|$)/.test(v) && !v.startsWith("//") && !/[\\\s]/.test(v) ? v : "/panel";
+}

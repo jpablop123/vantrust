@@ -28,6 +28,7 @@ export default function OrdenAdmin({ valor }: { valor: Orden }) {
         if (v === "recientes") p.delete("orden");
         else p.set("orden", v);
         p.delete("pagina");
+        p.delete("lead");
         router.push(`${ruta}${p.toString() ? `?${p}` : ""}`);
       }}
     />

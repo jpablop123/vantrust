@@ -27,7 +27,7 @@ export default async function VistaAdmin({
 
   const url = (cambios: Record<string, string>) => {
     const p = new URLSearchParams();
-    for (const [k, v] of Object.entries(sp)) if (typeof v === "string" && v) p.set(k, v);
+    for (const [k, v] of Object.entries(sp)) if (typeof v === "string" && v && k !== "lead") p.set(k, v);
     for (const [k, v] of Object.entries(cambios)) { if (v) p.set(k, v); else p.delete(k); }
     return `/panel${p.toString() ? `?${p}` : ""}`;
   };
@@ -36,6 +36,12 @@ export default async function VistaAdmin({
 
   return (
     <div className="space-y-5">
+      {filtros.lead && (
+        <div className="flex flex-wrap items-center justify-between gap-2 text-sm bg-accent/10 border border-accent/30 rounded-xl px-4 py-3">
+          <span className="text-primary">{leads.length ? "Estás viendo el lead del aviso." : "Ese lead ya no existe."}</span>
+          <Link href="/panel" className="font-bold text-primary underline underline-offset-2">Ver todos los leads</Link>
+        </div>
+      )}
       <FiltrosAdmin filtros={filtros} asesores={asesores} />
 
       <nav aria-label="Etapas" className="flex gap-2 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0">
@@ -79,6 +85,7 @@ export default async function VistaAdmin({
               verAsesor
               nombreMiembro={nombreMiembro}
               asesores={asesores}
+              abrirInicial={l.id === filtros.lead}
             />
           ))}
         </div>

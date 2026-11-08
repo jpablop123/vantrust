@@ -26,6 +26,7 @@ export default function FiltrosAdmin({ filtros, asesores }: { filtros: Filtros; 
     const p = new URLSearchParams(sp.toString());
     for (const [k, v] of Object.entries(cambios)) { if (v) p.set(k, v); else p.delete(k); }
     p.delete("pagina");
+    p.delete("lead");
     router.push(`${ruta}${p.toString() ? `?${p}` : ""}`);
   };
 

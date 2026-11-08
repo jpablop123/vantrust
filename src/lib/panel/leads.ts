@@ -137,6 +137,8 @@ export interface FiltrosAdmin {
   q: string;
   orden: Orden;
   pagina: number;
+  /** Un lead puntual (enlace de Telegram): ignora los demás filtros. */
+  lead: string;
 }
 
 /** Lee los filtros de la URL. Todo lo que no esté en la lista blanca se ignora. */
@@ -156,6 +158,7 @@ export function leerFiltros(sp: Record<string, string | string[] | undefined>): 
     q: v("q").slice(0, 60),
     orden: ORDENES.includes(v("orden") as Orden) ? (v("orden") as Orden) : "recientes",
     pagina: Math.max(1, Math.min(200, parseInt(v("pagina")) || 1)),
+    lead: UUID.test(v("lead")) ? v("lead") : "",
   };
 }
 
@@ -209,6 +212,13 @@ export async function leadsAdmin(f: FiltrosAdmin) {
       return q.order("ultimo_contacto_at", { ascending: false, nullsFirst: false }).order("created_at", { ascending: false });
     return q.order("created_at", { ascending: false });
   };
+
+  if (f.lead) {
+    const { data, error } = await db.from("leads").select(COLUMNAS).eq("id", f.lead).limit(1);
+    if (error) throw new Error(`leadsAdmin: ${error.message}`);
+    const leads = (data as unknown as FilaLead[]).map(aLead);
+    return { leads, total: leads.length, conteos: {} as Record<Pestana, number> };
+  }
 
   const desde = (f.pagina - 1) * POR_PAGINA;
   const [lista, ...conteos] = await Promise.all([

@@ -1,11 +1,16 @@
 import { redirect } from "next/navigation";
 import TarjetaAcceso from "@/components/panel/TarjetaAcceso";
-import { miembroActual } from "@/lib/panel/sesion";
+import { destinoSeguro, miembroActual } from "@/lib/panel/sesion";
 import FormLogin from "./FormLogin";
 
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const destino = destinoSeguro((await searchParams).next);
   const r = await miembroActual();
-  if (r.ok) redirect("/panel");
+  if (r.ok) redirect(destino);
   return (
     <TarjetaAcceso titulo="Entrar al panel" subtitulo="Leads y seguimiento del equipo VanTrust.">
       {r.motivo === "sin_configurar" ? (
@@ -14,7 +19,7 @@ export default async function LoginPage() {
           SUPABASE_URL, SUPABASE_ANON_KEY y SUPABASE_SERVICE_ROLE_KEY.
         </p>
       ) : (
-        <FormLogin />
+        <FormLogin destino={destino} />
       )}
     </TarjetaAcceso>
   );

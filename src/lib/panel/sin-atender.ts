@@ -89,6 +89,8 @@ export async function revisarSinAtender(ahora = new Date()): Promise<ResultadoRe
     );
 
   const base = process.env.SITE_URL || "";
+  /** Enlace directo al lead (si hay que entrar, el login devuelve ahí). */
+  const enlace = (id: string) => (base ? `\n👉 <a href="${base}/panel?lead=${id}">Abrir este lead</a>` : "");
   for (const l of leads) {
     if (tomado(l)) continue;
     const desde = new Date(l.asignado_at ?? l.created_at);
@@ -105,7 +107,7 @@ export async function revisarSinAtender(ahora = new Date()): Promise<ResultadoRe
         await avisarAsesor(l.id, nuevo as string, true).catch(() => {});
         await avisarAdmins(
           db,
-          `🔁 <b>Lead reasignado por no atenderlo en 1 h</b>\n\n${quien}\nDe ${esc(asesor ?? "?")} a <b>${esc(n?.nombre ?? "?")}</b>.${base ? `\n${base}/panel` : ""}`
+          `🔁 <b>Lead reasignado por no atenderlo en 1 h</b>\n\n${quien}\nDe ${esc(asesor ?? "?")} a <b>${esc(n?.nombre ?? "?")}</b>.${enlace(l.id)}`
         ).catch(() => {});
       }
       continue;
@@ -118,8 +120,8 @@ export async function revisarSinAtender(ahora = new Date()): Promise<ResultadoRe
             ultimo
               ? "Ya se reasignó dos veces: queda en tus manos."
               : "Si en 1 hora sigue sin atenderlo, se reasigna solo."
-          }${base ? `\n${base}/panel` : ""}`
-        : `⏰ <b>Lead sin asignar hace ${min} min</b>\n\n${quien}\nNo hay asesores activos para recibirlo. Asígnalo desde el panel.${base ? `\n${base}/panel` : ""}`;
+          }${enlace(l.id)}`
+        : `⏰ <b>Lead sin asignar hace ${min} min</b>\n\n${quien}\nNo hay asesores activos para recibirlo. Asígnalo desde el panel.${enlace(l.id)}`;
       try {
         await avisarAdmins(db, html);
         await db.from("leads").update({ alerta_admin_at: ahora.toISOString() }).eq("id", l.id);

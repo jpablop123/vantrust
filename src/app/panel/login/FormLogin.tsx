@@ -5,10 +5,11 @@ import Link from "next/link";
 import { iniciarSesion } from "@/app/panel/acciones";
 import { botonAcceso, errorAcceso, inputAcceso, labelAcceso } from "@/components/panel/campos";
 
-export default function FormLogin() {
+export default function FormLogin({ destino = "/panel" }: { destino?: string }) {
   const [estado, accion, enviando] = useActionState(iniciarSesion, undefined);
   return (
     <form action={accion} className="space-y-4">
+      <input type="hidden" name="next" value={destino} />
       {estado?.error && <p role="alert" className={errorAcceso}>{estado.error}</p>}
       <div>
         <label htmlFor="email" className={labelAcceso}>Correo</label>

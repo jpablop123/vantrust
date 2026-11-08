@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { miembroActual, registrarAcceso, supabaseAuth } from "@/lib/panel/sesion";
+import { destinoSeguro, miembroActual, registrarAcceso, supabaseAuth } from "@/lib/panel/sesion";
 
 export type EstadoForm = { error?: string; ok?: string } | undefined;
 
@@ -48,7 +48,7 @@ export async function iniciarSesion(_: EstadoForm, form: FormData): Promise<Esta
     return { error: "Tu cuenta no tiene acceso al panel. Pídele acceso al administrador." };
   }
   await registrarAcceso("login", email, { asesorId: r.miembro.id, ip, userAgent });
-  redirect("/panel");
+  redirect(destinoSeguro(form.get("next")));
 }
 
 export async function cerrarSesion() {
