@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LegalLayout from "@/components/LegalLayout";
 import TermsContent from "./TermsContent";
 
-export const metadata: Metadata = {
-  title: "Términos de Uso | VanTrust",
+export const metadata: Metadata = buildMetadata({
+  title: "Términos de uso | VanTrust",
   description:
-    "Términos y condiciones de uso del sitio web de VanTrust, agencia de seguros en Colombia.",
-};
+    "Términos y condiciones de uso del sitio web de VanTrust, agencia de seguros en Barranquilla, Colombia.",
+  path: "/terminos-de-uso",
+});
 
 export default function TerminosDeUso() {
   return (

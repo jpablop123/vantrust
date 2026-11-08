@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { waLink } from "@/lib/site";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { PYME_A_SLUG } from "@/data/seo/pymes";
 
 /**
  * Botón flotante de WhatsApp en todo el sitio. En una página de producto abre
@@ -13,9 +14,12 @@ export default function WhatsAppFloat() {
   const pathname = usePathname() || "/";
 
   // /gracias ya tiene su propio botón con el resumen del lead.
-  if (pathname.startsWith("/gracias")) return null;
+  // Las landings de anuncios (/l/*) tienen su propia barra con el mensaje de la landing.
+  if (pathname.startsWith("/gracias") || pathname.startsWith("/l/")) return null;
 
-  const ramo = pathname.match(/^\/seguros\/([^/]+)/)?.[1];
+  // /seguros/<slug> y /pymes/<poliza> (que se traduce al slug de seguros.ts).
+  const [, seccion, slug] = pathname.match(/^\/(seguros|pymes)\/([^/]+)/) ?? [];
+  const ramo = seccion === "pymes" ? PYME_A_SLUG[slug] : slug;
 
   return (
     <a

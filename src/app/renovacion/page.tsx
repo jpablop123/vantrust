@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import { BellRing, Scale, Headphones, ShieldCheck } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ShieldMotif from "@/components/ShieldMotif";
 import RenovacionForm from "@/components/RenovacionForm";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Renueva tu póliza comparando aseguradoras | VanTrust",
   description:
     "¿Cuándo vence tu seguro de auto, hogar, salud o empresa? Te avisamos 30 días antes y te comparamos varias aseguradoras con un asesor humano. Sin costo.",
-};
+  path: "/renovacion",
+});
 
 const BENEFICIOS = [
   {

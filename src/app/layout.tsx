@@ -3,6 +3,9 @@ import { Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Tracking from "@/components/Tracking";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import JsonLd from "@/components/seo/JsonLd";
+import { NEGOCIO } from "@/lib/negocio";
+import { OG_IMAGE, SITE_URL, insuranceAgencyLd, websiteLd } from "@/lib/seo";
 import "./globals.css";
 
 // Tipografía secundaria y de apoyo: Montserrat (Regular + Bold Italic)
@@ -15,42 +18,13 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
+// Base de metadata. Sin canonical aquí: cada página declara el suyo con
+// buildMetadata() (si no, heredarían el canonical del home).
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vantrust.vercel.app"),
-  title: "VanTrust | Agencia de Seguros en Colombia",
-  description:
-    "Soluciones seguras para proteger lo que más valoras. Comparamos las principales aseguradoras del país para ayudarte a encontrar la mejor opción en precio y cobertura. Cotiza gratis para personas y empresas.",
-  keywords: [
-    "seguros Colombia",
-    "seguro vehicular",
-    "seguro de salud",
-    "seguro de hogar",
-    "seguro de vida",
-    "seguros empresariales",
-    "cotizar seguros",
-    "agencia de seguros",
-    "Allianz",
-    "AXA Colpatria",
-    "Seguros Bolívar",
-    "Sura",
-    "Zurich",
-  ],
-  openGraph: {
-    title: "VanTrust | Agencia de Seguros en Colombia",
-    description:
-      "Soluciones seguras para proteger lo que más valoras. Comparamos las principales aseguradoras del país. Asesoría gratuita.",
-    siteName: "VanTrust",
-    images: [{ url: "/vantrust-banner.jpeg", width: 1920, height: 1080 }],
-    locale: "es_CO",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "VanTrust | Agencia de Seguros en Colombia",
-    description:
-      "Comparamos las principales aseguradoras del país para proteger lo que más valoras.",
-    images: ["/vantrust-banner.jpeg"],
-  },
+  metadataBase: new URL(SITE_URL),
+  title: "VanTrust | Agencia de seguros en Barranquilla",
+  description: NEGOCIO.descripcion,
+  openGraph: { siteName: "VanTrust", locale: "es_CO", type: "website", images: [OG_IMAGE] },
 };
 
 export default function RootLayout({
@@ -61,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${montserrat.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
+        <JsonLd data={[insuranceAgencyLd(), websiteLd()]} />
         {children}
         <WhatsAppFloat />
         <Tracking />

@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import {
   Car,
   Home,
@@ -58,4 +59,9 @@ export const SEGURO_ICONS: Record<string, LucideIcon> = {
 
 export function getSeguroIcon(name: string): LucideIcon {
   return SEGURO_ICONS[name] ?? Shield;
+}
+
+/** Icono de un ramo por nombre, sin crear componentes durante el render. */
+export function SeguroIcon({ name, className }: { name: string; className?: string }) {
+  return createElement(getSeguroIcon(name), { className });
 }

@@ -3,21 +3,25 @@ import Link from "next/link";
 import { ArrowUpRight, User, Building2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getSeguroIcon } from "@/components/seguros/icons";
+import { SeguroIcon } from "@/components/seguros/icons";
 import ShieldMotif from "@/components/ShieldMotif";
 import { PERSONAS, EMPRESAS, type Seguro } from "@/data/seguros";
+import { urlSeguro } from "@/data/seo/paginas";
+import { buildMetadata } from "@/lib/seo";
+import Breadcrumbs from "@/components/seo/Breadcrumbs";
+import { INSURERS } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Nuestros Seguros | VanTrust",
+export const metadata: Metadata = buildMetadata({
+  title: "Seguros para personas y empresas | VanTrust",
   description:
-    "Seguros para personas y empresas: automóviles, hogar, vida, salud, empresariales y más. Comparamos las principales aseguradoras del país para proteger lo que más valoras.",
-};
+    "Seguros de carro, hogar, vida, salud y pólizas empresariales. Comparamos 10 aseguradoras para darte la mejor opción. Cotiza gratis con VanTrust.",
+  path: "/seguros",
+});
 
 function SeguroCard({ seguro }: { seguro: Seguro }) {
-  const Icon = getSeguroIcon(seguro.icon);
   return (
     <Link
-      href={`/seguros/${seguro.slug}`}
+      href={urlSeguro(seguro.slug)}
       className="card-accent-top group relative bg-gradient-to-b from-white to-surface rounded-2xl border border-primary/10 hover:border-accent/40 p-6 shadow-[0_2px_12px_rgba(0,44,85,0.05)] hover:shadow-[0_16px_40px_-12px_rgba(0,44,85,0.22)] hover:-translate-y-1 transition-all duration-300 flex flex-col"
     >
       {seguro.destacado && (
@@ -26,7 +30,7 @@ function SeguroCard({ seguro }: { seguro: Seguro }) {
         </span>
       )}
       <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/[0.07] to-primary/[0.02] border border-primary/5 text-primary group-hover:from-accent group-hover:to-accent-dark group-hover:text-white group-hover:border-transparent flex items-center justify-center transition-all duration-300 mb-4 shadow-sm">
-        <Icon className="w-6 h-6" />
+        <SeguroIcon name={seguro.icon} className="w-6 h-6" />
       </div>
       <h3 className="text-base font-bold text-primary mb-1.5">{seguro.nombre}</h3>
       <p className="text-muted text-sm leading-relaxed line-clamp-3 flex-1">
@@ -53,6 +57,9 @@ export default function SegurosIndex() {
         <ShieldMotif className="absolute -right-24 -top-10 w-[420px] h-[500px] opacity-[0.05] hidden md:block" />
         <ShieldMotif className="absolute -left-28 top-16 w-[360px] h-[440px] opacity-[0.04] hidden md:block" />
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="flex justify-center mb-6">
+            <Breadcrumbs migas={[{ nombre: "Seguros", path: "/seguros" }]} />
+          </div>
           <span className="inline-flex items-center gap-2 bg-white/5 border border-accent/25 text-accent px-4 py-1.5 rounded-full text-sm font-medium mb-6 backdrop-blur-sm">
             <span className="w-2 h-2 bg-accent rounded-full" />
             Nuestros Seguros
@@ -70,7 +77,7 @@ export default function SegurosIndex() {
             <span className="hidden sm:inline text-white/15">·</span>
             <span>{EMPRESAS.length} seguros para empresas</span>
             <span className="hidden sm:inline text-white/15">·</span>
-            <span>10 aseguradoras aliadas</span>
+            <span>{INSURERS.length} aseguradoras aliadas</span>
           </div>
         </div>
       </header>
