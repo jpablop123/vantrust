@@ -55,7 +55,7 @@ export default async function LandingPage({
             rel="noopener noreferrer"
             className="hidden sm:inline-flex items-center gap-2 text-white/80 hover:text-white text-sm font-medium"
           >
-            <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
+            <WhatsAppIcon className="w-4 h-4 text-green-500" />
             Escríbenos
           </a>
         </header>
@@ -100,7 +100,7 @@ export default async function LandingPage({
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#1ebe5b] text-white font-semibold py-3.5 rounded-xl transition-colors"
+                className="inline-flex items-center justify-center gap-2 w-full bg-green-600 hover:bg-green-500 text-white font-semibold py-3.5 rounded-xl transition-colors"
               >
                 <WhatsAppIcon />
                 Hablar por WhatsApp
@@ -142,7 +142,7 @@ export default async function LandingPage({
           href={wa}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white font-bold py-3.5 rounded-xl"
+          className="flex items-center justify-center gap-2 w-full bg-green-600 text-white font-bold py-3.5 rounded-xl"
         >
           <WhatsAppIcon />
           Cotizar por WhatsApp

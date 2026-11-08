@@ -2,7 +2,6 @@
 
 import { useId, useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import SelectDropdown from "@/components/cotizador/SelectDropdown";
 import { crearLead } from "@/lib/leads-client";
 import { trackInicioCotizacion } from "@/lib/tracking";
@@ -113,12 +112,12 @@ export default function PasoContacto({
   };
 
   const inputCls = (err: string | null | undefined) =>
-    `w-full px-4 py-3.5 rounded-xl border bg-white/[0.07] text-white placeholder-white/40 outline-none focus:bg-white/[0.1] transition-all text-[16px] ${
+    `w-full px-4 py-3.5 rounded-xl border bg-white/[0.07] text-white placeholder-white/30 outline-none focus:bg-white/[0.1] transition-all text-[16px] ${
       err
         ? "border-red-400/60 focus:border-red-400 focus:ring-2 focus:ring-red-400/25"
         : "border-white/15 focus:border-accent focus:ring-2 focus:ring-accent/25"
     }`;
-  const labelCls = "block text-[13px] font-medium text-white/70 mb-1.5";
+  const labelCls = "block text-[13px] font-medium text-white/55 mb-1.5";
   const errCls = "mt-1.5 text-[12px] text-red-400 leading-snug";
 
   return (
@@ -243,10 +242,7 @@ export default function PasoContacto({
             Enviando…
           </>
         ) : (
-          <>
-            {submitLabel}
-            <ArrowRight className="w-5 h-5" />
-          </>
+          submitLabel
         )}
       </button>
       <p className="text-white/35 text-xs text-center">

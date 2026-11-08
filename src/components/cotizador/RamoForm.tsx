@@ -226,7 +226,7 @@ export default function RamoForm({
   };
 
   const baseInputCls =
-    "w-full px-4 py-3.5 rounded-xl border bg-white/[0.07] text-white placeholder-white/40 outline-none focus:bg-white/[0.1] transition-all text-[15px]";
+    "w-full px-4 py-3.5 rounded-xl border bg-white/[0.07] text-white placeholder-white/30 outline-none focus:bg-white/[0.1] transition-all text-[15px]";
 
   const renderField = (f: FieldDef, forceFull = false) => {
     const isHalf =
@@ -256,7 +256,7 @@ export default function RamoForm({
       <div className={colSpan}>
         <label
           htmlFor={id}
-          className="block text-[13px] font-medium text-white/70 mb-1.5"
+          className="block text-[13px] font-medium text-white/55 mb-1.5"
         >
           {f.label} {f.required && <span className="text-accent">*</span>}
         </label>
@@ -382,7 +382,7 @@ export default function RamoForm({
       <button
         onClick={handleSubmit}
         disabled={status === "loading"}
-        className={`mt-4 w-full bg-accent hover:bg-accent-light text-primary font-bold py-4 rounded-xl transition-all hover:scale-[1.01] text-lg disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
+        className={`mt-6 w-full bg-accent hover:bg-accent-light text-primary font-bold py-4 rounded-xl transition-all hover:scale-[1.01] text-lg disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
           canSubmit ? "" : "opacity-60 hover:scale-100"
         }`}
       >

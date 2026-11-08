@@ -116,7 +116,7 @@ export default function RenovacionForm() {
           })}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5b] text-white font-semibold px-6 py-3.5 rounded-xl transition-colors"
+          className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-semibold px-6 py-3.5 rounded-xl transition-colors"
         >
           <WhatsAppIcon />
           ¿No quieres esperar? Escríbenos ya
@@ -126,12 +126,12 @@ export default function RenovacionForm() {
   }
 
   const inputCls = (err: string | null | undefined) =>
-    `w-full px-4 py-3.5 rounded-xl border bg-white/[0.07] text-white placeholder-white/40 outline-none focus:bg-white/[0.1] transition-all text-[16px] ${
+    `w-full px-4 py-3.5 rounded-xl border bg-white/[0.07] text-white placeholder-white/30 outline-none focus:bg-white/[0.1] transition-all text-[16px] ${
       err
         ? "border-red-400/60 focus:border-red-400 focus:ring-2 focus:ring-red-400/25"
         : "border-white/15 focus:border-accent focus:ring-2 focus:ring-accent/25"
     }`;
-  const labelCls = "block text-[13px] font-medium text-white/70 mb-1.5";
+  const labelCls = "block text-[13px] font-medium text-white/55 mb-1.5";
   const errCls = "mt-1.5 text-[12px] text-red-400 leading-snug";
   const err = (k: string) => ver(k) && <p className={errCls}>{ver(k)}</p>;
 

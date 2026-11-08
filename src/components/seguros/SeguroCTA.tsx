@@ -19,12 +19,12 @@ export function formHref(seguro: Seguro): string | null {
 export function SeguroBotones({ seguro }: { seguro: Seguro }) {
   const form = formHref(seguro);
   return (
-    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
       <a
         href={waLink({ ramo: seguro.slug })}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1ebe5b] text-white font-bold px-7 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105 shadow-lg shadow-black/20"
+        className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"
       >
         <WhatsAppIcon />
         Cotizar por WhatsApp
@@ -32,7 +32,7 @@ export function SeguroBotones({ seguro }: { seguro: Seguro }) {
       {form && (
         <a
           href={form}
-          className="inline-flex items-center justify-center gap-2 border-2 border-white/20 hover:border-white/40 text-white font-medium px-7 py-4 rounded-full text-base transition-all duration-200"
+          className="inline-flex items-center justify-center gap-2 border-2 border-white/20 hover:border-white/40 text-white font-medium px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"
         >
           Prefiero que me llamen
           <ArrowRight className="w-4 h-4" />

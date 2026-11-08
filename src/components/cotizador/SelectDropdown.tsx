@@ -43,7 +43,7 @@ export default function SelectDropdown({
         aria-invalid={invalid}
         onClick={() => setOpen((o) => !o)}
         className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl border bg-white/[0.07] text-[15px] transition-all cursor-pointer ${
-          value ? "text-white" : "text-white/40"
+          value ? "text-white" : "text-white/30"
         } ${
           invalid
             ? "border-red-400/60"
