@@ -6,22 +6,22 @@ import { cerrarSesion } from "@/app/panel/acciones";
 import type { Miembro } from "@/lib/panel/sesion";
 
 /** Barra superior del panel. Las pestañas de admin solo se ven si el rol lo permite. */
-export default function BarraPanel({ miembro, actual = "leads" }: { miembro: Miembro; actual?: "leads" | "equipo" }) {
+export default function BarraPanel({ miembro, actual = "leads" }: { miembro: Miembro; actual?: "leads" | "equipo" | "metricas" }) {
   return (
     <header className="bg-primary text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
         <Link href="/panel" className="flex items-center gap-3 shrink-0">
-          <Image src={logoWhite} alt="VanTrust" className="h-8 w-auto max-w-none" />
+          <Image src={logoWhite} alt="VanTrust" className="h-7 sm:h-8 w-auto max-w-none" />
           <span className="hidden sm:inline text-white/40 text-sm border-l border-white/15 pl-3">Panel</span>
         </Link>
         {miembro.rol === "admin" && (
-          <nav aria-label="Secciones del panel" className="flex items-center gap-1 mr-auto ml-2 sm:ml-6">
-            {([["leads", "/panel", "Leads"], ["equipo", "/panel/equipo", "Equipo"]] as const).map(([k, href, txt]) => (
+          <nav aria-label="Secciones del panel" className="flex items-center gap-1 mr-auto ml-0 sm:ml-6 min-w-0">
+            {([["leads", "/panel", "Leads"], ["metricas", "/panel/metricas", "Métricas"], ["equipo", "/panel/equipo", "Equipo"]] as const).map(([k, href, txt]) => (
               <Link
                 key={k}
                 href={href}
                 aria-current={actual === k ? "page" : undefined}
-                className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition-colors ${
+                className={`px-2 sm:px-3 py-1.5 rounded-lg text-[13px] sm:text-sm font-semibold transition-colors ${
                   actual === k ? "bg-white/10 text-accent" : "text-white/60 hover:text-white"
                 }`}
               >
@@ -30,7 +30,7 @@ export default function BarraPanel({ miembro, actual = "leads" }: { miembro: Mie
             ))}
           </nav>
         )}
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
           <div className="hidden sm:block text-right leading-tight">
             <p className="text-sm font-semibold">{miembro.nombre}</p>
             <p className="text-[11px] uppercase tracking-wider text-accent">
