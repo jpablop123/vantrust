@@ -125,7 +125,7 @@ export default function Hero() {
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-32 pb-20">
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] xl:grid-cols-[1.25fr_0.75fr] gap-12 lg:gap-16 xl:gap-14 items-center">
           {/* Left */}
           <div>
             <motion.div
@@ -142,7 +142,7 @@ export default function Hero() {
             {/* H1 y subtítulo visibles desde el primer pintado (son el LCP en
                 móvil): animación solo CSS de desplazamiento, sin opacity 0
                 esperando a que hidrate React. */}
-            <h1 className="hero-in text-[2.75rem] leading-[1.05] sm:text-6xl lg:text-7xl font-bold text-white mb-7 tracking-tight">
+            <h1 className="hero-in text-[clamp(2.6rem,11.9vw,3rem)] leading-[1.02] sm:text-7xl xl:text-8xl font-bold text-white mb-7 tracking-[-0.035em]">
               Protege lo que{" "}
               <span className="relative inline-block italic text-gold-gradient">
                 más importa
