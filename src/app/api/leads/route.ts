@@ -8,6 +8,7 @@ import {
   escapeHtml,
 } from "@/lib/email-templates";
 import { normalizarCelular, celularValido } from "@/lib/validacion";
+import { sendCapiLead } from "@/lib/meta-capi";
 
 // Flujo en dos pasos:
 //   POST  → paso 1 (nombre + WhatsApp + ramo). Crea el lead "parcial" y avisa
@@ -491,10 +492,32 @@ export async function POST(req: NextRequest) {
     // función se corta. Si falla, igual se avisa por Telegram y correo.
     await settle([["Supabase", insertLead(id, data, estado)]]);
 
+    // Datos de la petición para Conversions API (no se guardan en la BD).
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || undefined;
+    const userAgent = req.headers.get("user-agent") || undefined;
+    const url = req.headers.get("referer") || undefined;
+
     // Avisos después de responder: la persona ve "listo" sin esperar a
-    // Telegram, Resend ni Google.
+    // Telegram, Resend, Google ni Meta.
     after(() =>
       settle([
+        [
+          "Meta CAPI",
+          sendCapiLead({
+            eventId: data.event_id || "",
+            telefono: data.telefono,
+            email: data.email,
+            nombre: data.nombre,
+            ciudad: data.ciudad,
+            tipoSeguro: data.tipoSeguro,
+            fbp: data.fbp,
+            fbc: data.fbc,
+            fbclid: data.atribucion?.fbclid,
+            ip,
+            userAgent,
+            url,
+          }),
+        ],
         ["Email", sendEmail(data, estado)],
         ["Google Sheets", saveToGoogleSheets(data)],
         ["WhatsApp", sendWhatsAppNotification(data)],
