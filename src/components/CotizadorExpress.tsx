@@ -20,6 +20,8 @@ import { HORARIOS, limiteDe } from "@/lib/horarios";
 import RamoForm from "@/components/cotizador/RamoForm";
 import { RAMO_FIELDS } from "@/data/formFields";
 import { GRACIAS_KEY } from "@/app/gracias/GraciasContent";
+import PasoContacto, { type LeadCreado } from "@/components/cotizador/PasoContacto";
+import { completarLead } from "@/lib/leads-client";
 
 type Ramo = "auto" | "salud" | "hogar";
 const ramoTabs: { id: Ramo; label: string; icon: typeof Car }[] = [
@@ -28,7 +30,8 @@ const ramoTabs: { id: Ramo; label: string; icon: typeof Car }[] = [
   { id: "hogar", label: "Hogar", icon: HomeIcon },
 ];
 
-type Step = 1 | 2 | 3 | 4 | "loading" | "result";
+// 1 = contacto (crea el lead parcial). 2-5 = datos del carro, opcionales.
+type Step = 1 | 2 | 3 | 4 | 5 | "loading" | "result";
 
 interface FormData {
   marca: string;
@@ -100,15 +103,6 @@ function isEmailValid(v: string): boolean {
   return !!v.trim() && !validateEmail(v);
 }
 
-function isNombreValid(v: string): boolean {
-  return !validateNombre(v) && !!v.trim();
-}
-
-function isCelularValid(v: string): boolean {
-  const digits = normalizeCelular(v);
-  return digits.length === 10 && digits.startsWith("3");
-}
-
 function isOffHours(): boolean {
   const now = new Date();
   const bogota = new Date(
@@ -117,23 +111,6 @@ function isOffHours(): boolean {
   const hour = bogota.getHours();
   const day = bogota.getDay();
   return hour >= 18 || day === 0 || day === 6;
-}
-
-function capitalizeWords(str: string): string {
-  return str.replace(/(?:^|\s)[a-záéíóúñü]/g, (c) => c.toUpperCase());
-}
-
-/**
- * Ordena el nombre al salir del campo, pero solo si el usuario no se molestó en
- * usar mayúsculas (todo minúsculas o TODO MAYÚSCULAS). Si escribió
- * "Juan de la Espriella", se respeta tal cual.
- */
-function tidyNombre(str: string): string {
-  const v = str.trim().replace(/\s+/g, " ");
-  if (!v) return v;
-  const sinMayusculas = v === v.toLowerCase();
-  const todoMayusculas = v === v.toUpperCase();
-  return sinMayusculas || todoMayusculas ? capitalizeWords(v.toLowerCase()) : v;
 }
 
 // --- Constants ---
@@ -176,8 +153,8 @@ const horarioOptions = HORARIOS;
 
 const insurers = INSURERS.slice(0, 6);
 
-const stepIconComponents = [Car, Route, MapPin, User, CheckCircle];
-const stepLabels = ["Carro", "Uso", "Ciudad", "Datos", "Listo"];
+const stepIconComponents = [User, Car, Route, MapPin, CheckCircle];
+const stepLabels = ["Contacto", "Carro", "Uso", "Ciudad", "Detalles"];
 
 // --- Custom Dropdown ---
 
@@ -298,7 +275,7 @@ function SearchDropdown({
 
 function ProgressBar({ step }: { step: Step }) {
   const stepNum =
-    step === "loading" || step === "result" ? 5 : (step as number);
+    step === "loading" || step === "result" ? 6 : (step as number);
 
   return (
     <div className="flex items-center justify-center gap-0.5 sm:gap-1 mb-10">
@@ -459,13 +436,12 @@ export default function CotizadorExpress() {
     window.addEventListener("vt-ramo", onRamo);
     return () => window.removeEventListener("vt-ramo", onRamo);
   }, []);
+  const [lead, setLead] = useState<LeadCreado | null>(null);
   const [direction, setDirection] = useState(1);
   const [submitError, setSubmitError] = useState<string | false>(false);
   const [shakeFields, setShakeFields] = useState<string[]>([]);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [touched, setTouched] = useState<TouchedFields>({});
-  const nombreRef = useRef<HTMLInputElement>(null);
-  const celularRef = useRef<HTMLInputElement>(null);
 
   const [data, setData] = useState<FormData>({
     marca: "",
@@ -498,45 +474,55 @@ export default function CotizadorExpress() {
     [data.nombre, data.celular, data.email]
   );
 
-  const canSubmit =
-    isNombreValid(data.nombre) && isCelularValid(data.celular) && isEmailValid(data.email);
+  // En el último paso todo es opcional; si escribe un correo, que sea válido.
+  const canSubmit = !data.email.trim() || isEmailValid(data.email);
 
   const goNext = () => {
     setDirection(1);
-    if (step === 1) setStep(2);
-    else if (step === 2) setStep(3);
-    else if (step === 3) setStep(4);
+    if (typeof step === "number" && step < 5) setStep((step + 1) as Step);
   };
 
   const goBack = () => {
     setDirection(-1);
-    if (step === 2) setStep(1);
-    else if (step === 3) setStep(2);
-    else if (step === 4) setStep(3);
+    // No se vuelve al paso 1: el lead ya existe.
+    if (typeof step === "number" && step > 2) setStep((step - 1) as Step);
+  };
+
+  /** Guarda el resumen para /gracias y navega. */
+  const irAGracias = () => {
+    if (!lead) return;
+    try {
+      sessionStorage.setItem(
+        GRACIAS_KEY,
+        JSON.stringify({
+          nombre: lead.nombre,
+          tipoSeguro: "Seguro de Automóvil",
+          resumen: [
+            { label: "Placa", value: lead.placa },
+            { label: "Vehículo", value: data.marca ? carSummary : "" },
+            { label: "Ciudad", value: data.city },
+            { label: "WhatsApp", value: lead.telefono },
+            ...(data.horarioLabel
+              ? [{ label: "Te llamamos", value: data.horarioLabel }]
+              : []),
+          ].filter((r) => r.value),
+        })
+      );
+    } catch {
+      // sessionStorage bloqueado: /gracias muestra el mensaje genérico.
+    }
+    router.push("/gracias");
   };
 
   const validateAndSubmit = async () => {
-    setTouched({ nombre: true, celular: true, email: true });
-
-    const nombreErr = validateNombre(data.nombre);
-    const celularErr = validateCelular(data.celular);
-    const emailErr = validateEmail(data.email);
-    setErrors({
-      nombre: nombreErr ?? undefined,
-      celular: celularErr ?? undefined,
-      email: emailErr ?? undefined,
-    });
-
-    const missing: string[] = [];
-    if (!isNombreValid(data.nombre)) missing.push("nombre");
-    if (!isCelularValid(data.celular)) missing.push("celular");
-    if (emailErr) missing.push("email");
-
-    if (missing.length > 0) {
-      setShakeFields(missing);
+    if (!lead) return;
+    const email = data.email.trim();
+    const emailErr = email ? validateEmail(email) : null;
+    if (emailErr) {
+      setTouched((t) => ({ ...t, email: true }));
+      setErrors((e) => ({ ...e, email: emailErr }));
+      setShakeFields(["email"]);
       setTimeout(() => setShakeFields([]), 600);
-      if (missing.includes("nombre")) nombreRef.current?.focus();
-      else if (missing.includes("celular")) celularRef.current?.focus();
       return;
     }
 
@@ -544,72 +530,38 @@ export default function CotizadorExpress() {
     setStep("loading");
     setSubmitError(false);
 
-    try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nombre: data.nombre.trim(),
-          telefono: data.celular.replace(/\D/g, ""),
-          email: data.email.trim(),
-          ciudad: data.city === "Otra" ? "" : data.city,
-          tipoSeguro: "vehiculo",
-          horario: data.horario,
-          placa: "",
-          mensaje: data.mensaje.trim(),
-          marca_carro: data.marca,
-          modelo_carro: data.modelo.trim(),
-          anno_carro: data.year,
-          uso_diario: data.usageLabel,
-          fuente: "cotizador_express",
-        }),
-      });
-
-      if (!res.ok) {
-        const body = await res.json().catch(() => null);
-        if (res.status === 429) {
-          setSubmitError(
-            body?.error || "Ya tenemos tu solicitud, te contactamos pronto"
-          );
-          setStep(4);
-          return;
-        }
-        throw new Error("Error");
-      }
-      // Se deja correr la animación de carga y luego se va a /gracias, que
-      // lleva el mismo resumen. En móvil, mostrarlo aquí dejaba el mensaje
-      // fuera de pantalla y parecía que no había pasado nada.
-      setTimeout(() => {
-        try {
-          sessionStorage.setItem(
-            GRACIAS_KEY,
-            JSON.stringify({
-              nombre: data.nombre.trim(),
-              tipoSeguro: "Seguro de Automóvil",
-              resumen: [
-                { label: "Vehículo", value: carSummary },
-                { label: "Ciudad", value: data.city },
-                { label: "Celular", value: data.celular },
-                ...(data.horarioLabel
-                  ? [{ label: "Te llamamos", value: data.horarioLabel }]
-                  : []),
-              ].filter((r) => r.value),
-            })
-          );
-        } catch {
-          // sessionStorage bloqueado: /gracias muestra el mensaje genérico.
-        }
-        router.push("/gracias");
-      }, 2200);
-    } catch {
-      setSubmitError("Hubo un problema, intenta de nuevo");
-      setStep(4);
+    const r = await completarLead(
+      lead.id,
+      {
+        nombre: lead.nombre,
+        telefono: lead.telefono,
+        tipoSeguro: "vehiculo",
+        placa: lead.placa,
+        email,
+        ciudad: data.city === "Otra" ? "" : data.city,
+        horario: data.horario,
+        mensaje: data.mensaje.trim(),
+        marca_carro: data.marca,
+        modelo_carro: data.modelo.trim(),
+        anno_carro: data.year,
+        uso_diario: data.usageLabel,
+        fuente: "cotizador_express",
+      },
+      { emailNuevo: !!email }
+    );
+    if (!r.ok) {
+      setSubmitError(r.error);
+      setStep(5);
+      return;
     }
+    // Se deja correr la animación de carga y luego se va a /gracias. En móvil,
+    // mostrar el resultado aquí lo dejaba fuera de pantalla.
+    setTimeout(irAGracias, 2200);
   };
 
   const getHorarioTime = () => limiteDe(data.horario);
 
-  const firstName = data.nombre.trim().split(" ")[0] || "";
+  const firstName = lead?.nombre.split(" ")[0] || "";
 
   const carSummary = [
     data.marca,
@@ -679,8 +631,41 @@ export default function CotizadorExpress() {
 
             <div className="bg-white/[0.07] backdrop-blur-sm border border-white/15 rounded-2xl p-6 sm:p-10 min-h-[380px] flex flex-col">
               <AnimatePresence mode="wait" custom={direction}>
-            {/* STEP 1 - Brand + Model + Year */}
+            {/* STEP 1 - Contacto: lo único obligatorio */}
             {step === 1 && (
+              <motion.div
+                key="step0"
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.3 }}
+                className="flex-1 flex flex-col"
+              >
+                <h3 className="text-xl sm:text-2xl font-bold text-white text-center mb-2">
+                  Cotiza tu carro en 30 segundos
+                </h3>
+                <p className="text-white/40 text-sm text-center mb-6">
+                  Déjanos tu WhatsApp y un asesor te escribe con opciones de
+                  varias aseguradoras
+                </p>
+                <PasoContacto
+                  tipoSeguro="vehiculo"
+                  fuente="cotizador_express"
+                  conPlaca
+                  submitLabel="Cotizar mi carro"
+                  onCreado={(l) => {
+                    setLead(l);
+                    setDirection(1);
+                    setStep(2);
+                  }}
+                />
+              </motion.div>
+            )}
+
+            {/* STEP 1 - Brand + Model + Year */}
+            {step === 2 && (
               <motion.div
                 key="step1"
                 custom={direction}
@@ -691,11 +676,17 @@ export default function CotizadorExpress() {
                 transition={{ duration: 0.3 }}
                 className="flex-1 flex flex-col"
               >
+                <div className="mb-5 p-3 rounded-xl bg-green-500/10 border border-green-500/20 text-center">
+                  <p className="text-sm text-white/80">
+                    <strong className="text-white">¡Listo, {firstName}!</strong>{" "}
+                    Ya tenemos tu número. Con estos datos te llamamos con precios.
+                  </p>
+                </div>
                 <h3 className="text-xl sm:text-2xl font-bold text-white text-center mb-2">
                   ¿Qué carro tienes?
                 </h3>
                 <p className="text-white/40 text-sm text-center mb-6">
-                  Cuéntanos sobre tu vehículo
+                  Opcional, pero nos ayuda a cotizar más rápido
                 </p>
 
                 <div className="flex-1 space-y-4">
@@ -779,7 +770,7 @@ export default function CotizadorExpress() {
             )}
 
             {/* STEP 2 - Usage */}
-            {step === 2 && (
+            {step === 3 && (
               <motion.div
                 key="step2"
                 custom={direction}
@@ -840,7 +831,7 @@ export default function CotizadorExpress() {
             )}
 
             {/* STEP 3 - City */}
-            {step === 3 && (
+            {step === 4 && (
               <motion.div
                 key="step3"
                 custom={direction}
@@ -888,7 +879,7 @@ export default function CotizadorExpress() {
             )}
 
             {/* STEP 4 - Contact details */}
-            {step === 4 && (
+            {step === 5 && (
               <motion.div
                 key="step4"
                 custom={direction}
@@ -900,7 +891,7 @@ export default function CotizadorExpress() {
                 className="flex-1 flex flex-col"
               >
                 <h3 className="text-xl sm:text-2xl font-bold text-white text-center mb-1">
-                  ¿A dónde te enviamos las opciones?
+                  Últimos detalles
                 </h3>
                 <p className="text-white/40 text-sm text-center mb-6">
                   Nos comunicamos contigo en un plazo aproximado de 1 hora
@@ -919,74 +910,13 @@ export default function CotizadorExpress() {
                 )}
 
                 <div className="flex-1 space-y-4">
-                  {/* Nombre */}
-                  <div>
-                    <label
-                      htmlFor="cot-nombre"
-                      className="block text-sm font-medium text-white/60 mb-1.5"
-                    >
-                      Nombre completo *
-                    </label>
-                    <ValidatedInput
-                      inputRef={nombreRef}
-                      type="text"
-                      id="cot-nombre"
-                      value={data.nombre}
-                      onChange={(e) => {
-                        // Sin capitalizar al vuelo: reescribir en cada tecla
-                        // rompe "de la Espriella" y parpadea en móvil.
-                        update({
-                          nombre: e.target.value.replace(
-                            /[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'’.-]/g,
-                            ""
-                          ),
-                        });
-                      }}
-                      onBlur={() => {
-                        update({ nombre: tidyNombre(data.nombre) });
-                        handleBlur("nombre");
-                      }}
-                      error={errors.nombre}
-                      touched={touched.nombre}
-                      isValid={isNombreValid(data.nombre)}
-                      shake={shakeFields.includes("nombre")}
-                      placeholder="Tu nombre y apellido"
-                    />
-                  </div>
-
-                  {/* Celular */}
-                  <div>
-                    <label
-                      htmlFor="cot-celular"
-                      className="block text-sm font-medium text-white/60 mb-1.5"
-                    >
-                      Celular *
-                    </label>
-                    <ValidatedInput
-                      inputRef={celularRef}
-                      type="tel"
-                      id="cot-celular"
-                      inputMode="numeric"
-                      value={data.celular}
-                      onChange={(e) =>
-                        update({ celular: normalizeCelular(e.target.value) })
-                      }
-                      onBlur={() => handleBlur("celular")}
-                      error={errors.celular}
-                      touched={touched.celular}
-                      isValid={isCelularValid(data.celular)}
-                      shake={shakeFields.includes("celular")}
-                      placeholder="3001234567"
-                    />
-                  </div>
-
                   {/* Email */}
                   <div>
                     <label
                       htmlFor="cot-email"
                       className="block text-sm font-medium text-white/60 mb-1.5"
                     >
-                      Email <span className="text-accent">*</span>
+                      Email <span className="text-white/20">(opcional)</span>
                     </label>
                     <ValidatedInput
                       type="email"
@@ -1081,7 +1011,7 @@ export default function CotizadorExpress() {
                     disabled={!canSubmit}
                     className="flex-1 bg-accent hover:bg-accent-light text-primary font-bold py-4 rounded-xl transition-all hover:scale-[1.02] text-lg disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed"
                   >
-                    Enviar y ver mi perfil
+                    Enviar detalles
                   </button>
                 </div>
               </motion.div>
@@ -1236,6 +1166,15 @@ export default function CotizadorExpress() {
               </motion.div>
             )}
           </AnimatePresence>
+              {typeof step === "number" && step >= 2 && (
+                <button
+                  type="button"
+                  onClick={irAGracias}
+                  className="mt-4 text-white/45 hover:text-white text-sm transition-colors self-center"
+                >
+                  Terminar aquí, prefiero que me llamen
+                </button>
+              )}
             </div>
           </>
         ) : (
