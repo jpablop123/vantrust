@@ -141,3 +141,30 @@ export async function actuarSobreLead(_: EstadoAccion, form: FormData): Promise<
   revalidatePath("/panel");
   return { ok: "Guardado" };
 }
+
+const ESPERA_MIN: Record<"visto" | "whatsapp" | "llamada", number> = { visto: 30, whatsapp: 2, llamada: 2 };
+
+/**
+ * Deja en el historial que alguien vio el lead o lo contactó (WhatsApp o
+ * llamada). Sin repetir: la misma persona no suma otro "visto" del mismo lead
+ * en 30 minutos. Nunca falla hacia la interfaz.
+ */
+export async function registrarVista(leadId: string, tipo: "visto" | "whatsapp" | "llamada") {
+  if (!(tipo in ESPERA_MIN)) return;
+  const sesion = await miembroActual();
+  if (!sesion.ok) return;
+  const db = getSupabase();
+  if (!db) return;
+  const lead = await leadEditable(leadId, sesion.miembro);
+  if (!lead) return;
+  const desde = new Date(Date.now() - ESPERA_MIN[tipo] * 60e3).toISOString();
+  const { count } = await db
+    .from("lead_eventos")
+    .select("id", { count: "exact", head: true })
+    .eq("lead_id", lead.id)
+    .eq("asesor_id", sesion.miembro.id)
+    .eq("tipo", tipo)
+    .gte("created_at", desde);
+  if (count) return;
+  await db.from("lead_eventos").insert({ lead_id: lead.id, asesor_id: sesion.miembro.id, tipo });
+}

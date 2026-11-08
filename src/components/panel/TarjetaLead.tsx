@@ -3,7 +3,7 @@
 import { useActionState, useState } from "react";
 import { Phone, ChevronDown, History, StickyNote, Trophy, XCircle, FileCheck2, MessageSquareText, RotateCcw } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
-import { actuarSobreLead, type EstadoAccion } from "@/app/panel/cola/acciones";
+import { actuarSobreLead, registrarVista, type EstadoAccion } from "@/app/panel/cola/acciones";
 import { reasignarLead } from "@/app/panel/admin/acciones";
 import type { EventoLead, LeadCola } from "@/lib/panel/leads";
 import {
@@ -59,6 +59,9 @@ const TEXTO_EVENTO: Record<string, string> = {
   perdido: "Perdido",
   archivado: "Archivado",
   reabierto: "Reabierto",
+  visto: "Vio los datos",
+  whatsapp: "Abrió WhatsApp",
+  llamada: "Llamó",
 };
 
 function detalleEvento(e: EventoLead): string {
@@ -191,6 +194,7 @@ export default function TarjetaLead({
           href={whatsappCliente(lead, nombreMiembro)}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => registrarVista(lead.id, "whatsapp")}
           className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-bold text-sm px-4 py-2 rounded-lg transition-colors"
         >
           <WhatsAppIcon className="w-4 h-4" />
@@ -198,6 +202,7 @@ export default function TarjetaLead({
         </a>
         <a
           href={`tel:+57${lead.telefono.replace(/\D/g, "").slice(-10)}`}
+          onClick={() => registrarVista(lead.id, "llamada")}
           className="inline-flex items-center gap-2 border border-primary/15 hover:border-accent/50 text-primary font-semibold text-sm px-4 py-2 rounded-lg transition-colors"
         >
           <Phone className="w-4 h-4" />
@@ -205,7 +210,10 @@ export default function TarjetaLead({
         </a>
         <button
           type="button"
-          onClick={() => setVerDetalles((v) => !v)}
+          onClick={() => {
+            if (!verDetalles) registrarVista(lead.id, "visto");
+            setVerDetalles((v) => !v);
+          }}
           aria-expanded={verDetalles}
           className="inline-flex items-center gap-1 text-sm text-primary/60 hover:text-primary px-2 py-2"
         >
@@ -247,7 +255,10 @@ export default function TarjetaLead({
         {asesores && <Reasignar leadId={lead.id} actual={lead.asignado_a} asesores={asesores} />}
         <button
           type="button"
-          onClick={() => setVerHistorial((v) => !v)}
+          onClick={() => {
+            if (!verHistorial) registrarVista(lead.id, "visto");
+            setVerHistorial((v) => !v);
+          }}
           aria-expanded={verHistorial}
           className="ml-auto inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm text-primary/60 hover:text-primary"
         >

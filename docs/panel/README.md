@@ -10,6 +10,7 @@ El panel vive en `/panel` (rama `feat/panel-leads`). Usa Supabase para dos cosas
    2. `20261108000100_renovaciones.sql`
    3. `20261109000000_panel_asesores.sql`
    4. `20261109000100_panel_cola.sql` (etapas, asignación por turnos e historial)
+   5. `20261109000200_panel_accesos_leads.sql` (cierra la API pública y registra quién ve cada lead)
 
    Las siguientes partes del panel agregan más migraciones; se aplican igual.
 3. En **Authentication > Sign In / Providers**, deja activo "Email" y **desactiva "Allow new users to sign up"**. Las cuentas solo las crea el admin.
@@ -45,6 +46,18 @@ El script muestra una contraseña temporal una sola vez. Después se cambia en `
 - Cada lead nuevo del sitio se asigna por turnos entre los asesores con `rol = asesor`, `activo = true` y `acceso = true`. Los admin no entran en la rotación. Si el mismo teléfono ya tuvo asesor, vuelve con él. Lo hace la función `asignar_lead` de la base de datos, con un candado para que dos leads simultáneos no se crucen.
 - Si el asesor tiene `telegram_chat_id`, el bot le escribe por privado cuando le llega un lead. Para obtener su chat id, el asesor le escribe al bot y se consulta `https://api.telegram.org/bot<TOKEN>/getUpdates`. El aviso al grupo sigue igual.
 - Sin asesores activos, el lead queda sin asignar y el admin lo ve en "Todos los leads".
+
+## Seguridad de la base (RLS)
+
+- Todas las tablas tienen RLS activado y ninguna política. Además, los roles `anon` y `authenticated` no tienen permisos sobre ellas. Por la API pública de Supabase nadie lee ni escribe nada, ni sin sesión ni con la sesión de un asesor. Solo el servidor del sitio, con la service role, accede a los datos.
+- Un asesor ve sus leads únicamente a través del panel, que verifica en el servidor que el lead sea suyo.
+- Para comprobarlo en cualquier proyecto, con la anon key, que no es secreta:
+
+  ```bash
+  SUPABASE_URL=... SUPABASE_ANON_KEY=... node scripts/panel-verificar-rls.mjs
+  # opcional, con la sesión de un asesor real:
+  SUPABASE_URL=... SUPABASE_ANON_KEY=... PRUEBA_EMAIL=asesor@... PRUEBA_CLAVE=... node scripts/panel-verificar-rls.mjs
+  ```
 
 ## Cómo se decide quién entra
 
