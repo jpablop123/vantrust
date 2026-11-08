@@ -97,6 +97,27 @@ for (let i = 0; i < 60; i++) {
   ]);
 }
 
+// Lo que llena cada cotizador (mismas etiquetas que guarda la web).
+const DETALLES = {
+  vehiculo: (i) => [
+    { Marca: "Mazda", Modelo: "CX-30", "Año": "2022", "Uso diario": "Particular" },
+    { Marca: "Chevrolet", Modelo: "Onix", "Año": "2021" },
+    { Marca: "Renault", Modelo: "Duster", "Año": "2019", "Uso diario": "Trabajo" },
+  ][i % 3],
+  salud: (i) => [{ Edad: "34", "¿Para cuántas personas?": "2" }, { Edad: "52" }][i % 2],
+  hogar: () => ({ "Tipo de vivienda": "Apartamento", "Valor comercial": "$ 280.000.000" }),
+  vida: () => ({ Edad: "41", "Suma asegurada": "$ 200.000.000" }),
+  mascotas: (i) => [{ Mascota: "Perro", Edad: "3 años" }, { Mascota: "Gato", Edad: "1 año" }][i % 2],
+  viajes: () => ({ Destino: "España", "Fechas": "15 dic – 10 ene" }),
+  pyme: () => ({ Actividad: "Comercio", Empleados: "12" }),
+  cumplimiento: () => ({ Contrato: "Licitación Gobernación", Valor: "$ 450.000.000" }),
+};
+const MENSAJES = {
+  vehiculo: "Quiero todo riesgo, el actual se me vence este mes.",
+  salud: "¿Cubre preexistencias?",
+  viajes: "¿Incluye cobertura COVID?",
+};
+
 // Celulares colombianos de 10 dígitos (3xx xxx xxxx).
 const tel = (i) => `3${15 + (i % 7)}${String(4000000 + i * 13579).slice(-7)}`;
 
@@ -130,6 +151,8 @@ for (const [nombre, ramo, hace, fuente, campana, avance, x] of ordenados) {
       referrer: x.origen?.referrer ?? (campana === "organico" ? "https://www.google.com/" : null),
       placa: x.placa ?? null,
       email: x.email ?? null,
+      detalles: DETALLES[ramo]?.(n) ?? {},
+      mensaje: n % 3 === 1 ? MENSAJES[ramo] ?? "Lo necesito antes del viernes." : null,
       ciudad: "Barranquilla",
       estado: n % 3 ? "completo" : "parcial",
       autorizacion_datos: true,

@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { MessageCircleQuestion, Phone } from "lucide-react";
-import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { MessageCircleQuestion } from "lucide-react";
+import MensajeWhatsApp from "@/components/panel/MensajeWhatsApp";
 import Avatar, { IconoRamo } from "@/components/panel/Avatar";
-import TarjetaLead, { whatsappCliente } from "@/components/panel/TarjetaLead";
+import TarjetaLead from "@/components/panel/TarjetaLead";
 import { useIntento } from "@/components/panel/useIntento";
 import type { EventoLead, LeadCola } from "@/lib/panel/leads";
 import { etiquetaRamo } from "@/lib/panel/etiquetas";
 import { nombreCorto, proximaAccion, type Tono } from "@/lib/panel/proxima";
+import { datosParaCotizar } from "@/lib/panel/mensajes";
 
 const PILDORA: Record<Tono, string> = {
   verde: "bg-green-50 text-green-800",
@@ -33,13 +34,12 @@ export default function SiguienteLead({
   const [verTodo, setVerTodo] = useState(false);
   const { pendiente, intentoIso, intentar, preguntar } = useIntento(lead, eventos);
   const frase = proximaAccion(lead, new Date(ahora), intentoIso);
-  const tel = lead.telefono.replace(/\D/g, "").slice(-10);
-  // Lo que ayuda a cotizar, en una línea: placa, ciudad o lo que escribió.
-  const extra = [lead.placa ? `Placa ${lead.placa}` : "", lead.ciudad ?? ""].filter(Boolean).join(" · ");
+  const datos = datosParaCotizar(lead).filter((d) => d.k !== "Correo");
 
   return (
-    <section aria-label="Siguiente lead" className="relative bg-white rounded-3xl border border-accent/30 shadow-xl shadow-primary/10 overflow-hidden">
-      <div className="h-1 bg-gradient-to-r from-accent via-accent-light to-accent" aria-hidden="true" />
+    // Sin overflow-hidden: el selector de mensaje despliega por fuera.
+    <section aria-label="Siguiente lead" className="relative bg-white rounded-3xl border border-accent/30 shadow-xl shadow-primary/10">
+      <div className="h-1 rounded-t-3xl bg-gradient-to-r from-accent via-accent-light to-accent" aria-hidden="true" />
       <div className="p-5">
         <div className="flex items-center justify-between gap-3">
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-accent-dark">Siguiente</p>
@@ -50,53 +50,48 @@ export default function SiguienteLead({
           <Avatar nombre={lead.nombre} grande />
           <div className="min-w-0">
             <h2 className="text-xl font-bold text-primary leading-tight break-words">{lead.nombre}</h2>
-            <p className="text-sm text-muted mt-0.5">
-              <IconoRamo tipo={lead.tipo_seguro} className="w-3.5 h-3.5 inline -mt-0.5 mr-1" />
+            <p className="text-sm text-muted mt-0.5 inline-flex items-center gap-1.5">
+              <IconoRamo tipo={lead.tipo_seguro} className="w-3.5 h-3.5" />
               Seguro de {etiquetaRamo(lead.tipo_seguro).toLowerCase()}
-              {extra && <> · {extra}</>}
             </p>
           </div>
         </div>
 
-        {lead.mensaje && (
-          <p className="mt-4 text-sm text-primary/80 bg-background rounded-xl px-3.5 py-2.5 line-clamp-2">“{lead.mensaje}”</p>
-        )}
-        {!lead.mensaje && lead.nota_seguimiento && (
-          <p className="mt-4 text-sm text-primary/80 bg-background rounded-xl px-3.5 py-2.5 line-clamp-2">Tu nota: “{lead.nota_seguimiento}”</p>
-        )}
-
-        {pendiente ? (
-          <button
-            type="button"
-            onClick={() => preguntar()}
-            className="mt-5 w-full inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-light text-white font-bold py-3.5 rounded-2xl transition-colors"
-          >
-            <MessageCircleQuestion className="w-5 h-5 text-accent" />
-            ¿Cómo te fue con {nombreCorto(lead.nombre)}?
-          </button>
-        ) : (
-          <div className="mt-5 flex gap-2">
-            <a
-              href={whatsappCliente(lead, nombreMiembro)}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => intentar("whatsapp")}
-              className="flex-1 inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-bold py-3.5 rounded-2xl transition-colors shadow-md shadow-green-900/15"
-            >
-              <WhatsAppIcon className="w-5 h-5" />
-              Escribir por WhatsApp
-            </a>
-            <a
-              href={`tel:+57${tel}`}
-              onClick={() => intentar("llamada")}
-              aria-label={`Llamar a ${lead.nombre}`}
-              title={lead.telefono}
-              className="shrink-0 w-14 inline-flex items-center justify-center rounded-2xl border-2 border-primary/10 text-primary hover:border-accent transition-colors"
-            >
-              <Phone className="w-5 h-5" />
-            </a>
+        {/* Lo que dejó el cliente: a la vista para cotizar sin abrir nada */}
+        {(datos.length > 0 || lead.mensaje) && (
+          <div className="mt-4 rounded-2xl bg-background px-4 py-3">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-primary/40">Para cotizar</p>
+            {datos.length > 0 && (
+              <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-2">
+                {datos.slice(0, 8).map((d) => (
+                  <div key={d.k} className="min-w-0">
+                    <dt className="text-[11px] text-muted truncate">{d.k}</dt>
+                    <dd className="text-sm font-semibold text-primary break-words">{d.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            {lead.mensaje && <p className="mt-2 text-sm text-primary/80 italic">“{lead.mensaje}”</p>}
           </div>
         )}
+        {lead.nota_seguimiento && (
+          <p className="mt-3 text-sm text-primary/80 bg-accent/10 rounded-xl px-3.5 py-2.5">Tu nota: “{lead.nota_seguimiento}”</p>
+        )}
+
+        <div className="mt-5">
+          {pendiente ? (
+            <button
+              type="button"
+              onClick={() => preguntar()}
+              className="w-full inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-light text-white font-bold py-3.5 rounded-2xl transition-colors"
+            >
+              <MessageCircleQuestion className="w-5 h-5 text-accent" />
+              ¿Cómo te fue con {nombreCorto(lead.nombre)}?
+            </button>
+          ) : (
+            <MensajeWhatsApp lead={lead} eventos={eventos} nombreMiembro={nombreMiembro} onContacto={intentar} grande />
+          )}
+        </div>
 
         <button
           type="button"

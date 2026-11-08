@@ -119,10 +119,14 @@ export function proximaAccion(lead: LeadCola, ahora: Date, intento: string | nul
   return p(verbo, mayuscula(c.texto), c.dias === 0 ? "ambar" : "gris", corto);
 }
 
+/** ¿El nombre es de una empresa? (SAS, S.A.S., S.A., E.U. en mayúscula; Ltda.) */
+export function esEmpresa(nombre: string): boolean {
+  const n = nombre.trim();
+  return /\b(S\.?\s?A\.?\s?S|S\.\s?A|SA|E\.?\s?U)\.?$/.test(n) || /\bltda\.?$/i.test(n);
+}
+
 /** Cómo nombrar al cliente en una frase: primer nombre, o completo si es empresa. */
 export function nombreCorto(nombre: string): string {
   const n = nombre.trim();
-  // SAS, S.A.S., S.A., E.U. en mayúscula; Ltda en cualquier forma.
-  const empresa = /\b(S\.?\s?A\.?\s?S|S\.\s?A|SA|E\.?\s?U)\.?$/.test(n) || /\bltda\.?$/i.test(n);
-  return empresa ? n : n.split(/\s+/)[0];
+  return esEmpresa(n) ? n : n.split(/\s+/)[0];
 }

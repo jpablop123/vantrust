@@ -19,6 +19,8 @@ import { nombreCorto, proximaAccion, type Tono } from "@/lib/panel/proxima";
 import { useIntento } from "@/components/panel/useIntento";
 import Selector from "@/components/panel/Selector";
 import Avatar, { IconoRamo } from "@/components/panel/Avatar";
+import MensajeWhatsApp from "@/components/panel/MensajeWhatsApp";
+import { enlaceWhatsApp, plantillasPara } from "@/lib/panel/mensajes";
 import { COLOR_CANAL, canalDe, capturaDe } from "@/lib/panel/origen";
 import { INSURERS } from "@/lib/site";
 
@@ -102,10 +104,10 @@ function detalleEvento(e: EventoLead): string {
 }
 
 /** Enlace de WhatsApp al cliente con un saludo ya escrito. */
-export function whatsappCliente(lead: LeadCola, asesor: string) {
-  const tel = lead.telefono.replace(/\D/g, "").slice(-10);
-  const saludo = `Hola ${lead.nombre.split(" ")[0]}, te habla ${asesor.split(" ")[0]} de VanTrust. Recibimos tu solicitud de seguro de ${etiquetaRamo(lead.tipo_seguro).toLowerCase()} y quiero ayudarte a comparar opciones. ¿Tienes un momento?`;
-  return `https://wa.me/57${tel}?text=${encodeURIComponent(saludo)}`;
+/** Enlace de WhatsApp con el mensaje sugerido para la etapa del lead. */
+export function whatsappCliente(lead: LeadCola, asesor: string, eventos: EventoLead[] = []) {
+  const cot = eventos.find((e) => e.tipo === "cotizado" && e.detalle?.aseguradoras);
+  return enlaceWhatsApp(lead, plantillasPara(lead, asesor, cot ? String(cot.detalle.aseguradoras) : "")[0].texto);
 }
 
 export default function TarjetaLead({
@@ -224,7 +226,7 @@ export default function TarjetaLead({
           </span>
         </button>
         <a
-          href={whatsappCliente(lead, nombreMiembro)}
+          href={whatsappCliente(lead, nombreMiembro, eventos)}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => intentar("whatsapp")}
@@ -283,7 +285,7 @@ export default function TarjetaLead({
         </button>
         {abierto && (
           <a
-            href={whatsappCliente(lead, nombreMiembro)}
+            href={whatsappCliente(lead, nombreMiembro, eventos)}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => intentar("whatsapp")}
@@ -343,27 +345,13 @@ export default function TarjetaLead({
         <p className="mt-2 text-sm text-primary/70 bg-background rounded-lg px-3 py-2">“{lead.nota_seguimiento}”</p>
       )}
 
-      {/* Contacto directo (en "Siguiente" ya están arriba) */}
+      {/* Mensaje listo para enviar (en "Siguiente" ya está arriba) */}
       {!soloDetalle && (
-      <div className="mt-4 flex flex-wrap items-center gap-2">
-        <a
-          href={whatsappCliente(lead, nombreMiembro)}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => intentar("whatsapp")}
-          className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-bold text-sm px-4 py-2 rounded-lg transition-colors"
-        >
-          <WhatsAppIcon className="w-4 h-4" />
-          WhatsApp
-        </a>
-        <a
-          href={`tel:+57${lead.telefono.replace(/\D/g, "").slice(-10)}`}
-          onClick={() => intentar("llamada")}
-          className="inline-flex items-center gap-2 border border-primary/15 hover:border-accent/50 text-primary font-semibold text-sm px-4 py-2 rounded-lg transition-colors"
-        >
-          <Phone className="w-4 h-4" />
-          {lead.telefono}
-        </a>
+      <div className="mt-4 max-w-xl">
+        <MensajeWhatsApp lead={lead} eventos={eventos} nombreMiembro={nombreMiembro} onContacto={intentar} />
+      </div>
+      )}
+      <div className="mt-2 flex flex-wrap items-center gap-2">
         <button
           type="button"
           onClick={() => {
@@ -377,7 +365,6 @@ export default function TarjetaLead({
           <ChevronDown className={`w-4 h-4 transition-transform ${verDetalles ? "rotate-180" : ""}`} />
         </button>
       </div>
-      )}
 
       {verDetalles && (
         <dl className="mt-3 grid sm:grid-cols-2 gap-x-6 gap-y-1.5 text-sm bg-background rounded-xl p-4">
