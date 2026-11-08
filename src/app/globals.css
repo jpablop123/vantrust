@@ -242,3 +242,25 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .hero-in { animation: none; }
 }
+
+/* Franja de logos que se desplaza sola (aseguradoras aliadas).
+   La lista va duplicada: al moverse -50 % empalma sin salto. Se pausa con el
+   mouse y, con movimiento reducido, queda quieta y en varias filas. */
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee { mask-image: none; }
+  .marquee-track { animation: none; width: auto !important; justify-content: center; }
+  .marquee-track > ul { flex: 1 1 100%; min-width: 0; flex-wrap: wrap; justify-content: center; row-gap: 1.5rem; padding-right: 0; }
+  .marquee-copia { display: none !important; }
+}

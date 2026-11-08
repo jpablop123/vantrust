@@ -188,35 +188,37 @@ export default function Nosotros() {
           <p className="text-muted text-sm mb-8">
             Trabajamos con las compañías más sólidas del mercado colombiano
           </p>
-          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 max-w-5xl mx-auto">
-            {INSURERS.map((name) => {
-              const logo = LOGOS[name];
-              return (
-                <li
-                  key={name}
-                  title={name}
-                  className="bg-white border border-primary/10 rounded-2xl shadow-sm h-24 sm:h-28 px-5 flex items-center justify-center transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:border-accent/40"
+          <div className="marquee overflow-hidden -mx-4 sm:mx-0">
+            <div className="marquee-track flex w-max">
+              {[false, true].map((copia) => (
+                <ul
+                  key={String(copia)}
+                  aria-hidden={copia || undefined}
+                  className={`flex items-center gap-12 sm:gap-16 pr-12 sm:pr-16 ${copia ? "marquee-copia" : ""}`}
                 >
-                  {logo ? (
-                    <Image
-                      src={logo}
-                      alt={name}
-                      sizes="160px"
-                      // Los logos casi cuadrados necesitan más alto para pesar
-                      // lo mismo que los horizontales.
-                      className={`w-auto h-auto max-w-full object-contain ${
-                        logo.width / logo.height < 1.8
-                          ? "max-h-14 sm:max-h-16"
-                          : "max-h-10 sm:max-h-12"
-                      }`}
-                    />
-                  ) : (
-                    <span className="text-primary/80 font-semibold text-sm text-center">{name}</span>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
+                  {INSURERS.map((name) => {
+                    const logo = LOGOS[name];
+                    return (
+                      <li key={name} title={name} className="shrink-0 py-3">
+                        {logo ? (
+                          <Image
+                            src={logo}
+                            alt={copia ? "" : name}
+                            sizes="180px"
+                            className={`w-auto object-contain transition-transform duration-300 hover:scale-110 ${
+                              logo.width / logo.height < 1.8 ? "h-12 sm:h-14" : "h-8 sm:h-10"
+                            }`}
+                          />
+                        ) : (
+                          <span className="text-primary/60 font-semibold whitespace-nowrap">{name}</span>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              ))}
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
