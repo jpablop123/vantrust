@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import TarjetaLead from "@/components/panel/TarjetaLead";
+import Selector from "@/components/panel/Selector";
+import Paginacion from "@/components/panel/Paginacion";
 import type { EventoLead, LeadCola } from "@/lib/panel/leads";
 import { etiquetaRamo } from "@/lib/panel/etiquetas";
 
@@ -17,6 +19,15 @@ function finDeHoy(ahora: Date) {
 }
 
 const t = (iso: string | null) => (iso ? new Date(iso).getTime() : Infinity);
+
+type OrdenCola = "prioridad" | "recientes" | "antiguos" | "nombre";
+const ORDENES_COLA: { valor: OrdenCola; texto: string }[] = [
+  { valor: "prioridad", texto: "Prioridad (recomendado)" },
+  { valor: "recientes", texto: "Más recientes primero" },
+  { valor: "antiguos", texto: "Más antiguos primero" },
+  { valor: "nombre", texto: "Nombre (A-Z)" },
+];
+const POR_SECCION = 10;
 
 export default function ColaCliente({
   leads,
@@ -33,6 +44,7 @@ export default function ColaCliente({
 }) {
   const router = useRouter();
   const [busqueda, setBusqueda] = useState("");
+  const [orden, setOrden] = useState<OrdenCola>("prioridad");
 
   // Se actualiza sola cada minuto mientras la pestaña está a la vista.
   useEffect(() => {
@@ -82,8 +94,15 @@ export default function ColaCliente({
     const cerrados = filtrados
       .filter((l) => !["nuevo", "contactado", "cotizado"].includes(l.etapa))
       .sort((a, b) => t(b.cerrado_at ?? b.created_at) - t(a.cerrado_at ?? a.created_at));
-    return { paraHoy, nuevos, enCurso, cerrados };
-  }, [leads, busqueda, ahora]);
+    if (orden === "prioridad") return { paraHoy, nuevos, enCurso, cerrados };
+    const cmp = (a: LeadCola, b: LeadCola) =>
+      orden === "nombre"
+        ? a.nombre.localeCompare(b.nombre, "es")
+        : orden === "recientes"
+          ? t(b.created_at) - t(a.created_at)
+          : t(a.created_at) - t(b.created_at);
+    return { paraHoy: paraHoy.sort(cmp), nuevos: nuevos.sort(cmp), enCurso: enCurso.sort(cmp), cerrados: cerrados.sort(cmp) };
+  }, [leads, busqueda, ahora, orden]);
 
   // Misma persona (últimos 10 dígitos del teléfono) con varias solicitudes.
   const solicitudes = useMemo(() => {
@@ -120,7 +139,8 @@ export default function ColaCliente({
         <Contador valor={ganados.length} texto={ganados.length ? `Ganados · ${pesos(primaGanada)}` : "Ganados (14 días)"} />
       </div>
 
-      <label className="mt-6 flex items-center gap-2 bg-white border border-primary/10 rounded-xl px-4 py-3 focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25">
+      <div className="mt-6 flex flex-col sm:flex-row gap-2">
+      <label className="flex-1 flex items-center gap-2 bg-white border border-primary/10 rounded-xl px-4 py-2.5 focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25">
         <Search className="w-4 h-4 text-primary/40" aria-hidden="true" />
         <span className="sr-only">Buscar</span>
         <input
@@ -130,6 +150,8 @@ export default function ColaCliente({
           className="flex-1 bg-transparent outline-none text-primary placeholder-primary/35 text-[15px]"
         />
       </label>
+      <Selector etiqueta="Ordenar por" valor={orden} onCambio={(v) => setOrden(v as OrdenCola)} opciones={ORDENES_COLA} ancho="sm:w-60" />
+      </div>
 
       <Seccion titulo="Para hoy" vacio="No tienes seguimientos para hoy." leads={grupos.paraHoy} render={tarjeta} />
       <Seccion titulo="Nuevos" vacio="No hay leads nuevos. Cuando llegue uno te avisamos por Telegram." leads={grupos.nuevos} render={tarjeta} />
@@ -141,7 +163,7 @@ export default function ColaCliente({
             Cerrados en los últimos 14 días ({grupos.cerrados.length})
             <span className="text-primary/40 text-sm font-normal group-open:hidden">Mostrar</span>
           </summary>
-          <div className="mt-4 space-y-3">{grupos.cerrados.map(tarjeta)}</div>
+          <div className="mt-4"><ListaPaginada leads={grupos.cerrados} render={tarjeta} /></div>
         </details>
       )}
     </div>
@@ -174,10 +196,25 @@ function Seccion({
         {titulo} <span className="text-primary/40 font-normal">({leads.length})</span>
       </h2>
       {leads.length ? (
-        <div className="space-y-3">{leads.map(render)}</div>
+        <ListaPaginada leads={leads} render={render} />
       ) : (
         <p className="text-muted text-sm bg-white border border-dashed border-primary/15 rounded-2xl p-5">{vacio}</p>
       )}
     </section>
+  );
+}
+
+/** Filas de una sección, de a POR_SECCION por página. */
+function ListaPaginada({ leads, render }: { leads: LeadCola[]; render: (l: LeadCola) => React.ReactNode }) {
+  const [pagina, setPagina] = useState(1);
+  const paginas = Math.max(1, Math.ceil(leads.length / POR_SECCION));
+  // Si la búsqueda deja menos páginas, se queda en la última que existe.
+  const actual = Math.min(pagina, paginas);
+  const visibles = leads.slice((actual - 1) * POR_SECCION, actual * POR_SECCION);
+  return (
+    <div className="space-y-3">
+      <div className="bg-white rounded-2xl border border-primary/10 divide-y divide-primary/10">{visibles.map(render)}</div>
+      <Paginacion pagina={actual} paginas={paginas} total={leads.length} porPagina={POR_SECCION} onIr={setPagina} />
+    </div>
   );
 }

@@ -16,6 +16,7 @@ import {
 } from "@/lib/panel/etiquetas";
 import { hace, urgenciaNuevo } from "@/lib/panel/reglas";
 import Selector from "@/components/panel/Selector";
+import { COLOR_CANAL, canalDe, capturaDe } from "@/lib/panel/origen";
 
 type Modo = null | "contacto" | "cotizado" | "ganado" | "perdido" | "nota";
 
@@ -107,6 +108,7 @@ export default function TarjetaLead({
   /** Solo para el admin: a quién se puede reasignar. */
   asesores?: { id: string; nombre: string }[];
 }) {
+  const [expandido, setExpandido] = useState(false);
   const [modo, setModo] = useState<Modo>(null);
   const [verHistorial, setVerHistorial] = useState(false);
   const [verDetalles, setVerDetalles] = useState(false);
@@ -124,6 +126,9 @@ export default function TarjetaLead({
   const urgencia = lead.etapa === "nuevo" ? urgenciaNuevo(new Date(lead.created_at), new Date(ahora)) : null;
   const detalles = Object.entries(lead.detalles || {});
   const vencido = lead.proximo_seguimiento && new Date(lead.proximo_seguimiento) <= new Date(ahora);
+  const canal = canalDe(lead);
+  const minutos = Math.round((new Date(ahora).getTime() - new Date(lead.created_at).getTime()) / 60000);
+  const chip = "text-[11px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap";
 
   const botonModo = (m: Exclude<Modo, null>, Icono: typeof Phone, txt: string) => (
     <button
@@ -140,37 +145,61 @@ export default function TarjetaLead({
   );
 
   return (
-    <article className="bg-white rounded-2xl border border-primary/10 p-4 sm:p-5">
-      {/* Encabezado */}
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div className="min-w-0">
-          <h3 className="font-bold text-primary text-lg leading-tight">{lead.nombre}</h3>
-          <p className="text-sm text-muted mt-0.5">
-            {etiquetaRamo(lead.tipo_seguro)}
-            {lead.ciudad ? ` · ${lead.ciudad}` : ""}
-            {verAsesor && <> · <span className="font-semibold text-primary/70">{lead.asesor_nombre ?? "Sin asignar"}</span></>}
-          </p>
-        </div>
-        <div className="flex flex-wrap items-center gap-1.5">
-          {solicitudes > 1 && (
-            <span
-              title="Mismo teléfono: es la misma persona"
-              className="text-xs font-bold px-2.5 py-1 rounded-full bg-primary text-white"
-            >
-              {solicitudes} solicitudes
+    <article className={`transition-colors ${expandido ? "bg-background/50" : "hover:bg-background/40"}`}>
+      {/* Fila compacta: al tocarla se abre el detalle */}
+      <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-3">
+        <button
+          type="button"
+          onClick={() => {
+            if (!expandido) registrarVista(lead.id, "visto");
+            setExpandido((v) => !v);
+          }}
+          aria-expanded={expandido}
+          className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-x-4 gap-y-1.5 text-left"
+        >
+          <span className="min-w-0 flex-1">
+            <span className="flex items-center gap-2 min-w-0">
+              <span className="font-bold text-primary truncate">{lead.nombre}</span>
+              {solicitudes > 1 && (
+                <span title="Mismo teléfono: es la misma persona" className={`${chip} bg-primary text-white`}>
+                  {solicitudes} solicitudes
+                </span>
+              )}
             </span>
-          )}
-          {urgencia && (
-            <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${COLOR_URGENCIA[urgencia.nivel]}`}>
-              Sin contactar · {hace(urgencia.minutos)}
+            <span className="block text-sm text-muted truncate">
+              {etiquetaRamo(lead.tipo_seguro)}
+              {lead.ciudad ? ` · ${lead.ciudad}` : ""}
+              {verAsesor && <> · <span className="font-semibold text-primary/70">{lead.asesor_nombre ?? "Sin asignar"}</span></>}
             </span>
-          )}
-          <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${COLOR_ETAPA[lead.etapa]}`}>
-            {ETIQUETA_ETAPA[lead.etapa]}
           </span>
-        </div>
+          <span className="flex flex-wrap items-center gap-1.5 sm:justify-end shrink-0">
+            <span className={`${chip} ${COLOR_CANAL[canal]}`} title={`Llegó por: ${canal} · ${capturaDe(lead.fuente)}`}>{canal}</span>
+            {urgencia && <span className={`${chip} ${COLOR_URGENCIA[urgencia.nivel]}`}>Sin contactar<span className="sm:hidden"> · {hace(urgencia.minutos)}</span></span>}
+            {!urgencia && abierto && lead.proximo_seguimiento && (
+              <span className={`${chip} ${vencido ? "bg-red-100 text-red-700" : "bg-background text-primary/70"}`}>
+                Seguir {fechaCorta(lead.proximo_seguimiento)}
+              </span>
+            )}
+            <span className={`${chip} ${COLOR_ETAPA[lead.etapa]}`}>{ETIQUETA_ETAPA[lead.etapa]}</span>
+            <span className="hidden sm:inline text-xs text-muted w-20 text-right">{hace(minutos)}</span>
+          </span>
+        </button>
+        <a
+          href={whatsappCliente(lead, nombreMiembro)}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => registrarVista(lead.id, "whatsapp")}
+          aria-label={`WhatsApp a ${lead.nombre}`}
+          title="Abrir WhatsApp"
+          className="shrink-0 w-9 h-9 rounded-full bg-green-600 hover:bg-green-500 text-white flex items-center justify-center transition-colors"
+        >
+          <WhatsAppIcon className="w-4 h-4" />
+        </a>
+        <ChevronDown aria-hidden="true" className={`shrink-0 w-5 h-5 text-primary/40 transition-transform ${expandido ? "rotate-180" : ""}`} />
       </div>
 
+      {expandido && (
+      <div className="px-4 sm:px-5 pb-5">
       {/* Estado del seguimiento */}
       {(lead.resultado_contacto || lead.proximo_seguimiento || lead.etapa === "ganado" || lead.etapa === "perdido") && (
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
@@ -230,11 +259,12 @@ export default function TarjetaLead({
 
       {verDetalles && (
         <dl className="mt-3 grid sm:grid-cols-2 gap-x-6 gap-y-1.5 text-sm bg-background rounded-xl p-4">
-          <Dato k="Llegó" v={`${fechaCorta(lead.created_at)} (${hace(Math.round((new Date(ahora).getTime() - new Date(lead.created_at).getTime()) / 60000))})`} />
+          <Dato k="Llegó" v={`${fechaCorta(lead.created_at)} (${hace(minutos)})`} />
           <Dato k="Formulario" v={lead.estado === "completo" ? "Completo" : "Solo paso 1"} />
           {lead.email && <Dato k="Correo" v={lead.email} />}
           {lead.placa && <Dato k="Placa" v={lead.placa} />}
           {lead.fuente && <Dato k="Fuente" v={lead.fuente} />}
+          <Dato k="Origen" v={`${canal} · ${capturaDe(lead.fuente)}`} />
           {lead.utm_campaign && <Dato k="Campaña" v={lead.utm_campaign} />}
           {detalles.map(([k, v]) => <Dato key={k} k={k} v={String(v)} />)}
           {lead.mensaje && <Dato k="Mensaje" v={lead.mensaje} />}
@@ -378,6 +408,8 @@ export default function TarjetaLead({
             </li>
           ))}
         </ol>
+      )}
+      </div>
       )}
     </article>
   );

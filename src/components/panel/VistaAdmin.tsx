@@ -2,6 +2,8 @@ import Link from "next/link";
 import TarjetaLead from "@/components/panel/TarjetaLead";
 import FiltrosAdmin from "@/components/panel/FiltrosAdmin";
 import MoverLeads from "@/components/panel/MoverLeads";
+import OrdenAdmin from "@/components/panel/OrdenAdmin";
+import Paginacion from "@/components/panel/Paginacion";
 import { POR_PAGINA, equipo, eventosDe, leadsAdmin, type FiltrosAdmin as Filtros, type Pestana } from "@/lib/panel/leads";
 
 const PESTANAS: [Pestana, string][] = [
@@ -56,8 +58,18 @@ export default async function VistaAdmin({
 
       <MoverLeads asesores={asesores.map((a) => ({ id: a.id, nombre: a.nombre, abiertos: a.abiertos }))} />
 
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-muted">
+          <b className="text-primary">{total}</b> {total === 1 ? "lead" : "leads"}
+        </p>
+        <div className="flex items-center gap-2 text-sm text-primary/60">
+          <span className="hidden sm:inline">Ordenar por</span>
+          <OrdenAdmin valor={filtros.orden} />
+        </div>
+      </div>
+
       {leads.length ? (
-        <div className="space-y-3">
+        <div className="bg-white rounded-2xl border border-primary/10 divide-y divide-primary/10">
           {leads.map((l) => (
             <TarjetaLead
               key={l.id}
@@ -76,17 +88,13 @@ export default async function VistaAdmin({
         </p>
       )}
 
-      {paginas > 1 && (
-        <nav aria-label="Páginas" className="flex items-center justify-between text-sm">
-          <span className="text-muted">
-            {total} leads · página {filtros.pagina} de {paginas}
-          </span>
-          <div className="flex gap-2">
-            {filtros.pagina > 1 && <Link href={url({ pagina: String(filtros.pagina - 1) })} className="px-4 py-2 rounded-lg border border-primary/15 bg-white font-semibold">Anterior</Link>}
-            {filtros.pagina < paginas && <Link href={url({ pagina: String(filtros.pagina + 1) })} className="px-4 py-2 rounded-lg border border-primary/15 bg-white font-semibold">Siguiente</Link>}
-          </div>
-        </nav>
-      )}
+      <Paginacion
+        pagina={filtros.pagina}
+        paginas={paginas}
+        total={total}
+        porPagina={POR_PAGINA}
+        href={(n) => url({ pagina: n > 1 ? String(n) : "" })}
+      />
     </div>
   );
 }

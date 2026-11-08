@@ -50,6 +50,53 @@ const LEADS = [
   ["Alejandra Torres", "vehiculo", 6 * 60, "cotizador_express", "meta-autos-nov", "nuevo", { placa: "MNO902" }],
 ];
 
+// Más leads generados en los últimos 30 días, para ver paginación y métricas.
+// Pseudoaleatorio con semilla fija: siempre siembra lo mismo.
+let semilla = 7;
+const azar = () => ((semilla = (semilla * 16807) % 2147483647) / 2147483647);
+const elegir = (arr) => arr[Math.floor(azar() * arr.length)];
+const NOMBRES = ["Santiago", "Isabella", "Juan David", "Mariana", "Nicolás", "Sofía", "Samuel", "Gabriela", "Tomás", "Luciana", "Martín", "Manuela", "Emilio", "Antonella", "Diego", "Valeria"];
+const APELLIDOS = ["García", "Martínez", "Rodríguez", "López", "Hernández", "Pérez", "Jiménez", "Romero", "Cárdenas", "Navarro", "Polo", "De la Hoz", "Barrios", "Charris"];
+const RAMOS = ["vehiculo", "vehiculo", "vehiculo", "salud", "salud", "hogar", "vida", "pyme", "mascotas", "viajes"];
+const ORIGENES = [
+  { fuente: "hero_placa", campana: "meta-autos-nov", src: "facebook" },
+  { fuente: "cotizador_express", campana: "meta-autos-nov", src: "facebook", fbclid: true },
+  { fuente: "l_seguro-auto", campana: "google-autos", src: "google", gclid: true },
+  { fuente: "cotizador_salud", campana: "google-salud", src: "google", gclid: true },
+  { fuente: "asesoria_gratuita", referrer: "https://www.google.com/" },
+  { fuente: "producto_hogar", referrer: "https://www.google.com/" },
+  { fuente: "cta_whatsapp:/seguros", referrer: "https://chatgpt.com/" },
+  { fuente: "cotizador_hogar", referrer: "https://www.instagram.com/" },
+  { fuente: "cta_llamada:/contacto" },
+  { fuente: "producto_vida", referrer: "https://www.bing.com/" },
+];
+for (let i = 0; i < 60; i++) {
+  const o = elegir(ORIGENES);
+  const hace = Math.round(30 + azar() * 30 * dia);
+  const viejo = hace > 2 * dia;
+  const r = azar();
+  const avance = !viejo ? (r < 0.6 ? "nuevo" : "contactado") : r < 0.15 ? "nuevo" : r < 0.45 ? "contactado" : r < 0.65 ? "cotizado" : r < 0.82 ? "ganado" : "perdido";
+  LEADS.push([
+    `${elegir(NOMBRES)} ${elegir(APELLIDOS)}`,
+    elegir(RAMOS),
+    hace,
+    o.fuente,
+    o.campana ?? "",
+    avance,
+    {
+      origen: o,
+      resultado: elegir(["interesado", "no_contesto", "lo_va_a_pensar"]),
+      seg: Math.floor(azar() * 6) - 2,
+      aseg: "Sura y Bolívar",
+      prima: Math.round((600 + azar() * 4000) * 1000),
+      aseguradora: elegir(["Sura", "Bolívar", "Allianz", "AXA Colpatria"]),
+      motivo: elegir(["precio", "ya_tiene", "no_contesta"]),
+      // Minutos hasta el primer contacto: casi siempre rápido, a veces no.
+      demora: azar() < 0.7 ? 3 + Math.round(azar() * 40) : 60 + Math.round(azar() * 600),
+    },
+  ]);
+}
+
 // Celulares colombianos de 10 dígitos (3xx xxx xxxx).
 const tel = (i) => `3${15 + (i % 7)}${String(4000000 + i * 13579).slice(-7)}`;
 
@@ -75,8 +122,12 @@ for (const [nombre, ramo, hace, fuente, campana, avance, x] of ordenados) {
       telefono: tel(n++),
       tipo_seguro: ramo,
       fuente,
-      utm_campaign: campana || null,
-      utm_source: campana ? (campana.startsWith("meta") ? "facebook" : "google") : null,
+      utm_campaign: campana && campana !== "organico" ? campana : null,
+      utm_source: x.origen ? x.origen.src ?? null : campana && campana !== "organico" ? (campana.startsWith("meta") ? "facebook" : "google") : null,
+      utm_medium: (x.origen?.src ?? (campana && campana !== "organico")) ? "cpc" : null,
+      gclid: x.origen?.gclid ? `demo-gclid-${n}` : null,
+      fbclid: x.origen?.fbclid ? `demo-fbclid-${n}` : null,
+      referrer: x.origen?.referrer ?? (campana === "organico" ? "https://www.google.com/" : null),
       placa: x.placa ?? null,
       email: x.email ?? null,
       ciudad: "Barranquilla",
@@ -104,7 +155,7 @@ for (const { id: leadId, hace, creado, asesorId, avance, x } of sembrados) {
 
   // 3) Avance comercial con su historial
   if (avance === "nuevo") continue;
-  const contacto = min(Math.max(hace - 25, 1));
+  const contacto = min(Math.max(hace - (x.demora ?? 25), 1));
   const ev = (tipo, cuando, detalle = {}, nota = null) =>
     db.from("lead_eventos").insert({ lead_id: lead.id, asesor_id: asesorId, tipo, created_at: cuando, detalle, nota });
   await ev("whatsapp", min(Math.max(hace - 20, 1)));

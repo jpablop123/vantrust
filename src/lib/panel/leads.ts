@@ -16,6 +16,11 @@ export interface LeadCola {
   detalles: Record<string, string>;
   fuente: string | null;
   utm_campaign: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  gclid: string | null;
+  fbclid: string | null;
+  referrer: string | null;
   estado: "parcial" | "completo";
   etapa: Etapa;
   asignado_a: string | null;
@@ -42,7 +47,7 @@ export interface EventoLead {
 }
 
 const COLUMNAS = `id, created_at, nombre, telefono, email, ciudad, tipo_seguro, placa, mensaje,
-  detalles, fuente, utm_campaign, estado, etapa, asignado_a, primer_contacto_at,
+  detalles, fuente, utm_campaign, utm_source, utm_medium, gclid, fbclid, referrer, estado, etapa, asignado_a, primer_contacto_at,
   ultimo_contacto_at, resultado_contacto, proximo_seguimiento, nota_seguimiento,
   prima_valor, aseguradora_cierre, cerrado_at, motivo_perdida,
   asesor:asesores!leads_asignado_a_fkey(nombre)`;
@@ -112,10 +117,12 @@ export async function leadEditable(id: string, miembro: Miembro) {
 
 // ── Vista del admin ────────────────────────────────────────────────────────
 
-export const POR_PAGINA = 50;
+export const POR_PAGINA = 25;
 const PESTANAS = ["abiertos", "nuevo", "contactado", "cotizado", "ganado", "perdido", "todos"] as const;
 export type Pestana = (typeof PESTANAS)[number];
 const RANGOS = ["hoy", "7d", "30d", "todo"] as const;
+export const ORDENES = ["recientes", "antiguos", "seguimiento", "contacto", "nombre"] as const;
+export type Orden = (typeof ORDENES)[number];
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const FECHA = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -128,6 +135,7 @@ export interface FiltrosAdmin {
   hasta: string;
   campana: string;
   q: string;
+  orden: Orden;
   pagina: number;
 }
 
@@ -146,6 +154,7 @@ export function leerFiltros(sp: Record<string, string | string[] | undefined>): 
     hasta: FECHA.test(v("hasta")) ? v("hasta") : "",
     campana: v("campana").slice(0, 80),
     q: v("q").slice(0, 60),
+    orden: ORDENES.includes(v("orden") as Orden) ? (v("orden") as Orden) : "recientes",
     pagina: Math.max(1, Math.min(200, parseInt(v("pagina")) || 1)),
   };
 }
@@ -190,10 +199,21 @@ export async function leadsAdmin(f: FiltrosAdmin) {
   const porEtapa = (q: any, etapa: Pestana) =>
     etapa === "todos" ? q : etapa === "abiertos" ? q.in("etapa", ["nuevo", "contactado", "cotizado"]) : q.eq("etapa", etapa);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const ordenar = (q: any) => {
+    if (f.orden === "antiguos") return q.order("created_at", { ascending: true });
+    if (f.orden === "nombre") return q.order("nombre", { ascending: true }).order("created_at", { ascending: false });
+    if (f.orden === "seguimiento")
+      return q.order("proximo_seguimiento", { ascending: true, nullsFirst: false }).order("created_at", { ascending: false });
+    if (f.orden === "contacto")
+      return q.order("ultimo_contacto_at", { ascending: false, nullsFirst: false }).order("created_at", { ascending: false });
+    return q.order("created_at", { ascending: false });
+  };
+
   const desde = (f.pagina - 1) * POR_PAGINA;
   const [lista, ...conteos] = await Promise.all([
-    porEtapa(aplicar(db.from("leads").select(COLUMNAS, { count: "exact" })), f.etapa)
-      .order("created_at", { ascending: false })
+    ordenar(porEtapa(aplicar(db.from("leads").select(COLUMNAS, { count: "exact" })), f.etapa))
+      .order("id")
       .range(desde, desde + POR_PAGINA - 1),
     ...PESTANAS.map((p) =>
       porEtapa(aplicar(db.from("leads").select("id", { count: "exact", head: true })), p)
