@@ -9,6 +9,12 @@ import { buildMetadata } from "@/lib/seo";
 
 const publicadas = GUIAS.filter(guiaPublicable);
 
+// Fuera de producción (previews y local) se listan también los borradores,
+// rotulados, para que el equipo los pueda revisar. En producción, solo las
+// publicadas.
+const verBorradores = process.env.VERCEL_ENV !== "production";
+const listadas = verBorradores ? GUIAS : publicadas;
+
 export const metadata: Metadata = buildMetadata({
   title: "Guías de seguros: respuestas claras | VanTrust",
   description:
@@ -29,17 +35,24 @@ export default function GuiasIndex() {
       />
       <main className="bg-surface py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {publicadas.length === 0 ? (
+          {listadas.length === 0 ? (
             <p className="text-muted">Pronto publicaremos las primeras guías.</p>
           ) : (
             <ul className="grid sm:grid-cols-2 gap-5">
-              {publicadas.map((g) => (
+              {listadas.map((g) => (
                 <li key={g.slug}>
                   <Link
                     href={`/guias/${g.slug}`}
                     className="block h-full bg-white rounded-2xl border border-primary/10 hover:border-accent/40 p-6 shadow-sm transition-colors"
                   >
-                    <BookOpen className="w-6 h-6 text-accent mb-3" aria-hidden />
+                    <div className="flex items-center justify-between mb-3">
+                      <BookOpen className="w-6 h-6 text-accent" aria-hidden />
+                      {!guiaPublicable(g) && (
+                        <span className="text-[11px] font-semibold uppercase tracking-wide text-amber-700 bg-amber-100 rounded-full px-2.5 py-0.5">
+                          Borrador
+                        </span>
+                      )}
+                    </div>
                     <h2 className="text-lg font-bold text-primary mb-1.5">{g.titulo}</h2>
                     <p className="text-muted text-sm">{g.description}</p>
                   </Link>
