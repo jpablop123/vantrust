@@ -131,7 +131,8 @@ export default function PrivacyContent() {
             <li>Dirección IP</li>
             <li>Tipo de navegador y dispositivo</li>
             <li>Páginas visitadas y tiempo de permanencia</li>
-            <li>Cookies técnicas y de rendimiento (ver sección 10)</li>
+            <li>Cookies técnicas, de rendimiento y de medición publicitaria (ver sección 11)</li>
+            <li>Parámetros de la campaña por la que llegaste (utm, gclid, fbclid)</li>
           </ul>
         </div>
       ),
@@ -381,6 +382,27 @@ export default function PrivacyContent() {
                 <td className="px-4 py-2">Envío de notificaciones al equipo comercial vía WhatsApp</td>
                 <td className="px-4 py-2">Estados Unidos</td>
               </tr>
+              <tr className="border-t border-gray-100">
+                <td className="px-4 py-2">Supabase, Inc.</td>
+                <td className="px-4 py-2">Base de datos donde se almacenan las solicitudes de cotización</td>
+                {/* TODO: confirmar la región del proyecto de Supabase */}
+                <td className="px-4 py-2">Según la región del proyecto</td>
+              </tr>
+              <tr className="border-t border-gray-100">
+                <td className="px-4 py-2">Meta Platforms, Inc. (Pixel y Conversions API)</td>
+                <td className="px-4 py-2">Medición de campañas publicitarias (datos de contacto cifrados con hash)</td>
+                <td className="px-4 py-2">Estados Unidos</td>
+              </tr>
+              <tr className="border-t border-gray-100">
+                <td className="px-4 py-2">Google LLC (Google Analytics)</td>
+                <td className="px-4 py-2">Estadísticas de uso del sitio web</td>
+                <td className="px-4 py-2">Estados Unidos</td>
+              </tr>
+              <tr className="border-t border-gray-100">
+                <td className="px-4 py-2">Telegram Messenger Inc.</td>
+                <td className="px-4 py-2">Aviso inmediato de nuevas solicitudes al equipo comercial</td>
+                <td className="px-4 py-2">Internacional (varios países)</td>
+              </tr>
             </tbody>
           </table>
 
@@ -433,15 +455,41 @@ export default function PrivacyContent() {
             El sitio web de VanTrust utiliza cookies técnicas esenciales para el correcto
             funcionamiento del sitio. Estas cookies son necesarias para:
           </p>
+          {/* TODO(revisión legal): texto actualizado al activar Meta Pixel, GA4 y
+              Conversions API. Debe validarlo el área legal antes de pautar. */}
           <ul className="list-disc pl-5 space-y-1">
             <li>Mantener la sesión del usuario activa durante la navegación.</li>
             <li>Garantizar el correcto funcionamiento de los formularios.</li>
             <li>Recopilar datos anonimizados de rendimiento del sitio web.</li>
           </ul>
           <p>
-            No se utilizan cookies de publicidad ni cookies de terceros con fines de rastreo
-            publicitario. El usuario puede desactivar las cookies a través de la configuración de
-            su navegador; sin embargo, esto podría afectar la funcionalidad del sitio web.
+            Además, utilizamos cookies y tecnologías de medición de terceros para saber qué
+            campañas publicitarias y canales nos traen solicitudes, y para mostrar anuncios
+            relevantes:
+          </p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>
+              <strong>Meta Pixel y Conversions API</strong> (Meta Platforms, Inc.): miden las
+              visitas y las solicitudes de cotización originadas en anuncios de Facebook e
+              Instagram. Cuando envías un formulario, tu teléfono, correo, nombre y ciudad se
+              comparten con Meta cifrados de forma irreversible (hash SHA-256), solo para atribuir
+              la solicitud a la campaña correspondiente.
+            </li>
+            <li>
+              <strong>Google Analytics 4</strong> (Google LLC): estadísticas de uso del sitio.
+            </li>
+            <li>
+              <strong>Vercel Web Analytics</strong> (Vercel, Inc.): métricas agregadas de visitas,
+              sin cookies.
+            </li>
+            <li>
+              Guardamos en tu navegador los parámetros de la campaña por la que llegaste (por
+              ejemplo utm_source o gclid) para asociarlos a tu solicitud.
+            </li>
+          </ul>
+          <p>
+            El usuario puede desactivar o borrar las cookies a través de la configuración de su
+            navegador; sin embargo, esto podría afectar la funcionalidad del sitio web.
           </p>
         </div>
       ),

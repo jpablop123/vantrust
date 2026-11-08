@@ -1,7 +1,10 @@
+import Link from "next/link";
 import Image from "next/image";
 import logoWhite from "../../public/vantrust-logo-white.png";
 import { ShieldCheck, Phone, Mail, MessageCircle, MapPin } from "lucide-react";
 import { SITE, waLink } from "@/lib/site";
+
+const REGISTRO_INTERMEDIARIO = process.env.NEXT_PUBLIC_REGISTRO_INTERMEDIARIO || "";
 
 export default function Footer() {
   return (
@@ -137,10 +140,28 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-        <p>
-          &copy; {new Date().getFullYear()} {SITE.legalName} · NIT {SITE.nit} ·
-          Todos los derechos reservados
-        </p>
+        <div className="text-center sm:text-left space-y-1">
+          <p>
+            &copy; {new Date().getFullYear()} {SITE.legalName} · NIT {SITE.nit} ·
+            Todos los derechos reservados
+          </p>
+          {/* TODO: número real de registro como intermediario de seguros. Solo se
+              muestra cuando NEXT_PUBLIC_REGISTRO_INTERMEDIARIO está definido,
+              para no publicar un número inventado. */}
+          {REGISTRO_INTERMEDIARIO && (
+            <p className="text-white/40">
+              Intermediario de seguros · Registro {REGISTRO_INTERMEDIARIO}
+            </p>
+          )}
+          <p>
+            <Link
+              href="/politica-privacidad"
+              className="hover:text-accent transition-colors underline-offset-2 hover:underline"
+            >
+              Política de tratamiento de datos personales (Ley 1581 de 2012)
+            </Link>
+          </p>
+        </div>
         <div className="flex items-center gap-4">
           {SITE.social.instagram && (
             <a
