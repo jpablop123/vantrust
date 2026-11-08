@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { startTransition, useActionState, useState } from "react";
 import { Phone, ChevronDown, History, StickyNote, Trophy, XCircle, FileCheck2, MessageSquareText, RotateCcw } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { actuarSobreLead, registrarVista, type EstadoAccion } from "@/app/panel/cola/acciones";
@@ -15,6 +15,7 @@ import {
   textoResultado,
 } from "@/lib/panel/etiquetas";
 import { hace, urgenciaNuevo } from "@/lib/panel/reglas";
+import Selector from "@/components/panel/Selector";
 
 type Modo = null | "contacto" | "cotizado" | "ganado" | "perdido" | "nota";
 
@@ -44,7 +45,10 @@ const fechaCorta = (iso: string) =>
     month: "short",
     hour: "numeric",
     minute: "2-digit",
-  }).format(new Date(iso));
+  })
+    .format(new Date(iso))
+    // Node y el navegador usan espacios distintos ("a. m."): se igualan para hidratar sin error.
+    .replace(/\s/g, " ");
 
 const TEXTO_EVENTO: Record<string, string> = {
   creado: "Llegó el lead",
@@ -418,25 +422,26 @@ function Reasignar({
   asesores: { id: string; nombre: string }[];
 }) {
   const [estado, accion, enviando] = useActionState(reasignarLead, undefined);
+  const [valor, setValor] = useState(actual ?? "");
   return (
-    <form action={accion} className="inline-flex items-center gap-2">
-      <input type="hidden" name="leadId" value={leadId} />
-      <label className="sr-only" htmlFor={`reasignar-${leadId}`}>Reasignar a</label>
-      <select
-        id={`reasignar-${leadId}`}
-        name="asesorId"
-        defaultValue={actual ?? ""}
-        disabled={enviando}
-        onChange={(e) => e.currentTarget.form?.requestSubmit()}
-        className="px-3 py-2 rounded-lg border border-primary/15 bg-white text-sm text-primary/80 outline-none focus:border-accent"
-      >
-        <option value="" disabled>Sin asignar</option>
-        {asesores.map((a) => (
-          <option key={a.id} value={a.id}>{a.nombre}</option>
-        ))}
-      </select>
+    <div className="inline-flex items-center gap-2">
+      <Selector
+        etiqueta="Reasignar a"
+        valor={valor}
+        placeholder="Sin asignar"
+        ancho="w-44"
+        deshabilitado={enviando}
+        opciones={asesores.map((a) => ({ valor: a.id, texto: a.nombre }))}
+        onCambio={(v) => {
+          setValor(v);
+          const f = new FormData();
+          f.set("leadId", leadId);
+          f.set("asesorId", v);
+          startTransition(() => accion(f));
+        }}
+      />
       {estado?.error && <span role="alert" className="text-xs text-red-700">{estado.error}</span>}
       {estado?.ok && <span className="text-xs text-green-700">{estado.ok}</span>}
-    </form>
+    </div>
   );
 }

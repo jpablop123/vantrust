@@ -10,6 +10,9 @@ import {
   type EstadoAdmin,
 } from "@/app/panel/admin/acciones";
 import type { MiembroEquipo } from "@/lib/panel/leads";
+import { SelectorCampo } from "@/components/panel/Selector";
+
+const ROLES = [{ valor: "asesor", texto: "Asesor" }, { valor: "admin", texto: "Administrador" }];
 
 const control = "w-full px-3 py-2.5 rounded-xl border border-primary/15 bg-white text-sm text-primary outline-none focus:border-accent focus:ring-2 focus:ring-accent/25";
 
@@ -46,10 +49,7 @@ function NuevoMiembro() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2">
         <input name="nombre" required placeholder="Nombre completo" aria-label="Nombre completo" className={control} />
         <input name="email" type="email" required placeholder="correo@vantrust.com.co" aria-label="Correo" className={control} />
-        <select name="rol" aria-label="Rol" defaultValue="asesor" className={control}>
-          <option value="asesor">Asesor</option>
-          <option value="admin">Administrador</option>
-        </select>
+        <SelectorCampo name="rol" etiqueta="Rol" inicial="asesor" opciones={ROLES} />
         <input name="telegram" placeholder="Chat de Telegram (opcional)" aria-label="Chat de Telegram" className={control} />
       </div>
       <button type="submit" disabled={enviando} className="bg-accent hover:bg-accent-light text-primary font-bold px-5 py-2.5 rounded-xl disabled:opacity-60">
@@ -77,10 +77,7 @@ function FilaMiembro({ m, soyYo }: { m: MiembroEquipo; soyYo: boolean }) {
           <input type="hidden" name="id" value={m.id} />
           <div className="grid sm:grid-cols-3 gap-2">
             <input name="nombre" defaultValue={m.nombre} required aria-label="Nombre" className={control} />
-            <select name="rol" defaultValue={m.rol} aria-label="Rol" className={control}>
-              <option value="asesor">Asesor</option>
-              <option value="admin">Administrador</option>
-            </select>
+            <SelectorCampo name="rol" etiqueta="Rol" inicial={m.rol} opciones={ROLES} />
             <input name="telegram" defaultValue={m.telegram_chat_id ?? ""} placeholder="Chat de Telegram" aria-label="Chat de Telegram" className={control} />
           </div>
           <div className="flex gap-2">

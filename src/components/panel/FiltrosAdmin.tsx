@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
 import type { FiltrosAdmin as Filtros } from "@/lib/panel/leads";
+import Selector from "@/components/panel/Selector";
 
 const RAMOS: [string, string][] = [
   ["", "Todos los ramos"], ["vehiculo", "Automóvil"], ["salud", "Salud"], ["hogar", "Hogar"],
@@ -46,17 +47,20 @@ export default function FiltrosAdmin({ filtros, asesores }: { filtros: Filtros; 
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar por nombre o teléfono" className="flex-1 bg-transparent outline-none text-primary text-[15px] placeholder-primary/35" />
       </label>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
-        <select aria-label="Asesor" value={filtros.asesor} onChange={(e) => poner({ asesor: e.target.value })} className={control}>
-          <option value="">Todos los asesores</option>
-          <option value="sin">Sin asignar</option>
-          {asesores.map((a) => <option key={a.id} value={a.id}>{a.nombre}</option>)}
-        </select>
-        <select aria-label="Ramo" value={filtros.ramo} onChange={(e) => poner({ ramo: e.target.value })} className={control}>
-          {RAMOS.map(([v, t]) => <option key={v} value={v}>{t}</option>)}
-        </select>
-        <select aria-label="Fecha" value={filtros.rango} onChange={(e) => poner({ rango: e.target.value === "todo" ? "" : e.target.value, desde: "", hasta: "" })} className={control}>
-          {RANGOS.map(([v, t]) => <option key={v} value={v}>{t}</option>)}
-        </select>
+        <Selector
+          etiqueta="Asesor"
+          valor={filtros.asesor}
+          onCambio={(v) => poner({ asesor: v })}
+          opciones={[{ valor: "", texto: "Todos los asesores" }, { valor: "sin", texto: "Sin asignar" }, ...asesores.map((a) => ({ valor: a.id, texto: a.nombre }))]}
+        />
+        <Selector etiqueta="Ramo" valor={filtros.ramo} onCambio={(v) => poner({ ramo: v })} opciones={RAMOS.map(([valor, texto]) => ({ valor, texto }))} />
+        <Selector
+          etiqueta="Fecha"
+          valor={filtros.desde || filtros.hasta ? "" : filtros.rango}
+          placeholder="Fechas a mano"
+          onCambio={(v) => poner({ rango: v === "todo" ? "" : v, desde: "", hasta: "" })}
+          opciones={RANGOS.map(([valor, texto]) => ({ valor, texto }))}
+        />
         <input aria-label="Campaña" defaultValue={filtros.campana} placeholder="Campaña (utm)" onBlur={(e) => e.target.value !== filtros.campana && poner({ campana: e.target.value })} onKeyDown={(e) => e.key === "Enter" && poner({ campana: e.currentTarget.value })} className={control} />
       </div>
       <div className="flex flex-wrap items-center gap-2 text-sm text-primary/70">
