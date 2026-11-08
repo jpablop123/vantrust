@@ -6,12 +6,9 @@ import {
   UserCheck,
   LifeBuoy,
   RefreshCw,
-  Building2,
-  Zap,
-  MapPin,
-  ShieldCheck,
 } from "lucide-react";
-import { INSURERS } from "@/lib/site";
+import { INSURERS, waLink } from "@/lib/site";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 import Image, { type StaticImageData } from "next/image";
 import logoAllianz from "../../public/aseguradoras/allianz.png";
 import logoAxa from "../../public/aseguradoras/axa-colpatria.png";
@@ -39,15 +36,30 @@ const LOGOS: Record<string, StaticImageData> = {
   Zurich: logoZurich,
 };
 
-const diferenciales = [
-  { icon: Search, text: "Analizamos varias aseguradoras para encontrar la mejor opción" },
-  { icon: UserCheck, text: "Asesoría personalizada" },
-  { icon: LifeBuoy, text: "Acompañamiento en caso de siniestro" },
-  { icon: RefreshCw, text: "Renovaciones oportunas" },
-  { icon: Building2, text: "Más de 9 aseguradoras aliadas" },
-  { icon: Zap, text: "Atención rápida" },
-  { icon: MapPin, text: "Cobertura nacional" },
-  { icon: ShieldCheck, text: "Más que vender seguros, protegemos su patrimonio" },
+// Las 8 razones de antes, agrupadas en 4 para que se lean de un vistazo:
+// comparación (+ aseguradoras aliadas y cobertura nacional), asesoría
+// personalizada y rápida, siniestros, y renovaciones.
+const razones = [
+  {
+    icon: Search,
+    titulo: "Comparamos por ti",
+    texto: "Analizamos más de 9 aseguradoras aliadas para encontrar la mejor opción en precio y cobertura, en todo el país.",
+  },
+  {
+    icon: UserCheck,
+    titulo: "Un asesor de verdad",
+    texto: "Asesoría personalizada y atención rápida: una persona que conoce tu caso, no un call center.",
+  },
+  {
+    icon: LifeBuoy,
+    titulo: "Contigo en el siniestro",
+    texto: "Cuando pasa algo, te acompañamos con la aseguradora de principio a fin.",
+  },
+  {
+    icon: RefreshCw,
+    titulo: "Renovaciones a tiempo",
+    texto: "Te avisamos antes de que venza tu póliza y volvemos a comparar para que no pagues de más.",
+  },
 ];
 
 export default function Nosotros() {
@@ -118,39 +130,48 @@ export default function Nosotros() {
         </div>
 
         {/* Diferenciales / Por qué elegir VanTrust */}
-        <motion.div
-          className="text-center mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h3 className="text-2xl sm:text-3xl font-bold text-primary">
-            ¿Por qué elegir VanTrust?
-          </h3>
-        </motion.div>
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 mb-20 lg:mb-24">
+          <div className="lg:sticky lg:top-28 self-start">
+            <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary tracking-tight mb-5">
+              ¿Por qué elegir VanTrust?
+            </h3>
+            <p className="text-2xl sm:text-3xl font-bold text-primary/80 leading-snug tracking-tight">
+              Más que vender seguros,{" "}
+              <span className="text-gold-gradient italic">protegemos su patrimonio.</span>
+            </p>
+            <a
+              href={waLink({ mensaje: "Hola, quiero hablar con un asesor de VanTrust" })}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-bold px-7 py-3.5 rounded-full transition-all duration-200 hover:scale-105"
+            >
+              <WhatsAppIcon className="w-5 h-5" />
+              Hablar con un asesor
+            </a>
+          </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-20">
-          {diferenciales.map((d, i) => {
-            const Icon = d.icon;
-            return (
-              <motion.div
-                key={d.text}
-                className="bg-white rounded-2xl border border-primary/10 p-6 flex flex-col gap-3"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-              >
-                <div className="w-10 h-10 rounded-xl bg-accent/15 text-accent-dark flex items-center justify-center">
-                  <Icon className="w-5 h-5" />
-                </div>
-                <p className="text-primary text-sm font-medium leading-snug">
-                  {d.text}
-                </p>
-              </motion.div>
-            );
-          })}
+          <ol className="border-t border-primary/15">
+            {razones.map((r, i) => {
+              const Icon = r.icon;
+              return (
+                <li
+                  key={r.titulo}
+                  className="group flex gap-5 sm:gap-6 py-6 sm:py-7 border-b border-primary/15"
+                >
+                  <span className="text-gold-gradient font-bold text-3xl sm:text-4xl leading-none tabular-nums w-12 shrink-0">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-1.5">
+                      <Icon className="w-5 h-5 text-accent-dark shrink-0" />
+                      <p className="text-primary text-lg sm:text-xl font-bold">{r.titulo}</p>
+                    </div>
+                    <p className="text-muted leading-relaxed">{r.texto}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
         </div>
 
         {/* Aseguradoras aliadas */}
