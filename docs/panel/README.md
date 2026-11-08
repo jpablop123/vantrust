@@ -9,6 +9,7 @@ El panel vive en `/panel` (rama `feat/panel-leads`). Usa Supabase para dos cosas
    1. `20261108000000_leads.sql`
    2. `20261108000100_renovaciones.sql`
    3. `20261109000000_panel_asesores.sql`
+   4. `20261109000100_panel_cola.sql` (etapas, asignación por turnos e historial)
 
    Las siguientes partes del panel agregan más migraciones; se aplican igual.
 3. En **Authentication > Sign In / Providers**, deja activo "Email" y **desactiva "Allow new users to sign up"**. Las cuentas solo las crea el admin.
@@ -38,6 +39,12 @@ node --env-file=.env.local scripts/panel-crear-miembro.mjs tu@correo.com "Tu Nom
 ```
 
 El script muestra una contraseña temporal una sola vez. Después se cambia en `/panel/restablecer`. Los asesores se crean igual, con `asesor` en vez de `admin`; desde la parte 3, también desde el panel.
+
+## Asignación y avisos
+
+- Cada lead nuevo del sitio se asigna por turnos entre los asesores con `rol = asesor`, `activo = true` y `acceso = true`. Los admin no entran en la rotación. Si el mismo teléfono ya tuvo asesor, vuelve con él. Lo hace la función `asignar_lead` de la base de datos, con un candado para que dos leads simultáneos no se crucen.
+- Si el asesor tiene `telegram_chat_id`, el bot le escribe por privado cuando le llega un lead. Para obtener su chat id, el asesor le escribe al bot y se consulta `https://api.telegram.org/bot<TOKEN>/getUpdates`. El aviso al grupo sigue igual.
+- Sin asesores activos, el lead queda sin asignar y el admin lo ve en "Todos los leads".
 
 ## Cómo se decide quién entra
 

@@ -11,6 +11,7 @@ import { normalizarCelular, celularValido } from "@/lib/validacion";
 import { sendCapiLead } from "@/lib/meta-capi";
 import { getAsesor } from "@/lib/asesor";
 import { enviarTelegram } from "@/lib/telegram";
+import { asignarYAvisar } from "@/lib/panel/asignacion";
 
 // Flujo en dos pasos:
 //   POST  → paso 1 (nombre + WhatsApp + ramo). Crea el lead "parcial" y avisa
@@ -510,6 +511,8 @@ export async function POST(req: NextRequest) {
         ["WhatsApp", sendWhatsAppNotification(data)],
         ["Telegram", sendTelegramNotification(data, estado)],
         ["Confirmación cliente", sendConfirmationToCustomer(data)],
+        // Panel: reparte el lead por turnos y avisa al asesor.
+        ["Asignación", asignarYAvisar(id)],
       ])
     );
 

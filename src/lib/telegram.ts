@@ -10,9 +10,12 @@ export function telegramConfigurado(): boolean {
 }
 
 /** Envía HTML de Telegram. Lanza si Telegram responde con error. */
-export async function enviarTelegram(html: string): Promise<void> {
+export async function enviarTelegram(
+  html: string,
+  // Por defecto, el grupo del equipo. El panel lo usa para avisar a un asesor.
+  chatId = process.env.TELEGRAM_CHAT_ID
+): Promise<void> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
   if (!token || !chatId) {
     console.warn("Telegram not configured, skipping");
     return;

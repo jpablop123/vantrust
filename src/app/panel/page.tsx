@@ -1,23 +1,33 @@
 import { exigirMiembro } from "@/lib/panel/sesion";
+import { eventosDe, leadsDeCola } from "@/lib/panel/leads";
 import BarraPanel from "@/components/panel/BarraPanel";
+import ColaCliente from "@/components/panel/ColaCliente";
+
+// Siempre con datos frescos: es una cola de trabajo.
+export const dynamic = "force-dynamic";
 
 export default async function PanelInicio() {
   const miembro = await exigirMiembro();
-  const primerNombre = miembro.nombre.split(" ")[0];
+  const leads = await leadsDeCola(miembro);
+  const eventos = await eventosDe(leads.map((l) => l.id));
+  const esAdmin = miembro.rol === "admin";
   return (
     <>
       <BarraPanel miembro={miembro} />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <h1 className="text-3xl font-bold tracking-tight">Hola, {primerNombre}</h1>
-        <p className="text-muted mt-1">
-          {miembro.rol === "admin"
-            ? "Desde aquí vas a ver todos los leads, repartirlos y gestionar el equipo."
-            : "Desde aquí vas a ver tus leads y registrar cada contacto."}
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h1 className="text-3xl font-bold tracking-tight">{esAdmin ? "Todos los leads" : "Mi cola"}</h1>
+        <p className="text-muted mt-1 mb-6">
+          {esAdmin
+            ? "Los leads de todo el equipo. Los filtros y la gestión del equipo llegan en la parte 3."
+            : "Tus leads asignados. Escríbeles, registra cómo te fue y el panel te recuerda cuándo volver."}
         </p>
-        <div className="mt-8 bg-white border border-primary/10 rounded-2xl p-6 max-w-xl">
-          <p className="font-semibold">{miembro.rol === "admin" ? "Leads y equipo" : "Mi cola"}</p>
-          <p className="text-muted text-sm mt-1">Llega en la siguiente entrega del panel.</p>
-        </div>
+        <ColaCliente
+          leads={leads}
+          eventos={eventos}
+          ahora={new Date().toISOString()}
+          esAdmin={esAdmin}
+          nombreMiembro={miembro.nombre}
+        />
       </main>
     </>
   );
