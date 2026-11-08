@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Tracking from "@/components/Tracking";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import CapturaLead from "@/components/CapturaLead";
 import JsonLd from "@/components/seo/JsonLd";
 import { NEGOCIO } from "@/lib/negocio";
 import { OG_IMAGE, SITE_URL, insuranceAgencyLd, websiteLd } from "@/lib/seo";
@@ -38,6 +39,7 @@ export default function RootLayout({
         <JsonLd data={[insuranceAgencyLd(), websiteLd()]} />
         {children}
         <WhatsAppFloat />
+        <CapturaLead />
         <Tracking />
         <Analytics />
       </body>

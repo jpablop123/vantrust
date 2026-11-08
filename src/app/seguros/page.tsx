@@ -162,6 +162,7 @@ function BloqueDestacado({
         <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2">
           <a
             href={waLink({ ramo: seguro.slug })}
+            data-lead-ramo={seguro.slug}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-green-600 hover:bg-green-500 text-white font-bold px-6 py-3 rounded-full transition-all duration-200 hover:scale-105"

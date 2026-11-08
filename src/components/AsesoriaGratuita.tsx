@@ -60,6 +60,7 @@ export default function AsesoriaGratuita() {
             <p className="text-white/40 text-sm mb-3">¿Prefieres llamarnos ahora?</p>
             <a
               href={`tel:${SITE.phoneTel}`}
+              data-lead-accion="solicitar-llamada"
               className="inline-flex items-center justify-center gap-2 border-2 border-white/20 hover:border-accent hover:text-accent text-white font-semibold px-6 py-3 rounded-full transition-all w-full sm:w-auto"
             >
               <Phone className="w-4 h-4" />
