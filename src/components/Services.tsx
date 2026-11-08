@@ -1,11 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { Check, ChevronRight, Building2 } from "lucide-react";
+import { waLink } from "@/lib/site";
+import { EMPRESAS, SEGUROS } from "@/data/seguros";
+import { urlSeguro } from "@/data/seo/paginas";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 
 const services = [
   {
     id: "vehiculo",
-    num: "01",
+    slug: "automoviles",
     title: "Seguro Vehicular",
     badge: "Más popular",
     description:
@@ -35,9 +41,8 @@ const services = [
   },
   {
     id: "salud",
-    num: "02",
+    slug: "salud",
     title: "Seguro de Salud",
-    badge: "Esencial",
     description:
       "Planes de salud y medicina prepagada con acceso a la mejor red de clínicas y especialistas del país.",
     icon: (
@@ -65,9 +70,8 @@ const services = [
   },
   {
     id: "vivienda",
-    num: "03",
+    slug: "hogar",
     title: "Seguro de Vivienda",
-    badge: "Tranquilidad",
     description:
       "Protección integral para tu hogar ante incendios, desastres naturales, robo y responsabilidad civil.",
     icon: (
@@ -95,15 +99,9 @@ const services = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
+/** Botón dorado del diseño (CTA principal). */
+const btnOro =
+  "btn-shine glow-accent inline-flex items-center justify-center gap-2 bg-gradient-to-r from-accent-light via-accent to-accent-dark text-primary font-bold rounded-full transition-all duration-200 hover:scale-105";
 
 export default function Services() {
   const handleSelect = (serviceId: string) => {
@@ -116,6 +114,8 @@ export default function Services() {
     window.dispatchEvent(new CustomEvent("vt-ramo", { detail: ramo }));
     document.getElementById("cotizar")?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const [auto, ...otros] = services;
 
   return (
     <section id="servicios" className="py-24 bg-surface">
@@ -141,97 +141,143 @@ export default function Services() {
           </p>
         </motion.div>
 
-        <motion.div
-          className="grid md:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {services.map((service) => (
-            <motion.div
-              key={service.id}
-              variants={cardVariants}
-              onClick={() => handleSelect(service.id)}
-              className="card-accent-top relative bg-gradient-to-b from-white to-surface rounded-2xl p-8 sm:p-10 shadow-[0_2px_12px_rgba(0,44,85,0.05)] hover:shadow-[0_20px_50px_-16px_rgba(0,44,85,0.25)] hover:-translate-y-1.5 transition-all duration-300 group border border-primary/10 hover:border-accent/40 cursor-pointer"
-            >
-              {/* Decorative number */}
-              <span className="absolute top-6 right-6 text-6xl font-bold text-primary/[0.04] leading-none select-none pointer-events-none">
-                {service.num}
-              </span>
-
-              <span className="absolute top-4 right-4 bg-accent/10 text-accent text-xs font-semibold px-3 py-1 rounded-full">
-                {service.badge}
-              </span>
-
-              <div className="w-14 h-14 bg-primary/5 rounded-xl flex items-center justify-center text-primary group-hover:bg-accent group-hover:text-white transition-colors duration-300">
-                {service.icon}
+        <div className="grid lg:grid-cols-3 lg:grid-rows-[auto_auto] gap-5">
+          {/* El más cotizado: bloque grande */}
+          <article className="relative overflow-hidden rounded-3xl bg-primary bg-grid p-8 sm:p-10 lg:row-span-2 flex flex-col">
+            <div className="absolute -top-20 -right-10 w-80 h-80 bg-[radial-gradient(circle,rgba(191,161,92,0.22),transparent_65%)]" />
+            <div className="relative z-10 flex flex-col flex-1">
+              <div className="flex items-center justify-between mb-8">
+                <span className="w-16 h-16 rounded-2xl bg-accent/15 border border-accent/30 text-accent flex items-center justify-center">
+                  {auto.icon}
+                </span>
+                <span className="bg-accent text-primary text-xs font-bold px-3 py-1.5 rounded-full">
+                  {auto.badge}
+                </span>
               </div>
-
-              <h3 className="text-xl font-bold text-primary mt-6 mb-3">
-                {service.title}
+              <h3 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">
+                {auto.title}
               </h3>
-              <p className="text-muted leading-relaxed mb-5 text-sm">
-                {service.description}
-              </p>
-
-              <ul className="space-y-2 mb-6">
-                {service.features.map((feature) => (
-                  <li
-                    key={feature}
-                    className="flex items-center gap-2 text-sm text-muted"
-                  >
-                    <svg
-                      className="w-4 h-4 text-accent flex-shrink-0"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    {feature}
+              <p className="text-white/65 text-lg leading-relaxed mb-7">{auto.description}</p>
+              <ul className="space-y-3 mb-8">
+                {auto.features.map((f) => (
+                  <li key={f} className="flex items-center gap-3 text-white/85">
+                    <Check className="w-5 h-5 text-accent shrink-0" />
+                    {f}
                   </li>
                 ))}
               </ul>
+              <p className="text-white/45 text-sm mb-8">
+                Con {auto.insurers.join(", ")} y más.
+              </p>
+              <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3">
+                <button
+                  type="button"
+                  onClick={() => handleSelect(auto.id)}
+                  className={`${btnOro} px-8 py-4 text-lg`}
+                >
+                  Cotizar mi carro
+                </button>
+                <Link
+                  href={urlSeguro(auto.slug)}
+                  className="inline-flex items-center gap-1 text-white/70 hover:text-accent font-medium transition-colors"
+                >
+                  Ver coberturas
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </article>
 
-              <div className="pt-4 border-t border-primary/10">
-                <span className="block text-[11px] text-muted/60 mb-2">
-                  Aseguradoras:
+          {/* Salud y hogar */}
+          {otros.map((s) => (
+            <article
+              key={s.id}
+              className="group relative bg-white rounded-3xl border border-primary/10 hover:border-accent/40 p-7 sm:p-8 shadow-[0_2px_12px_rgba(0,44,85,0.05)] hover:shadow-[0_20px_50px_-16px_rgba(0,44,85,0.25)] transition-all duration-300 flex flex-col"
+            >
+              <div className="flex items-start gap-4 mb-4">
+                <span className="w-14 h-14 shrink-0 rounded-xl bg-primary/5 text-primary group-hover:bg-accent group-hover:text-white flex items-center justify-center transition-colors duration-300">
+                  {s.icon}
                 </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {service.insurers.map((ins) => (
-                    <span
-                      key={ins}
-                      className="bg-background px-2.5 py-1 rounded-md text-primary/60 text-[11px] font-medium"
-                    >
-                      {ins}
-                    </span>
-                  ))}
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-primary">{s.title}</h3>
+                  <p className="text-muted text-sm mt-1 leading-relaxed">{s.description}</p>
                 </div>
               </div>
-
-              <div className="mt-5 flex items-center text-accent font-semibold text-sm group-hover:translate-x-1 transition-transform">
-                Cotizar este seguro
-                <svg
-                  className="w-4 h-4 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+              <ul className="flex flex-wrap gap-2 mb-6">
+                {s.features.map((f) => (
+                  <li key={f} className="bg-background text-primary/70 text-xs font-medium px-3 py-1.5 rounded-full">
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-auto text-muted/80 text-xs mb-5">
+                Con {s.insurers.join(", ")} y más.
+              </p>
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+                <button
+                  type="button"
+                  onClick={() => handleSelect(s.id)}
+                  className={`${btnOro} px-6 py-3`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                  Cotizar
+                </button>
+                <Link
+                  href={urlSeguro(s.slug)}
+                  className="inline-flex items-center gap-1 text-primary/60 hover:text-accent-dark font-medium text-sm transition-colors"
+                >
+                  Ver coberturas
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
               </div>
-            </motion.div>
+            </article>
           ))}
-        </motion.div>
+
+          {/* Empresas: antes no aparecían en el home */}
+          <article className="lg:col-span-2 relative overflow-hidden rounded-3xl bg-gradient-to-br from-white to-background border-2 border-accent/30 p-7 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-6">
+            <span className="w-14 h-14 shrink-0 rounded-xl bg-accent/15 text-accent-dark flex items-center justify-center">
+              <Building2 className="w-7 h-7" />
+            </span>
+            <div className="flex-1">
+              <p className="text-accent-dark text-xs font-bold uppercase tracking-wider mb-1">
+                ¿Tienes empresa?
+              </p>
+              <h3 className="text-xl sm:text-2xl font-bold text-primary">Seguros para tu empresa</h3>
+              <p className="text-muted text-sm mt-1">
+                Pyme, cumplimiento para licitaciones, ARL, responsabilidad civil y{" "}
+                {EMPRESAS.length - 4} pólizas más.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 shrink-0">
+              <a
+                href={waLink({ ramo: "pyme" })}
+                data-lead-ramo="pyme"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-bold px-6 py-3 rounded-full transition-all duration-200 hover:scale-105"
+              >
+                <WhatsAppIcon className="w-5 h-5" />
+                Hablar con un asesor
+              </a>
+              <Link
+                href="/seguros#empresas"
+                className="inline-flex items-center justify-center gap-1 text-primary/60 hover:text-accent-dark font-medium text-sm transition-colors"
+              >
+                Ver seguros para empresas
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </article>
+        </div>
+
+        <div className="text-center mt-10">
+          <Link
+            href="/seguros"
+            className="inline-flex items-center gap-2 text-primary font-semibold hover:text-accent-dark transition-colors"
+          >
+            Ver los {SEGUROS.length} seguros
+            <ChevronRight className="w-4 h-4" />
+          </Link>
+        </div>
       </div>
     </section>
   );
