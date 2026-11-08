@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import { Phone, ChevronDown, History, StickyNote, Trophy, XCircle, FileCheck2, MessageSquareText, RotateCcw } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { actuarSobreLead, type EstadoAccion } from "@/app/panel/cola/acciones";
+import { reasignarLead } from "@/app/panel/admin/acciones";
 import type { EventoLead, LeadCola } from "@/lib/panel/leads";
 import {
   ETIQUETA_ETAPA,
@@ -85,6 +86,7 @@ export default function TarjetaLead({
   verAsesor,
   nombreMiembro,
   solicitudes = 1,
+  asesores,
 }: {
   lead: LeadCola;
   eventos: EventoLead[];
@@ -93,6 +95,8 @@ export default function TarjetaLead({
   nombreMiembro: string;
   /** Cuántas solicitudes hay de este mismo teléfono en la cola. */
   solicitudes?: number;
+  /** Solo para el admin: a quién se puede reasignar. */
+  asesores?: { id: string; nombre: string }[];
 }) {
   const [modo, setModo] = useState<Modo>(null);
   const [verHistorial, setVerHistorial] = useState(false);
@@ -240,6 +244,7 @@ export default function TarjetaLead({
             </button>
           </form>
         )}
+        {asesores && <Reasignar leadId={lead.id} actual={lead.asignado_a} asesores={asesores} />}
         <button
           type="button"
           onClick={() => setVerHistorial((v) => !v)}
@@ -386,5 +391,39 @@ function Campo({
         />
       </label>
     </div>
+  );
+}
+
+/** Selector de asesor para el admin. Se guarda al elegir. */
+function Reasignar({
+  leadId,
+  actual,
+  asesores,
+}: {
+  leadId: string;
+  actual: string | null;
+  asesores: { id: string; nombre: string }[];
+}) {
+  const [estado, accion, enviando] = useActionState(reasignarLead, undefined);
+  return (
+    <form action={accion} className="inline-flex items-center gap-2">
+      <input type="hidden" name="leadId" value={leadId} />
+      <label className="sr-only" htmlFor={`reasignar-${leadId}`}>Reasignar a</label>
+      <select
+        id={`reasignar-${leadId}`}
+        name="asesorId"
+        defaultValue={actual ?? ""}
+        disabled={enviando}
+        onChange={(e) => e.currentTarget.form?.requestSubmit()}
+        className="px-3 py-2 rounded-lg border border-primary/15 bg-white text-sm text-primary/80 outline-none focus:border-accent"
+      >
+        <option value="" disabled>Sin asignar</option>
+        {asesores.map((a) => (
+          <option key={a.id} value={a.id}>{a.nombre}</option>
+        ))}
+      </select>
+      {estado?.error && <span role="alert" className="text-xs text-red-700">{estado.error}</span>}
+      {estado?.ok && <span className="text-xs text-green-700">{estado.ok}</span>}
+    </form>
   );
 }
