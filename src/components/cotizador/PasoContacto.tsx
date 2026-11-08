@@ -1,10 +1,11 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import Link from "next/link";
 import SelectDropdown from "@/components/cotizador/SelectDropdown";
 import { crearLead } from "@/lib/leads-client";
 import { trackInicioCotizacion } from "@/lib/tracking";
+import { EVENTO_PLACA, tomarPlacaPendiente } from "@/lib/placa-pendiente";
 import {
   CELULAR_ERROR,
   celularValido,
@@ -62,13 +63,26 @@ export default function PasoContacto({
   const uid = useId();
   const [nombre, setNombre] = useState("");
   const [celular, setCelular] = useState("");
-  const [placa, setPlaca] = useState("");
+  // La placa puede venir del campo del hero (ver lib/placa-pendiente).
+  const [placa, setPlaca] = useState(() => (conPlaca ? tomarPlacaPendiente() : ""));
   const [ramo, setRamo] = useState("");
   const [autoriza, setAutoriza] = useState(false);
   const [intentado, setIntentado] = useState(false);
   const [tocado, setTocado] = useState<Record<string, boolean>>({});
   const [enviando, setEnviando] = useState(false);
   const [errorEnvio, setErrorEnvio] = useState("");
+
+  useEffect(() => {
+    if (!conPlaca) return;
+    const onPlaca = (e: Event) => {
+      tomarPlacaPendiente();
+      setPlaca(normalizarPlaca(String((e as CustomEvent).detail || "")));
+      // Lo siguiente que falta es el nombre: el cursor queda ahí.
+      document.getElementById(`${uid}-nombre`)?.focus({ preventScroll: true });
+    };
+    window.addEventListener(EVENTO_PLACA, onPlaca);
+    return () => window.removeEventListener(EVENTO_PLACA, onPlaca);
+  }, [conPlaca, uid]);
 
   const ramoFinal = tipoSeguro ?? ramo;
 

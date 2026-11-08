@@ -11,9 +11,10 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-const steps: { title: string; description: string; icon: LucideIcon }[] = [
+const steps: { title: string; description: string; icon: LucideIcon; quien?: "tu" }[] = [
   {
     title: "Solicita tu cotización",
+    quien: "tu",
     description:
       "Cuéntanos qué necesitas a través del cotizador o de un asesor. Sin papeleo ni demoras.",
     icon: FileText,
@@ -32,6 +33,7 @@ const steps: { title: string; description: string; icon: LucideIcon }[] = [
   },
   {
     title: "Eliges la mejor opción",
+    quien: "tu",
     description:
       "Te acompañamos para que elijas la alternativa ideal en precio y cobertura, sin presión.",
     icon: MousePointerClick,
@@ -51,11 +53,15 @@ const steps: { title: string; description: string; icon: LucideIcon }[] = [
 ];
 
 export default function ComoFunciona() {
+  const irACotizar = () =>
+    document.getElementById("cotizar")?.scrollIntoView({ behavior: "smooth" });
+
   return (
     <section id="como-funciona" className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20">
+        {/* Encabezado: en desktop acompaña al recorrido mientras se lee */}
         <motion.div
-          className="text-center mb-16"
+          className="lg:sticky lg:top-28 self-start"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -69,39 +75,69 @@ export default function ComoFunciona() {
             ¿Cómo{" "}
             <span className="text-gold-gradient italic">funciona?</span>
           </h2>
-          <p className="text-muted mt-4 max-w-2xl mx-auto text-lg">
-            Así es nuestro proceso de atención, de principio a fin
+          <p className="text-muted mt-4 text-lg">
+            Así es nuestro proceso de atención, de principio a fin.
           </p>
+          <p className="mt-8 text-2xl sm:text-3xl font-bold text-primary leading-snug tracking-tight">
+            Tú pides y eliges.{" "}
+            <span className="text-gold-gradient italic">Nosotros hacemos el resto.</span>
+          </p>
+          <button
+            type="button"
+            onClick={irACotizar}
+            className="mt-8 btn-shine glow-accent inline-flex items-center justify-center bg-gradient-to-r from-accent-light via-accent to-accent-dark text-primary font-bold px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"
+          >
+            Empezar ahora
+          </button>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Recorrido: línea de tiempo con quién hace cada paso */}
+        <ol className="relative">
+          <span
+            aria-hidden="true"
+            className="absolute left-6 top-6 bottom-6 w-px bg-gradient-to-b from-accent via-accent/50 to-accent/10"
+          />
           {steps.map((step, i) => {
             const Icon = step.icon;
+            const tu = step.quien === "tu";
             return (
-              <motion.div
+              <motion.li
                 key={step.title}
-                className="group relative bg-surface rounded-2xl border border-primary/10 p-7 hover:border-accent/40 hover:shadow-lg transition-all duration-300"
-                initial={{ opacity: 0, y: 30 }}
+                className="relative flex gap-5 sm:gap-6 pb-9 last:pb-0"
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
               >
-                <span className="absolute top-5 right-6 text-5xl font-bold text-primary/5 group-hover:text-accent/10 transition-colors">
-                  {String(i + 1).padStart(2, "0")}
+                <span
+                  className={`relative z-10 w-12 h-12 shrink-0 rounded-full flex items-center justify-center font-bold text-lg ${
+                    tu
+                      ? "bg-gradient-to-br from-accent-light via-accent to-accent-dark text-primary shadow-lg shadow-accent/30"
+                      : "bg-primary text-accent ring-4 ring-white"
+                  }`}
+                >
+                  {i + 1}
                 </span>
-                <div className="w-12 h-12 rounded-xl bg-primary/5 text-primary group-hover:bg-accent group-hover:text-white flex items-center justify-center mb-4 transition-colors duration-300">
-                  <Icon className="w-6 h-6" />
+                <div className="flex-1 pt-1">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1.5">
+                    <h3 className="text-lg sm:text-xl font-bold text-primary flex items-center gap-2">
+                      <Icon className="w-5 h-5 text-accent-dark shrink-0" />
+                      {step.title}
+                    </h3>
+                    <span
+                      className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
+                        tu ? "bg-accent/15 text-accent-dark" : "bg-primary/5 text-primary/60"
+                      }`}
+                    >
+                      {tu ? "Tú" : "Nosotros"}
+                    </span>
+                  </div>
+                  <p className="text-muted leading-relaxed">{step.description}</p>
                 </div>
-                <h3 className="text-lg font-bold text-primary mb-2">
-                  {step.title}
-                </h3>
-                <p className="text-muted text-sm leading-relaxed">
-                  {step.description}
-                </p>
-              </motion.div>
+              </motion.li>
             );
           })}
-        </div>
+        </ol>
       </div>
     </section>
   );

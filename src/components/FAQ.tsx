@@ -8,9 +8,16 @@ import { waLink } from "@/lib/site";
 import { FAQS_HOME as faqs } from "@/data/faqs";
 
 const CATS = ["General", "Personas", "Empresas"] as const;
+type Cat = (typeof CATS)[number];
+
+// Cuántas preguntas se ven por pestaña antes de "Ver más". Las demás pestañas
+// y preguntas siguen en el HTML (ocultas con CSS) para el schema FAQPage.
+const VISIBLES = 4;
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [cat, setCat] = useState<Cat>("General");
+  const [verTodo, setVerTodo] = useState<Record<string, boolean>>({});
 
   return (
     <section className="py-24 bg-surface">
@@ -35,23 +42,61 @@ export default function FAQ() {
           </p>
         </motion.div>
 
-        <div className="space-y-8">
-          {CATS.map((cat) => {
+        {/* Pestañas */}
+        <div
+          role="tablist"
+          aria-label="Temas de preguntas frecuentes"
+          className="flex justify-center gap-2 sm:gap-3 mb-8"
+        >
+          {CATS.map((c) => {
+            const activa = c === cat;
+            return (
+              <button
+                key={c}
+                role="tab"
+                id={`faq-tab-${c}`}
+                aria-selected={activa}
+                aria-controls={`faq-panel-${c}`}
+                onClick={() => {
+                  setCat(c);
+                  setOpenIndex(null);
+                }}
+                className={`px-5 sm:px-7 py-2.5 rounded-full border text-sm font-semibold transition-all duration-200 ${
+                  activa
+                    ? "bg-primary border-primary text-white shadow-lg shadow-primary/20"
+                    : "bg-white border-primary/10 text-primary/70 hover:border-accent/40 hover:text-primary"
+                }`}
+              >
+                {c}
+              </button>
+            );
+          })}
+        </div>
+
+        <div>
+          {CATS.map((c) => {
             const items = faqs
               .map((f, i) => ({ f, i }))
-              .filter((x) => x.f.cat === cat);
+              .filter((x) => x.f.cat === c);
+            const todas = verTodo[c] || items.length <= VISIBLES;
             return (
-              <div key={cat}>
-                <h3 className="text-xs font-bold uppercase tracking-widest text-accent-dark mb-3 pl-1">
-                  {cat}
-                </h3>
+              <div
+                key={c}
+                role="tabpanel"
+                id={`faq-panel-${c}`}
+                aria-labelledby={`faq-tab-${c}`}
+                hidden={c !== cat}
+              >
+                <h3 className="sr-only">{c}</h3>
                 <div className="space-y-3">
-                  {items.map(({ f, i }) => {
+                  {items.map(({ f, i }, j) => {
                     const isOpen = openIndex === i;
                     return (
                       <div
                         key={f.question}
-                        className="bg-white rounded-xl border border-primary/10 overflow-hidden"
+                        className={`bg-white rounded-xl border border-primary/10 overflow-hidden ${
+                          !todas && j >= VISIBLES ? "hidden" : ""
+                        }`}
                       >
                         <button
                           onClick={() => setOpenIndex(isOpen ? null : i)}
@@ -100,6 +145,19 @@ export default function FAQ() {
                     );
                   })}
                 </div>
+                {!todas && (
+                  <div className="text-center mt-5">
+                    <button
+                      type="button"
+                      onClick={() => setVerTodo((v) => ({ ...v, [c]: true }))}
+                      className="text-primary/70 hover:text-accent-dark font-semibold text-sm underline underline-offset-4 decoration-accent/40"
+                    >
+                      {items.length - VISIBLES === 1
+                        ? "Ver 1 pregunta más"
+                        : `Ver ${items.length - VISIBLES} preguntas más`}
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })}

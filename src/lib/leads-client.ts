@@ -25,6 +25,27 @@ export interface LeadPayload {
   fuente?: string;
 }
 
+// Quien ya dejó sus datos en esta pestaña no vuelve a ver la ventana de datos
+// antes de WhatsApp o de llamar (ver components/CapturaLead).
+const SESION_KEY = "vt-lead-sesion";
+
+export function marcarLeadSesion(nombre: string) {
+  try {
+    sessionStorage.setItem(SESION_KEY, JSON.stringify({ nombre }));
+  } catch {
+    // sessionStorage bloqueado: la ventana volverá a aparecer, nada más.
+  }
+}
+
+export function leadSesion(): { nombre: string } | null {
+  try {
+    const raw = sessionStorage.getItem(SESION_KEY);
+    return raw ? (JSON.parse(raw) as { nombre: string }) : null;
+  } catch {
+    return null;
+  }
+}
+
 export type LeadResult =
   | { ok: true; id: string }
   | { ok: false; status: number; error: string };
@@ -78,6 +99,7 @@ export async function crearLead(
     ...leerCookiesMeta(),
   });
   if (r.ok) {
+    marcarLeadSesion(payload.nombre);
     track(
       "Lead",
       { content_category: payload.tipoSeguro, fuente: payload.fuente },
@@ -123,6 +145,7 @@ export async function crearRenovacion(
     "/api/renovaciones"
   );
   if (r.ok) {
+    marcarLeadSesion(payload.nombre);
     track(
       "Lead",
       { content_category: `renovacion_${payload.ramo}`, fuente: "renovacion" },
