@@ -6,6 +6,7 @@
 // por defecto, así que el logo siempre lleva un alt legible como respaldo.
 
 import { SITE, waLink } from "@/lib/site";
+import type { Asesor } from "@/lib/asesor";
 
 // El logo se sirve desde el sitio. Mientras el dominio no apunte a Vercel,
 // vantrust.com.co todavía muestra la página de GoDaddy y la imagen daría 404.
@@ -214,9 +215,44 @@ export function leadEmailHtml(
 /** Correo de confirmación que recibe el cliente. */
 export function confirmationEmailHtml(
   nombre: string,
-  tipoLabel: string
+  tipoLabel: string,
+  asesor?: Asesor | null
 ): string {
   const firstName = (nombre || "").trim().split(" ")[0] || "";
+  const waMensaje = asesor
+    ? `Hola ${asesor.nombre.split(" ")[0]}, soy ${firstName || "el cliente"}. Acabo de pedir una cotización de ${tipoLabel} en la web.`
+    : "Hola, acabo de enviar una solicitud de cotización en la web";
+  const waHref = asesor?.whatsapp
+    ? `https://wa.me/${asesor.whatsapp}?text=${encodeURIComponent(waMensaje)}`
+    : waLink({ mensaje: waMensaje });
+
+  // Tarjeta del asesor asignado: una persona real con nombre y foto genera
+  // más confianza que "un asesor". Solo aparece si está configurado.
+  const tarjetaAsesor = asesor
+    ? `
+    <tr>
+      <td style="padding: 22px 30px 0;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+               style="border: 1px solid ${LINE}; border-radius: 10px;">
+          <tr>
+            ${
+              asesor.foto
+                ? `<td width="76" style="padding: 16px 0 16px 18px; vertical-align: middle;">
+                     <img src="${escapeHtml(asesor.foto)}" width="60" height="60" alt="${escapeHtml(asesor.nombre)}"
+                          style="display: block; width: 60px; height: 60px; border-radius: 30px; object-fit: cover; border: 0;" />
+                   </td>`
+                : ""
+            }
+            <td style="padding: 16px 18px; vertical-align: middle;">
+              <p style="margin: 0; font-family: ${FONT}; color: ${MUTED}; font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;">Tu asesor asignado</p>
+              <p style="margin: 4px 0 0; font-family: ${FONT}; color: ${NAVY}; font-size: 17px; font-weight: 700;">${escapeHtml(asesor.nombre)}</p>
+              <p style="margin: 2px 0 0; font-family: ${FONT}; color: ${MUTED}; font-size: 13px;">${escapeHtml(asesor.cargo)} · VanTrust</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>`
+    : "";
 
   return wrapper(`
     ${header(undefined, true)}
@@ -228,11 +264,15 @@ export function confirmationEmailHtml(
         </h1>
         <p style="margin: 14px 0 0; font-family: ${FONT}; color: ${INK}; font-size: 15px; line-height: 1.65;">
           Recibimos tu solicitud de cotización de <strong>${escapeHtml(tipoLabel)}</strong>.
-          Un asesor la está revisando y te contactará con opciones reales de nuestras
-          aseguradoras aliadas.
+          ${
+            asesor
+              ? `${escapeHtml(asesor.nombre.split(" ")[0])} ya la está revisando y te escribirá por WhatsApp con opciones reales de nuestras aseguradoras aliadas.`
+              : "Un asesor la está revisando y te contactará con opciones reales de nuestras aseguradoras aliadas."
+          }
         </p>
       </td>
     </tr>
+    ${tarjetaAsesor}
 
     <tr>
       <td style="padding: 22px 30px 0;">
@@ -253,7 +293,7 @@ export function confirmationEmailHtml(
         <p style="margin: 0 0 14px; font-family: ${FONT}; color: ${MUTED}; font-size: 14px; line-height: 1.6;">
           ¿Prefieres hablar ahora? Escríbenos y te atendemos de una vez.
         </p>
-        ${boton(waLink({ mensaje: "Hola, acabo de enviar una solicitud de cotización en la web" }), "Escribir por WhatsApp", "#16a34a", "#ffffff")}
+        ${boton(waHref, asesor ? `Escribirle a ${escapeHtml(asesor.nombre.split(" ")[0])}` : "Escribir por WhatsApp", "#16a34a", "#ffffff")}
       </td>
     </tr>
 

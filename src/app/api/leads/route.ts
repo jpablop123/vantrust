@@ -9,6 +9,7 @@ import {
 } from "@/lib/email-templates";
 import { normalizarCelular, celularValido } from "@/lib/validacion";
 import { sendCapiLead } from "@/lib/meta-capi";
+import { getAsesor } from "@/lib/asesor";
 
 // Flujo en dos pasos:
 //   POST  → paso 1 (nombre + WhatsApp + ramo). Crea el lead "parcial" y avisa
@@ -274,11 +275,14 @@ async function sendConfirmationToCustomer(data: LeadData) {
 
   const tipoLabel = INSURANCE_LABELS[data.tipoSeguro] || "seguro";
 
+  const asesor = getAsesor();
   await resend.emails.send({
     from: process.env.RESEND_FROM_EMAIL || "VanTrust <onboarding@resend.dev>",
     to: data.email,
-    subject: "¡Gracias por confiar en VanTrust! Recibimos tu solicitud",
-    html: confirmationEmailHtml(data.nombre, tipoLabel),
+    subject: asesor
+      ? `${asesor.nombre.split(" ")[0]} de VanTrust recibió tu solicitud`
+      : "¡Gracias por confiar en VanTrust! Recibimos tu solicitud",
+    html: confirmationEmailHtml(data.nombre, tipoLabel, asesor),
   });
 }
 
