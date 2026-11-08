@@ -73,55 +73,65 @@ export default function GuiasIndex() {
           {grupos.length === 0 ? (
             <p className="text-muted max-w-4xl mx-auto">Pronto publicaremos las primeras guías.</p>
           ) : (
-            <div className="space-y-16 sm:space-y-20">
+            <div className="divide-y divide-primary/10">
               {grupos.map((grupo) => {
                 const Icono = ICONOS[grupo.id];
                 return (
-                  <section key={grupo.id} id={grupo.id} aria-labelledby={`${grupo.id}-titulo`} className="scroll-mt-28">
-                    <div className="flex items-start gap-4 mb-7 pb-5 border-b border-primary/10">
-                      <div className="w-12 h-12 shrink-0 rounded-xl bg-primary text-accent flex items-center justify-center">
-                        <Icono className="w-6 h-6" aria-hidden />
-                      </div>
-                      <div>
-                        <h2 id={`${grupo.id}-titulo`} className="text-2xl sm:text-3xl font-bold text-primary">
+                  <section
+                    key={grupo.id}
+                    id={grupo.id}
+                    aria-labelledby={`${grupo.id}-titulo`}
+                    className="scroll-mt-28 py-12 first:pt-0 last:pb-0 lg:grid lg:grid-cols-[300px_1fr] lg:gap-16"
+                  >
+                    {/* Tema: fijo al hacer scroll en escritorio */}
+                    <div className="mb-6 lg:mb-0">
+                      <div className="lg:sticky lg:top-28">
+                        <div className="w-11 h-11 rounded-xl bg-primary text-accent flex items-center justify-center mb-4">
+                          <Icono className="w-5 h-5" aria-hidden />
+                        </div>
+                        <h2 id={`${grupo.id}-titulo`} className="text-2xl font-bold text-primary">
                           {grupo.titulo}
                         </h2>
-                        <p className="text-muted mt-1">{grupo.descripcion}</p>
+                        <p className="text-muted mt-2 leading-relaxed">{grupo.descripcion}</p>
+                        <p className="text-sm text-muted/70 mt-3">
+                          {grupo.guias.length} {grupo.guias.length === 1 ? "guía" : "guías"}
+                        </p>
                       </div>
                     </div>
 
-                    <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+                    {/* Guías del tema: filas, como un índice */}
+                    <ol className="border-t border-primary/10">
                       {grupo.guias.map((g) => (
-                        <li key={g.slug}>
+                        <li key={g.slug} className="border-b border-primary/10">
                           <Link
                             href={`/guias/${g.slug}`}
-                            className="group flex flex-col h-full bg-white rounded-2xl border border-primary/10 hover:border-accent/50 hover:shadow-lg hover:-translate-y-0.5 p-5 sm:p-6 shadow-sm transition-all"
+                            className="group flex items-start gap-4 py-5 -mx-3 px-3 rounded-lg hover:bg-white transition-colors"
                           >
-                            <h3 className="text-[16px] sm:text-[17px] font-bold text-primary leading-snug mb-3 sm:mb-2">
-                              {g.titulo}
-                            </h3>
-                            <p className="hidden sm:block text-muted text-sm leading-relaxed line-clamp-3 mb-5">
-                              {g.description}
-                            </p>
-                            <div className="mt-auto flex items-center justify-between text-sm">
-                              <span className="inline-flex items-center gap-1.5 text-muted/80">
-                                <Clock className="w-4 h-4" aria-hidden />
-                                {minutosLectura(g)} min
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-semibold text-primary leading-snug group-hover:text-accent-dark transition-colors">
+                                {g.titulo}
+                              </h3>
+                              <p className="hidden sm:block text-muted text-sm mt-1 truncate">
+                                {g.description}
+                              </p>
+                              <p className="flex items-center gap-2 text-xs text-muted/75 mt-2">
+                                <Clock className="w-3.5 h-3.5" aria-hidden />
+                                {minutosLectura(g)} min de lectura
                                 {!guiaPublicable(g) && (
-                                  <span className="ml-1.5 text-[10.5px] font-semibold uppercase tracking-wide text-amber-700 bg-amber-100 rounded-full px-2 py-0.5">
+                                  <span className="text-[10px] font-semibold uppercase tracking-wide text-amber-700 bg-amber-100 rounded px-1.5 py-0.5">
                                     Borrador
                                   </span>
                                 )}
-                              </span>
-                              <span className="inline-flex items-center gap-1 font-semibold text-accent-dark group-hover:gap-2 transition-all">
-                                Leer guía
-                                <ArrowRight className="w-4 h-4" aria-hidden />
-                              </span>
+                              </p>
                             </div>
+                            <ArrowRight
+                              className="w-5 h-5 mt-0.5 shrink-0 text-accent/60 group-hover:text-accent-dark group-hover:translate-x-1 transition-all"
+                              aria-hidden
+                            />
                           </Link>
                         </li>
                       ))}
-                    </ul>
+                    </ol>
                   </section>
                 );
               })}
