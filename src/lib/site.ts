@@ -1,3 +1,5 @@
+import { waMensajeDe } from "@/data/seguros";
+
 // Configuración central de VanTrust — fuente única de verdad para contacto y marca.
 
 export const SITE = {
@@ -48,11 +50,47 @@ export const INSURERS = [
   "Zurich",
 ] as const;
 
-// Construye un enlace de WhatsApp con mensaje pre-cargado.
+// Número de WhatsApp: variable de entorno si existe, si no el oficial.
+const WHATSAPP_NUMBER = (
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || SITE.whatsapp
+).replace(/\D/g, "");
+
+export const WA_DEFAULT = "Hola, quiero cotizar un seguro con VanTrust";
+
+export interface WaLead {
+  nombre?: string;
+  tipoSeguro?: string; // etiqueta legible: "Seguro de Automóvil"
+  resumen?: { label: string; value: string }[];
+}
+
+/** Mensaje para quien acaba de dejar sus datos y no quiere esperar. */
+function mensajeDeLead(lead: WaLead): string {
+  const nombre = (lead.nombre || "").trim().split(/\s+/)[0];
+  const lineas = [
+    `Hola${nombre ? `, soy ${nombre}` : ""}. Acabo de enviar una solicitud${
+      lead.tipoSeguro ? ` de ${lead.tipoSeguro}` : ""
+    } en la web y no quiero esperar.`,
+    ...(lead.resumen || [])
+      .filter((r) => r.value)
+      .map((r) => `• ${r.label}: ${r.value}`),
+  ];
+  return lineas.join("\n");
+}
+
+/**
+ * Enlace de WhatsApp con mensaje prellenado. Prioridad del texto:
+ * `mensaje` explícito > resumen del `lead` > mensaje del `ramo` > genérico.
+ * `ramo` acepta el slug del producto o la clave del formulario ("vehiculo").
+ */
 export function waLink(
-  text = "Hola, quiero cotizar un seguro con VanTrust"
+  opts: { ramo?: string; mensaje?: string; lead?: WaLead } = {}
 ): string {
-  return `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
+  const text =
+    opts.mensaje ||
+    (opts.lead ? mensajeDeLead(opts.lead) : "") ||
+    (opts.ramo ? waMensajeDe(opts.ramo) : "") ||
+    WA_DEFAULT;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 
 // Enlace mailto con asunto opcional.

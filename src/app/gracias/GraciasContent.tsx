@@ -109,20 +109,27 @@ export default function GraciasContent() {
           )}
 
           <div className="mt-8 pt-7 border-t border-white/10">
+            <p className="text-white font-semibold text-lg mb-1">
+              ¿No quieres esperar? Escríbenos ya
+            </p>
             <p className="text-white/50 text-sm mb-4">
-              ¿Prefieres hablar ahora? Escríbenos y te atendemos de una vez.
+              Te llevamos a WhatsApp con tu solicitud ya escrita: solo dale enviar.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a
-                href={waLink(
-                  "Hola, acabo de enviar una solicitud de cotización en la web"
-                )}
+                href={waLink({
+                  lead: {
+                    nombre: info?.nombre,
+                    tipoSeguro: info?.tipoSeguro,
+                    resumen: info?.resumen,
+                  },
+                })}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-semibold px-6 py-3.5 rounded-xl transition-colors"
               >
                 {WA_ICON}
-                Escribir por WhatsApp
+                Escríbenos ya por WhatsApp
               </a>
               <a
                 href={`tel:${SITE.phoneTel}`}

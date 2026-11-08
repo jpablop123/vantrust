@@ -21,6 +21,8 @@ export interface Seguro {
   dirigidoA?: string;
   quote: { type: QuoteType; branch?: "auto" | "salud" | "hogar" };
   formFields?: string[]; // etiquetas de los campos del formulario propio
+  // Mensaje prellenado de WhatsApp. Si falta, se arma uno por categoría.
+  waMensaje?: string;
   destacado?: boolean;
 }
 
@@ -30,6 +32,7 @@ export const SEGUROS: Seguro[] = [
     slug: "automoviles",
     categoria: "personas",
     nombre: "Automóviles",
+    waMensaje: "Hola, quiero cotizar el seguro de mi carro. Placa: ",
     icon: "Car",
     descripcion:
       "Protege el vehículo frente a daños, pérdidas y responsabilidades derivadas de accidentes.",
@@ -60,6 +63,7 @@ export const SEGUROS: Seguro[] = [
     slug: "hogar",
     categoria: "personas",
     nombre: "Hogar",
+    waMensaje: "Hola, quiero cotizar un seguro de hogar para mi vivienda.",
     icon: "Home",
     descripcion:
       "Protege tu hogar frente a incendios, robos, terremotos y otros imprevistos con el respaldo de las principales aseguradoras del país.",
@@ -81,6 +85,7 @@ export const SEGUROS: Seguro[] = [
     slug: "vida",
     categoria: "personas",
     nombre: "Vida",
+    waMensaje: "Hola, quiero asesoría para un seguro de vida.",
     icon: "HeartPulse",
     descripcion:
       "Protege económicamente a la familia del asegurado o una deuda ante una entidad crediticia.",
@@ -109,6 +114,7 @@ export const SEGUROS: Seguro[] = [
     slug: "salud",
     categoria: "personas",
     nombre: "Salud",
+    waMensaje: "Hola, quiero cotizar un seguro de salud.",
     icon: "Stethoscope",
     descripcion:
       "Acceso a servicios médicos adicionales o complementarios al sistema de salud obligatorio, con la mejor red de clínicas y especialistas.",
@@ -133,6 +139,7 @@ export const SEGUROS: Seguro[] = [
     slug: "accidentes-personales",
     categoria: "personas",
     nombre: "Accidentes Personales",
+    waMensaje: "Hola, quiero cotizar un seguro de accidentes personales.",
     icon: "ShieldPlus",
     descripcion:
       "Protección económica para el asegurado y su familia frente a accidentes inesperados, las 24 horas, dentro y fuera del trabajo.",
@@ -162,6 +169,7 @@ export const SEGUROS: Seguro[] = [
     slug: "exequial",
     categoria: "personas",
     nombre: "Exequial",
+    waMensaje: "Hola, quiero información sobre el seguro exequial para mi familia.",
     icon: "Flower2",
     descripcion:
       "Evita que la familia asuma altos costos funerarios de manera imprevista, con acompañamiento durante todo el proceso.",
@@ -187,6 +195,7 @@ export const SEGUROS: Seguro[] = [
     slug: "viajes",
     categoria: "personas",
     nombre: "Viajes",
+    waMensaje: "Hola, quiero cotizar un seguro de viaje. Destino y fechas: ",
     icon: "Plane",
     descripcion:
       "Protección durante todo el viaje frente a emergencias médicas, accidentes e imprevistos, con asistencia 24/7 nacional e internacional.",
@@ -221,6 +230,7 @@ export const SEGUROS: Seguro[] = [
     slug: "mascotas",
     categoria: "personas",
     nombre: "Mascotas",
+    waMensaje: "Hola, quiero cotizar un seguro para mi mascota.",
     icon: "PawPrint",
     descripcion:
       "Protección financiera frente a gastos veterinarios inesperados, con acceso a atención de calidad para tu mascota.",
@@ -251,6 +261,7 @@ export const SEGUROS: Seguro[] = [
     slug: "pyme",
     categoria: "empresas",
     nombre: "Pyme",
+    waMensaje: "Hola, quiero asegurar mi empresa. Actividad y ciudad: ",
     icon: "Store",
     descripcion:
       "Solución diseñada para proteger integralmente una pequeña o mediana empresa: toda la operación del negocio en una sola póliza.",
@@ -297,6 +308,7 @@ export const SEGUROS: Seguro[] = [
     slug: "cumplimiento",
     categoria: "empresas",
     nombre: "Cumplimiento",
+    waMensaje: "Hola, necesito una póliza de cumplimiento para una licitación.",
     icon: "FileCheck2",
     descripcion:
       "Respalda al beneficiario del contrato frente a los perjuicios ocasionados por el incumplimiento de las obligaciones contractuales del contratista.",
@@ -322,6 +334,7 @@ export const SEGUROS: Seguro[] = [
     slug: "responsabilidad-civil-extracontractual",
     categoria: "empresas",
     nombre: "Responsabilidad Civil Extracontractual",
+    waMensaje: "Hola, necesito una póliza de responsabilidad civil extracontractual para mi empresa.",
     icon: "Scale",
     descripcion:
       "Protege el patrimonio del asegurado frente a reclamaciones de terceros por daños ocasionados accidentalmente durante el desarrollo de sus actividades.",
@@ -346,6 +359,7 @@ export const SEGUROS: Seguro[] = [
     slug: "transporte-de-mercancias",
     categoria: "empresas",
     nombre: "Transporte de Mercancías",
+    waMensaje: "Hola, necesito asegurar el transporte de mercancías de mi empresa.",
     icon: "Truck",
     descripcion:
       "Ampara las mercancías durante su transporte frente a riesgos accidentales que puedan afectar su integridad o generar pérdidas económicas.",
@@ -508,6 +522,7 @@ export const SEGUROS: Seguro[] = [
     slug: "flotas",
     categoria: "empresas",
     nombre: "Flotas / Colectiva de Autos",
+    waMensaje: "Hola, quiero cotizar el seguro de la flota de vehículos de mi empresa. Número de vehículos: ",
     icon: "CarFront",
     descripcion:
       "Solución para asegurar los vehículos de la empresa bajo una sola póliza colectiva, con administración centralizada y tarifas preferenciales.",
@@ -652,6 +667,35 @@ export const SEGUROS: Seguro[] = [
 
 export const PERSONAS = SEGUROS.filter((s) => s.categoria === "personas");
 export const EMPRESAS = SEGUROS.filter((s) => s.categoria === "empresas");
+
+// Clave de ramo que usan los formularios y /api/leads → página del producto.
+export const RAMO_A_SLUG: Record<string, string> = {
+  vehiculo: "automoviles",
+  auto: "automoviles",
+  salud: "salud",
+  hogar: "hogar",
+  vivienda: "hogar",
+  vida: "vida",
+  accidentes: "accidentes-personales",
+  exequial: "exequial",
+  viajes: "viajes",
+  mascotas: "mascotas",
+  pyme: "pyme",
+  cumplimiento: "cumplimiento",
+  rc: "responsabilidad-civil-extracontractual",
+  transporte: "transporte-de-mercancias",
+  todo_riesgo: "todo-riesgo-danos-materiales",
+};
+
+/** Mensaje de WhatsApp de un ramo (acepta slug o clave de formulario). */
+export function waMensajeDe(ramo: string): string | undefined {
+  const s = getSeguro(RAMO_A_SLUG[ramo] ?? ramo);
+  if (!s) return undefined;
+  if (s.waMensaje) return s.waMensaje;
+  return s.categoria === "empresas"
+    ? `Hola, necesito una póliza de ${s.nombre} para mi empresa.`
+    : `Hola, quiero cotizar un seguro de ${s.nombre}.`;
+}
 
 export function getSeguro(slug: string): Seguro | undefined {
   return SEGUROS.find((s) => s.slug === slug);

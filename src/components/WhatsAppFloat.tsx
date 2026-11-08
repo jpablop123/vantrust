@@ -1,37 +1,36 @@
 "use client";
 
-import { useState } from "react";
-import { MessageCircle } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { waLink } from "@/lib/site";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 
+/**
+ * Botón flotante de WhatsApp en todo el sitio. En una página de producto abre
+ * el chat con el mensaje de ese ramo. El evento Contact lo registra el
+ * listener global de <Tracking />.
+ */
 export default function WhatsAppFloat() {
-  const [hovered, setHovered] = useState(false);
+  const pathname = usePathname() || "/";
+
+  // /gracias ya tiene su propio botón con el resumen del lead.
+  if (pathname.startsWith("/gracias")) return null;
+
+  const ramo = pathname.match(/^\/seguros\/([^/]+)/)?.[1];
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex items-center gap-3">
-      {/* Tooltip */}
-      <div
-        className={`bg-white text-primary text-sm font-medium px-4 py-2 rounded-lg shadow-lg transition-all duration-300 whitespace-nowrap ${
-          hovered
-            ? "opacity-100 translate-x-0"
-            : "opacity-0 translate-x-2 pointer-events-none"
-        }`}
-      >
-        ¿Tienes dudas? Escríbenos
-      </div>
-
-      {/* Button */}
-      <a
-        href={waLink()}
-        target="_blank"
-        rel="noopener noreferrer"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg shadow-black/15 hover:shadow-xl hover:shadow-black/20 transition-all duration-200 hover:scale-110"
-        aria-label="Contactar por WhatsApp"
-      >
-        <MessageCircle className="w-6 h-6 text-green-500" />
-      </a>
-    </div>
+    <a
+      href={waLink({ ramo })}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Cotizar por WhatsApp"
+      style={{ bottom: "max(1rem, env(safe-area-inset-bottom))" }}
+      className="fixed right-4 sm:right-6 z-40 inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1ebe5b] text-white font-semibold rounded-full pl-4 pr-5 h-14 shadow-lg shadow-black/25 transition-transform duration-200 hover:scale-105 active:scale-95"
+    >
+      <WhatsAppIcon className="w-6 h-6" />
+      <span className="text-[15px]">
+        <span className="sm:hidden">WhatsApp</span>
+        <span className="hidden sm:inline">Cotiza por WhatsApp</span>
+      </span>
+    </a>
   );
 }

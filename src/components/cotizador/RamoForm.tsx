@@ -248,7 +248,7 @@ export default function RamoForm({
           Mientras tanto, puedes escribirnos directamente por WhatsApp.
         </p>
         <a
-          href={waLink(`Hola, acabo de enviar una solicitud de ${tipoSeguro} en la web`)}
+          href={waLink({ lead: { tipoSeguro: ramoLabel } })}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-semibold px-6 py-3 rounded-full transition-colors"

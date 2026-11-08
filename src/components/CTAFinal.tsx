@@ -41,7 +41,7 @@ export default function CTAFinal() {
               Cotizar ahora
             </a>
             <a
-              href={waLink("Hola, quiero hablar con un asesor de seguros de VanTrust")}
+              href={waLink({ mensaje: "Hola, quiero hablar con un asesor de seguros de VanTrust" })}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 border-2 border-white/20 hover:border-white/40 text-white font-medium px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"

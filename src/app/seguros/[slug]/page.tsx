@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, Check, ShieldCheck, Target, Sparkles, Users } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SeguroCTA from "@/components/seguros/SeguroCTA";
+import SeguroCTA, { SeguroBotones } from "@/components/seguros/SeguroCTA";
 import RamoForm from "@/components/cotizador/RamoForm";
 import ShieldMotif from "@/components/ShieldMotif";
 import { getSeguroIcon } from "@/components/seguros/icons";
@@ -111,6 +111,9 @@ export default async function SeguroPage({
               <p className="text-white/60 text-lg mt-4 max-w-2xl leading-relaxed">
                 {seguro.descripcion}
               </p>
+              <div className="mt-8">
+                <SeguroBotones seguro={seguro} />
+              </div>
             </div>
           </div>
         </div>

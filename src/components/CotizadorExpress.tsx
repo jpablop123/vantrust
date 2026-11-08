@@ -1219,7 +1219,7 @@ export default function CotizadorExpress() {
 
                 {/* WhatsApp CTA */}
                 <a
-                  href={waLink("Hola, acabo de cotizar en la web y quiero más info")}
+                  href={waLink({ ramo: "automoviles" })}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full flex items-center justify-center gap-2 py-4 rounded-xl border border-green-500/30 text-green-400 hover:bg-green-500/10 font-semibold transition-all text-sm"

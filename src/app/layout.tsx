@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Tracking from "@/components/Tracking";
+import WhatsAppFloat from "@/components/WhatsAppFloat";
 import "./globals.css";
 
 // Tipografía secundaria y de apoyo: Montserrat (Regular + Bold Italic)
@@ -61,6 +62,7 @@ export default function RootLayout({
     <html lang="es" className={`${montserrat.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         {children}
+        <WhatsAppFloat />
         <Tracking />
         <Analytics />
       </body>

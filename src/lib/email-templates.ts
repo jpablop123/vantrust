@@ -153,7 +153,7 @@ export function leadEmailHtml(
       <td style="padding: 18px 28px 0;">
         ${boton(`tel:${tel}`, "Llamar ahora", NAVY, "#ffffff")}
         &nbsp;
-        ${boton(waLink(waMsg), "WhatsApp", "#16a34a", "#ffffff")}
+        ${boton(`https://wa.me/57${data.telefono.replace(/\D/g, "")}?text=${encodeURIComponent(waMsg)}`, "WhatsApp", "#16a34a", "#ffffff")}
       </td>
     </tr>
 
@@ -253,7 +253,7 @@ export function confirmationEmailHtml(
         <p style="margin: 0 0 14px; font-family: ${FONT}; color: ${MUTED}; font-size: 14px; line-height: 1.6;">
           ¿Prefieres hablar ahora? Escríbenos y te atendemos de una vez.
         </p>
-        ${boton(waLink("Hola, acabo de enviar una solicitud de cotización en la web"), "Escribir por WhatsApp", "#16a34a", "#ffffff")}
+        ${boton(waLink({ mensaje: "Hola, acabo de enviar una solicitud de cotización en la web" }), "Escribir por WhatsApp", "#16a34a", "#ffffff")}
       </td>
     </tr>
 

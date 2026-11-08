@@ -8,7 +8,6 @@ import AsesoriaGratuita from "@/components/AsesoriaGratuita";
 import FAQ from "@/components/FAQ";
 import CTAFinal from "@/components/CTAFinal";
 import Footer from "@/components/Footer";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 export default function Home() {
   return (
@@ -23,7 +22,6 @@ export default function Home() {
       <FAQ />
       <CTAFinal />
       <Footer />
-      <WhatsAppFloat />
     </>
   );
 }

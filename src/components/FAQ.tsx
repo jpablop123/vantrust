@@ -280,7 +280,7 @@ export default function FAQ() {
                 Solicitar cotización
               </a>
               <a
-                href={waLink("Hola, tengo una duda sobre los seguros de VanTrust")}
+                href={waLink({ mensaje: "Hola, tengo una duda sobre los seguros de VanTrust" })}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 border-2 border-white/20 hover:border-white/40 text-white font-medium px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105"
