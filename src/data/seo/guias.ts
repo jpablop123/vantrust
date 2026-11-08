@@ -267,6 +267,54 @@ export const GUIAS: Guia[] = [
   ...GUIAS_PERSONAS,
 ];
 
+/** Temas del índice /guias, en el orden en que se muestran. */
+export const GRUPOS_GUIAS: {
+  id: "empresa" | "carro" | "siniestros" | "personas";
+  titulo: string;
+  descripcion: string;
+  guias: Guia[];
+}[] = [
+  {
+    id: "empresa",
+    titulo: "Para tu empresa",
+    descripcion: "Pólizas de cumplimiento, responsabilidad civil, transporte y el seguro de tu negocio.",
+    guias: [...GUIAS_CUMPLIMIENTO, ...GUIAS_PYMES],
+  },
+  {
+    id: "carro",
+    titulo: "Tu carro",
+    descripcion: "Qué cubre el todo riesgo, cómo elegir el deducible y de qué depende el precio.",
+    guias: GUIAS_AUTO,
+  },
+  {
+    id: "siniestros",
+    titulo: "Si tuviste un siniestro",
+    descripcion: "Qué hacer en un choque, un robo o un arroyo, y cómo reclamar si no te quieren pagar.",
+    guias: GUIAS_SINIESTROS,
+  },
+  {
+    id: "personas",
+    titulo: "Tú y tu familia",
+    descripcion: "Salud, vida, hogar y arriendo, y cómo elegir o cambiar de aseguradora.",
+    guias: GUIAS_PERSONAS,
+  },
+];
+
+/** Minutos de lectura aproximados (200 palabras por minuto). */
+export function minutosLectura(g: Guia): number {
+  const texto = [
+    g.respuesta,
+    ...g.secciones.flatMap((s) => [
+      s.titulo,
+      ...s.bloques.flatMap((b) =>
+        b.tipo === "p" ? [b.texto] : b.tipo === "tabla" ? b.filas.flat() : b.items
+      ),
+    ]),
+    ...g.faqs.flatMap((f) => [f.pregunta, f.respuesta]),
+  ].join(" ");
+  return Math.max(1, Math.round(texto.split(/\s+/).length / 200));
+}
+
 export function getGuia(slug: string): Guia | undefined {
   return GUIAS.find((g) => g.slug === slug);
 }

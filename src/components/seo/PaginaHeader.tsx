@@ -11,12 +11,15 @@ export default function PaginaHeader({
   h1,
   respuesta,
   icono,
+  amplio = false,
   children,
 }: {
   migas: Miga[];
   h1: string;
   respuesta: string;
   icono?: React.ReactNode;
+  /** Mismo ancho que un índice de tarjetas (max-w-6xl) en vez de lectura. */
+  amplio?: boolean;
   children?: React.ReactNode;
 }) {
   return (
@@ -25,7 +28,7 @@ export default function PaginaHeader({
       <div className="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[130%] h-[80%] bg-[radial-gradient(ellipse_at_top,rgba(191,161,92,0.15),transparent_60%)]" />
       <div className="absolute inset-0 bg-noise opacity-[0.12] mix-blend-overlay pointer-events-none" />
       <ShieldMotif className="absolute -right-20 -top-8 w-[380px] h-[460px] opacity-[0.05] hidden md:block" />
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className={`relative z-10 ${amplio ? "max-w-6xl" : "max-w-4xl"} mx-auto px-4 sm:px-6 lg:px-8`}>
         <div className="mb-8">
           <Breadcrumbs migas={migas} />
         </div>
