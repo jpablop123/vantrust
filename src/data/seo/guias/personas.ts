@@ -41,12 +41,12 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Plan complementario, medicina prepagada y póliza de salud",
+        titulo: "¿Qué diferencia hay entre plan complementario, prepagada y póliza de salud?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "En Colombia estas tres opciones se llaman planes voluntarios de salud. El Decreto 780 de 2016 dice que los pagan los particulares con su propio dinero y que los ofrecen las EPS, las empresas de medicina prepagada y las aseguradoras. Las tres se suman a tu EPS; ninguna la reemplaza.",
+              "Los tres son planes voluntarios que se suman a tu EPS; cambian en quién los ofrece, quién los vigila y cómo funcionan. En Colombia estas tres opciones se llaman planes voluntarios de salud. El Decreto 780 de 2016 dice que los pagan los particulares con su propio dinero y que los ofrecen las EPS, las empresas de medicina prepagada y las aseguradoras. Las tres se suman a tu EPS; ninguna la reemplaza.",
           },
           {
             tipo: "tabla",
@@ -67,7 +67,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Preexistencias: lo que ya tenías antes de firmar",
+        titulo: "¿Qué es una preexistencia en un seguro de salud?",
         bloques: [
           {
             tipo: "p",
@@ -91,7 +91,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Periodos de carencia",
+        titulo: "¿Qué es el periodo de carencia en un seguro de salud?",
         bloques: [
           {
             tipo: "p",
@@ -183,7 +183,7 @@ export const GUIAS_PERSONAS: Guia[] = [
     description:
       "Cuánto seguro de vida necesitas según tus deudas, tus gastos y la educación de tus hijos, y cómo se diferencia del vida deudor del banco. Asesoría gratis.",
     respuesta:
-      "Necesitas un seguro de vida si alguien depende de tu ingreso o si dejarías deudas que tu familia tendría que pagar. Para calcular cuánto asegurar, suma tus deudas, los gastos de tu hogar durante los años en que tu familia dependería de ti y la educación de tus hijos; luego réstale lo que ya tienes en ahorros y otros seguros. El seguro de vida deudor del banco no reemplaza este cálculo, porque solo paga la deuda.",
+      "Necesitas un seguro de vida si alguien depende de tu ingreso o si dejarías deudas a tu familia. Para calcular cuánto asegurar, suma tus deudas, los gastos del hogar durante los años en que tu familia dependería de ti y la educación de tus hijos, y réstale tus ahorros y otros seguros. El seguro de vida deudor del banco no reemplaza este cálculo: solo paga la deuda.",
     secciones: [
       {
         titulo: "Caso ilustrativo: la familia de Jorge en Soledad",
@@ -230,7 +230,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo calcular cuánto asegurar, paso a paso",
+        titulo: "¿Cómo calcular cuánto seguro de vida necesitas?",
         bloques: [
           {
             tipo: "pasos",
@@ -265,7 +265,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Vida individual vs. seguro de vida deudor",
+        titulo: "¿Qué diferencia hay entre el seguro de vida individual y el de vida deudor?",
         bloques: [
           {
             tipo: "tabla",
@@ -286,7 +286,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Beneficiarios y otros puntos que debes saber",
+        titulo: "¿Qué debes saber sobre los beneficiarios del seguro de vida?",
         bloques: [
           {
             tipo: "lista",
@@ -348,11 +348,11 @@ export const GUIAS_PERSONAS: Guia[] = [
   {
     slug: "seguro-de-hogar-que-cubre",
     titulo: "¿Qué cubre un seguro de hogar y qué no?",
-    title: "Seguro de hogar: qué cubre y qué no cubre",
+    title: "Seguro de hogar: qué cubre y qué no cubre en Colombia",
     description:
       "Estructura, contenidos, incendio, terremoto, agua, hurto y RC: qué cubre el seguro de hogar y por qué el del banco no basta. Cotiza tu hogar con nosotros.",
     respuesta:
-      "Un seguro de hogar cubre dos cosas: la estructura de la vivienda (muros, techos, pisos e instalaciones fijas) y los contenidos (muebles, electrodomésticos y objetos personales), frente a riesgos como incendio, terremoto, daños por agua, fenómenos de la naturaleza y hurto, según la póliza. Muchas pólizas incluyen responsabilidad civil familiar y asistencias en casa. El seguro que exige el banco en un crédito hipotecario suele cubrir solo la estructura frente a incendio y terremoto.",
+      "Un seguro de hogar cubre la estructura de la vivienda (muros, techos, pisos e instalaciones fijas) y los contenidos (muebles, electrodomésticos y objetos personales) frente a riesgos como incendio, terremoto, daños por agua, fenómenos de la naturaleza y hurto, según la póliza. Muchas incluyen responsabilidad civil familiar y asistencias. El seguro que exige el banco en un crédito hipotecario suele cubrir solo la estructura frente a incendio y terremoto.",
     secciones: [
       {
         titulo: "Caso ilustrativo: el vendaval y el techo de la familia Pérez",
@@ -380,7 +380,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Estructura y contenidos: las dos partes del seguro",
+        titulo: "¿Qué partes de la vivienda asegura un seguro de hogar?",
         bloques: [
           {
             tipo: "tabla",
@@ -399,7 +399,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Qué cubre y qué no, riesgo por riesgo",
+        titulo: "¿Qué cubre y qué no cubre el seguro de hogar, riesgo por riesgo?",
         bloques: [
           {
             tipo: "tabla",
@@ -423,12 +423,12 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Lluvias, vendavales y arroyos en Barranquilla",
+        titulo: "¿Qué revisar en el seguro de hogar por lluvias y arroyos en Barranquilla?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "En Barranquilla las lluvias llegan de golpe, con brisa fuerte, y en muchas zonas se forman arroyos en minutos. Eso hace que para una casa en la Costa importen tanto los daños por agua y los fenómenos de la naturaleza como el incendio o el terremoto.",
+              "Revisa que tu póliza cubra el vendaval, los daños por lluvia y la inundación, y cómo los trata. En Barranquilla las lluvias llegan de golpe, con brisa fuerte, y en muchas zonas se forman arroyos en minutos. Eso hace que para una casa en la Costa importen tanto los daños por agua y los fenómenos de la naturaleza como el incendio o el terremoto.",
           },
           {
             tipo: "lista",
@@ -443,12 +443,12 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "El seguro del banco no es un seguro de hogar completo",
+        titulo: "¿El seguro que exige el banco es un seguro de hogar completo?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "Cuando compras vivienda con crédito hipotecario o leasing habitacional, el banco exige un seguro sobre el inmueble, normalmente contra incendio y terremoto, para proteger su garantía. La norma del sector financiero obliga a los bancos a licitar estos seguros cuando los toman por cuenta del deudor, y te permite contratar con otra aseguradora si la póliza cumple como mínimo las condiciones de esa licitación.",
+              "No. Cuando compras vivienda con crédito hipotecario o leasing habitacional, el banco exige un seguro sobre el inmueble, normalmente contra incendio y terremoto, para proteger su garantía. La norma del sector financiero obliga a los bancos a licitar estos seguros cuando los toman por cuenta del deudor, y te permite contratar con otra aseguradora si la póliza cumple como mínimo las condiciones de esa licitación.",
           },
           {
             tipo: "tabla",
@@ -478,7 +478,7 @@ export const GUIAS_PERSONAS: Guia[] = [
       {
         pregunta: "Vivo en arriendo, ¿me sirve un seguro de hogar?",
         respuesta:
-          "Sí. Puedes asegurar tus contenidos y tu responsabilidad civil frente al propietario y los vecinos, sin asegurar la estructura.",
+          "Sí. Si vives en arriendo, puedes asegurar tus contenidos (muebles, electrodomésticos y objetos personales) y tu responsabilidad civil frente al propietario y los vecinos, sin asegurar la estructura, que le corresponde al propietario.",
       },
       {
         pregunta: "¿Puedo usar mi propio seguro en lugar del que ofrece el banco?",
@@ -514,7 +514,7 @@ export const GUIAS_PERSONAS: Guia[] = [
     description:
       "Canon, administración, servicios y daños: qué cubre el seguro de arrendamiento y qué dice la Ley 820 de 2003 sobre garantías. Pregúntanos sin compromiso.",
     respuesta:
-      "El seguro de arrendamiento le paga al propietario el canon que el inquilino deje de pagar y, según la póliza, también las cuotas de administración, los servicios públicos pendientes y algunos daños al inmueble. Antes de expedirlo, la aseguradora estudia al inquilino y a sus codeudores. En vivienda urbana es una forma de respaldar el contrato, porque la Ley 820 de 2003 prohíbe exigir depósitos en efectivo u otras cauciones reales.",
+      "El seguro de arrendamiento le paga al propietario el canon que el inquilino deje de pagar y, según la póliza, también las cuotas de administración, los servicios públicos pendientes y algunos daños al inmueble. Antes, la aseguradora estudia al inquilino y a sus codeudores. En vivienda urbana es una forma de respaldar el contrato, porque la Ley 820 de 2003 prohíbe exigir depósitos en efectivo u otras cauciones reales.",
     secciones: [
       {
         titulo: "Caso ilustrativo: el apartamento de Rosa",
@@ -542,7 +542,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Qué puede cubrir, según la póliza",
+        titulo: "¿Qué coberturas puede tener un seguro de arrendamiento?",
         bloques: [
           {
             tipo: "tabla",
@@ -564,7 +564,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Qué dice la Ley 820 de 2003 sobre las garantías",
+        titulo: "¿Qué dice la Ley 820 de 2003 sobre las garantías del arriendo?",
         bloques: [
           {
             tipo: "p",
@@ -587,7 +587,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo funciona, paso a paso",
+        titulo: "¿Cómo funciona el seguro de arrendamiento, paso a paso?",
         bloques: [
           {
             tipo: "pasos",
@@ -640,7 +640,7 @@ export const GUIAS_PERSONAS: Guia[] = [
       {
         pregunta: "¿El seguro paga desde el primer mes de mora?",
         respuesta:
-          "Depende de la póliza. Cada una fija cuándo empieza a pagar, cuántos meses cubre y qué plazos tienes para avisar. Pídelos por escrito.",
+          "No siempre: depende de la póliza. Cada seguro de arrendamiento fija desde cuándo empieza a pagar, cuántos meses cubre y qué plazos tienes para avisar de la mora. Pídelos por escrito antes de firmar.",
       },
       {
         pregunta: "¿Sirve para locales comerciales?",
@@ -673,7 +673,7 @@ export const GUIAS_PERSONAS: Guia[] = [
     description:
       "Fechas, inspección del carro, preexistencias en salud y devolución de prima si cancelas: cómo cambiar de aseguradora sin baches. Te ayudamos a comparar.",
     respuesta:
-      "Para cambiar de aseguradora sin quedar desprotegido, haz que la póliza nueva empiece el mismo día y a la misma hora en que vence la anterior, y no canceles la vieja hasta tener la nueva expedida. En carros, haz la inspección con tiempo; en salud, revisa antes qué preexistencias te excluiría la nueva entidad. Si cancelas antes del vencimiento, el Código de Comercio te permite revocar el seguro por escrito y recuperar parte de la prima no devengada.",
+      "Para cambiar de aseguradora sin quedar desprotegido, haz que la póliza nueva empiece el mismo día y a la misma hora en que vence la anterior, y no canceles la vieja hasta tener la nueva expedida. En carros, haz la inspección con tiempo; en salud, revisa qué preexistencias te excluiría la nueva entidad. Si cancelas antes, puedes revocar por escrito y recuperar parte de la prima no devengada.",
     secciones: [
       {
         titulo: "Caso ilustrativo: los dos días sin seguro de Andrés",
@@ -701,7 +701,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "El calendario para cambiarte sin baches",
+        titulo: "¿Cuándo empezar a cambiar de aseguradora para no quedar sin cobertura?",
         bloques: [
           {
             tipo: "pasos",
@@ -724,7 +724,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Carros: la inspección y la prenda",
+        titulo: "¿Qué revisar al cambiar la aseguradora del carro?",
         bloques: [
           {
             tipo: "lista",
@@ -738,12 +738,12 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Salud: el cambio que más cuidado pide",
+        titulo: "¿Por qué cambiar de plan de salud pide más cuidado?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "En salud, cambiarse no es igual que en carros. Según el Decreto 780 de 2016, al renovar con la misma entidad no te pueden agregar preexistencias distintas a las que tenías antes del contrato inicial. Pero con otra entidad empiezas un contrato nuevo, y lo que te diagnosticaron en los últimos años puede quedar como preexistencia excluida.",
+              "Porque con otra entidad empiezas un contrato nuevo, y lo que te diagnosticaron en los últimos años puede quedar como preexistencia excluida. En cambio, según el Decreto 780 de 2016, al renovar con la misma entidad no te pueden agregar preexistencias distintas a las que tenías antes del contrato inicial.",
           },
           {
             tipo: "lista",
@@ -757,12 +757,12 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Si cancelas antes del vencimiento: la prima no devengada",
+        titulo: "¿Qué pasa con la prima si cancelas la póliza antes del vencimiento?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "El artículo 1071 del Código de Comercio permite que el asegurado revoque el seguro en cualquier momento, con un aviso escrito a la aseguradora. La aseguradora, en cambio, solo puede revocarlo con aviso escrito de al menos diez días, salvo en los seguros de vida, que no puede revocar.",
+              "Te devuelven la prima no devengada, calculada con la tarifa a corto plazo, que suele ser menor que la parte proporcional del tiempo que falta. El artículo 1071 del Código de Comercio permite que el asegurado revoque el seguro en cualquier momento, con un aviso escrito a la aseguradora. La aseguradora, en cambio, solo puede revocarlo con aviso escrito de al menos diez días, salvo en los seguros de vida, que no puede revocar.",
           },
           {
             tipo: "tabla",
@@ -830,7 +830,7 @@ export const GUIAS_PERSONAS: Guia[] = [
     description:
       "Qué hace un intermediario de seguros, cómo se regula y se remunera en Colombia, y cuándo conviene comprar directo. Ventajas y límites, sin rodeos.",
     respuesta:
-      "Puedes comprar un seguro directo a la aseguradora o por medio de un intermediario: un agente, una agencia o un corredor. El intermediario te ayuda a comparar, a entender la póliza y a hacer los trámites, y su comisión la pactan él y la aseguradora. Comprar directo puede bastar si tu necesidad es simple y ya sabes qué quieres; un intermediario aporta más cuando necesitas comparar varias opciones o que alguien te acompañe en un siniestro.",
+      "Comprar directo a la aseguradora puede bastar si tu necesidad es simple y ya sabes qué quieres; una agencia de seguros, un agente o un corredor aporta más cuando necesitas comparar varias opciones o que alguien te acompañe en un siniestro. El intermediario te ayuda a comparar, a entender la póliza y a hacer los trámites, y su comisión la pactan él y la aseguradora.",
     secciones: [
       {
         titulo: "Caso ilustrativo: Laura y las dos pólizas",
@@ -858,12 +858,12 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Agente, agencia y corredor: quién es quién",
+        titulo: "¿Qué es un agente, una agencia y un corredor de seguros?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "En Colombia los intermediarios de seguros están definidos en el Código de Comercio y en el Estatuto Orgánico del Sistema Financiero (Decreto 663 de 1993). Hay tres figuras:",
+              "Son los tres tipos de intermediarios de seguros que reconoce la ley en Colombia. En Colombia los intermediarios de seguros están definidos en el Código de Comercio y en el Estatuto Orgánico del Sistema Financiero (Decreto 663 de 1993). Hay tres figuras:",
           },
           {
             tipo: "tabla",
@@ -883,7 +883,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo se les paga",
+        titulo: "¿Cómo se les paga a los intermediarios de seguros?",
         bloques: [
           {
             tipo: "p",
@@ -898,7 +898,7 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Ventajas y límites, sin rodeos",
+        titulo: "¿Qué ventajas tiene comprar con intermediario o directo?",
         bloques: [
           {
             tipo: "tabla",
@@ -920,12 +920,12 @@ export const GUIAS_PERSONAS: Guia[] = [
         ],
       },
       {
-        titulo: "Tus derechos son los mismos por cualquier vía",
+        titulo: "¿Tienes los mismos derechos si compras directo o con intermediario?",
         bloques: [
           {
             tipo: "lista",
             items: [
-              "La Ley 1328 de 2009 te da derecho a información transparente, clara, veraz y oportuna sobre el producto que compras.",
+              "Sí. La Ley 1328 de 2009 te da derecho a información transparente, clara, veraz y oportuna sobre el producto que compras.",
               "Esa misma ley exige que, antes de contratar, la información te permita comparar las opciones del mercado.",
               "Las entidades vigiladas que defina el Gobierno deben tener un Defensor del Consumidor Financiero, que atiende tus quejas de forma gratuita.",
               "Compres como compres, la póliza la expide la aseguradora y es ella la que responde por las coberturas.",
@@ -957,7 +957,7 @@ export const GUIAS_PERSONAS: Guia[] = [
       {
         pregunta: "¿Cómo sé si un corredor de seguros es legal?",
         respuesta:
-          "Solo pueden usar el título de corredor las sociedades inscritas en la Superintendencia Financiera con certificado vigente. Pídele ese certificado.",
+          "Solo pueden usar el título de corredor de seguros las sociedades inscritas en la Superintendencia Financiera con certificado vigente. Pídele ese certificado antes de contratar y verifica que esté al día.",
       },
       {
         pregunta: "Si compro con un intermediario, ¿a quién reclamo en un siniestro?",

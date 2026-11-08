@@ -28,11 +28,11 @@ export const GUIAS_PYMES: Guia[] = [
   {
     slug: "cuanto-cuesta-poliza-de-cumplimiento",
     titulo: "¿Cuánto cuesta una póliza de cumplimiento y de qué depende el precio?",
-    title: "Cuánto cuesta una póliza de cumplimiento",
+    title: "Cuánto cuesta una póliza de cumplimiento y de qué depende",
     description:
       "El precio de una póliza de cumplimiento depende del valor asegurado, la vigencia, los amparos y tu perfil. Te explicamos cada factor. Cotiza con un asesor.",
     respuesta:
-      "No hay un precio fijo: la prima de una póliza de cumplimiento se calcula sobre el valor asegurado, que es un porcentaje del contrato, y cambia según la vigencia, los amparos que exige el contrato y el estudio que la aseguradora hace de tu empresa. El perfil financiero, la experiencia y las contragarantías que ofrezcas pesan tanto como el valor del contrato. Por eso el mismo contrato puede salir distinto en cada aseguradora.",
+      "Una póliza de cumplimiento no tiene precio fijo: su prima se calcula sobre el valor asegurado, que es un porcentaje del contrato, y cambia según la vigencia, los amparos exigidos y el estudio que la aseguradora hace de tu empresa. Tu perfil financiero, tu experiencia y las contragarantías pesan tanto como el valor del contrato. Por eso el mismo contrato puede salir distinto en cada aseguradora.",
     secciones: [
       {
         titulo: "Caso ilustrativo: dos cotizaciones para el mismo contrato",
@@ -56,12 +56,12 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo se calcula la prima",
+        titulo: "¿Cómo se calcula la prima de una póliza de cumplimiento?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "La prima es el precio del seguro. En cumplimiento se obtiene aplicando una tasa al valor asegurado de cada amparo, según la vigencia. Según la aseguradora, a eso pueden sumarse gastos de expedición e impuestos. La tasa no es pública ni igual para todos: la fija cada aseguradora después de estudiar al contratista.",
+              "La prima es el precio del seguro, y en cumplimiento se obtiene aplicando una tasa al valor asegurado de cada amparo, según la vigencia. Según la aseguradora, a eso pueden sumarse gastos de expedición e impuestos. La tasa no es pública ni igual para todos: la fija cada aseguradora después de estudiar al contratista.",
           },
           {
             tipo: "p",
@@ -86,12 +86,12 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Por qué el perfil del contratista pesa tanto",
+        titulo: "¿Por qué el perfil del contratista pesa tanto en el precio?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "La póliza de cumplimiento no funciona como un seguro de carro. Si la aseguradora paga por tu incumplimiento, después te cobra lo que pagó. El Código de Comercio (artículo 1099) excluye los seguros de cumplimiento de la regla que limita esa subrogación. Por eso la aseguradora estudia tu empresa casi como lo haría un banco: quiere saber si eres capaz de cumplir y, si no, si podrá recuperar el dinero.",
+              "Pesa tanto porque, si la aseguradora paga por tu incumplimiento, después te cobra lo que pagó: la póliza de cumplimiento no funciona como un seguro de carro. El Código de Comercio (artículo 1099) excluye los seguros de cumplimiento de la regla que limita esa subrogación. Por eso la aseguradora estudia tu empresa casi como lo haría un banco: quiere saber si eres capaz de cumplir y, si no, si podrá recuperar el dinero.",
           },
           {
             tipo: "p",
@@ -101,7 +101,7 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Por qué conviene cotizar con varias aseguradoras",
+        titulo: "¿Por qué conviene cotizar la póliza con varias aseguradoras?",
         bloques: [
           {
             tipo: "p",
@@ -145,7 +145,7 @@ export const GUIAS_PYMES: Guia[] = [
       {
         pregunta: "¿Por qué me piden contragarantía si ya pagué la prima?",
         respuesta:
-          "Porque si la aseguradora paga por un incumplimiento tuyo tiene derecho a recobrarte. La contragarantía, normalmente un pagaré, respalda ese recobro.",
+          "Porque si la aseguradora paga por un incumplimiento tuyo, tiene derecho a recobrarte lo que pagó. La contragarantía, normalmente un pagaré, respalda ese recobro. Es independiente de la prima, que es solo el precio del seguro.",
       },
       {
         pregunta: "¿Cuánto tarda la cotización?",
@@ -174,11 +174,11 @@ export const GUIAS_PYMES: Guia[] = [
   {
     slug: "poliza-de-cumplimiento-contrato-entre-particulares",
     titulo: "¿Cómo funciona la póliza de cumplimiento en un contrato entre particulares?",
-    title: "Póliza de cumplimiento entre particulares",
+    title: "Póliza de cumplimiento entre particulares: cómo funciona",
     description:
       "Cuándo usar póliza de cumplimiento en contratos privados, con proveedores o arriendos comerciales, y en qué cambia frente a la estatal. Asesórate gratis.",
     respuesta:
-      "Una póliza de cumplimiento entre particulares garantiza a una empresa o persona privada que su contraparte cumplirá un contrato, como una obra, un suministro o un arrendamiento comercial. A diferencia de la estatal, no se rige por el Decreto 1082 de 2015 sino por el Código de Comercio y por lo que pacten las partes, así que amparos, porcentajes y vigencias se negocian en el contrato. También cambia la forma de reclamar: el beneficiario debe demostrar el incumplimiento y su cuantía ante la aseguradora.",
+      "Una póliza de cumplimiento entre particulares garantiza a una empresa o persona privada que su contraparte cumplirá un contrato, como una obra, un suministro o un arriendo comercial. No se rige por el Decreto 1082 de 2015, como la estatal, sino por el Código de Comercio y lo que pacten las partes en amparos, porcentajes y vigencias. Para reclamar, el beneficiario debe demostrar el incumplimiento y su cuantía.",
     secciones: [
       {
         titulo: "Caso ilustrativo: el proveedor que no entregó a tiempo",
@@ -222,8 +222,13 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Diferencias con la póliza a favor de entidades estatales",
+        titulo: "¿Qué cambia frente a la póliza de cumplimiento estatal?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Cambian la norma que la rige, la forma de declarar el siniestro y lo que pasa si no se paga la prima o si el tomador fue reticente. Así se comparan las dos:",
+          },
           {
             tipo: "tabla",
             caption: "Póliza de cumplimiento estatal vs. entre particulares",
@@ -245,8 +250,13 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo pedirla bien en tu contrato",
+        titulo: "¿Cómo exigir la póliza de cumplimiento en tu contrato?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Escribe en el contrato los amparos, valores y vigencias que exiges, y revisa la póliza y el pago de la prima cuando la recibas. Paso a paso:",
+          },
           {
             tipo: "pasos",
             items: [
@@ -266,12 +276,12 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Qué pasa cuando hay que reclamar",
+        titulo: "¿Cómo se reclama una póliza de cumplimiento entre particulares?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "El Código de Comercio pone en cabeza del asegurado demostrar la ocurrencia del siniestro y la cuantía de la pérdida (artículo 1077). Cuando lo acredita, la aseguradora tiene un mes para pagar o, si no, reconoce intereses de mora (artículo 1080). Las acciones derivadas del seguro prescriben, por regla general, en dos años desde que el interesado conoció o debió conocer el hecho (artículo 1081), así que no conviene dejar pasar el tiempo.",
+              "Para reclamar, tú como asegurado debes demostrar ante la aseguradora la ocurrencia del siniestro y la cuantía de la pérdida (artículo 1077 del Código de Comercio). Cuando lo acredita, la aseguradora tiene un mes para pagar o, si no, reconoce intereses de mora (artículo 1080). Las acciones derivadas del seguro prescriben, por regla general, en dos años desde que el interesado conoció o debió conocer el hecho (artículo 1081), así que no conviene dejar pasar el tiempo.",
           },
           {
             tipo: "p",
@@ -300,7 +310,7 @@ export const GUIAS_PYMES: Guia[] = [
       {
         pregunta: "¿Puedo usar la póliza estatal que ya tengo para un cliente privado?",
         respuesta:
-          "No. Cada póliza se expide para un contrato y un beneficiario concretos, y los clausulados para entidades estatales y para particulares son distintos.",
+          "No. Cada póliza se expide para un contrato y un beneficiario concretos, y los clausulados para entidades estatales y para particulares son distintos. Para tu cliente privado necesitas una póliza nueva a su favor, con lo que pida su contrato.",
       },
     ],
     ramoRuta: "/pymes/polizas-de-cumplimiento",
@@ -327,7 +337,7 @@ export const GUIAS_PYMES: Guia[] = [
     description:
       "Qué cubre la RC extracontractual de tu negocio: daños a terceros en el local o la obra, RC patronal, subcontratistas y defensa. Cotiza con un asesor.",
     respuesta:
-      "La póliza de responsabilidad civil extracontractual paga, hasta el valor asegurado, los perjuicios que tu negocio cause sin querer a personas con las que no tiene contrato, como un cliente que se lesiona en el local o un vecino al que se le daña la casa por una obra. Puede ampliarse con amparos como RC patronal, contratistas y subcontratistas, productos o vehículos propios y no propios. Además, por ley cubre los costos del proceso que el tercero promueva, con algunas salvedades.",
+      "La póliza de responsabilidad civil extracontractual de un negocio paga, hasta el valor asegurado, los perjuicios que causes sin querer a personas con las que no tienes contrato, como un cliente que se lesiona en el local o un vecino afectado por una obra. Puede ampliarse con RC patronal, contratistas, productos o vehículos. Por ley también cubre los costos del proceso, con salvedades.",
     secciones: [
       {
         titulo: "Caso ilustrativo: la caída en el restaurante",
@@ -351,7 +361,7 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "La base legal: por qué respondes por daños a terceros",
+        titulo: "¿Por qué un negocio responde por los daños a terceros?",
         bloques: [
           {
             tipo: "p",
@@ -366,8 +376,13 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Ejemplos por tipo de negocio",
+        titulo: "¿Qué daños cubre la RC extracontractual según el negocio?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Cubre los daños que tu actividad cause a clientes, vecinos o transeúntes, y el amparo que responde cambia según el tipo de negocio. Estos son ejemplos frecuentes:",
+          },
           {
             tipo: "tabla",
             caption: "Situaciones que suele atender una póliza de RC extracontractual",
@@ -388,8 +403,13 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "RC patronal, contratistas y subcontratistas",
+        titulo: "¿Qué cubren la RC patronal y la de contratistas?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "La RC patronal atiende la indemnización que debes a un empleado accidentado por tu culpa comprobada, más allá de lo que paga la ARL. La de contratistas cubre los daños a terceros que causen quienes contrataste.",
+          },
           {
             tipo: "p",
             texto:
@@ -411,8 +431,13 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo contratarla sin quedarte corto",
+        titulo: "¿Cómo contratar la póliza de RC sin quedarte corto?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Describe tu actividad real, define el valor asegurado pensando en el daño más grave que podrías causar y agrega los amparos que tu operación necesita. Paso a paso:",
+          },
           {
             tipo: "pasos",
             items: [
@@ -435,7 +460,7 @@ export const GUIAS_PYMES: Guia[] = [
       {
         pregunta: "¿La RC extracontractual cubre los daños a mi propio local?",
         respuesta:
-          "No. Cubre daños a terceros. Para tus bienes necesitas un seguro de daños materiales o un seguro para pyme.",
+          "No. La responsabilidad civil extracontractual cubre los daños que causas a terceros, no los de tus propios bienes. Para proteger tu local, tu mercancía y tus equipos necesitas un seguro de daños materiales o un seguro para pyme.",
       },
       {
         pregunta: "¿Cubre los gastos de abogado si me demandan?",
@@ -455,7 +480,7 @@ export const GUIAS_PYMES: Guia[] = [
       {
         pregunta: "¿La víctima puede reclamarle directo a la aseguradora?",
         respuesta:
-          "Sí. El Código de Comercio le da al damnificado acción directa contra la aseguradora en el seguro de responsabilidad civil.",
+          "Sí. El Código de Comercio le da al damnificado acción directa contra la aseguradora en el seguro de responsabilidad civil. Es decir, la persona afectada puede dirigir su reclamación directamente a la aseguradora de tu negocio.",
       },
     ],
     ramoRuta: "/pymes/responsabilidad-civil",
@@ -485,7 +510,7 @@ export const GUIAS_PYMES: Guia[] = [
     description:
       "Seguro de transporte de mercancías: póliza automática o por despacho, volcamiento, hurto, saqueo y carga propia o de terceros. Cotiza con un asesor.",
     respuesta:
-      "El seguro de transporte de mercancías cubre la pérdida o el daño de la carga por los riesgos del trayecto, como volcamiento, choque, incendio del vehículo o hurto, desde que el transportador la recibe hasta que la entrega al destinatario. Se toma por un solo despacho o como póliza automática para todos los envíos de un periodo. Lo puede tomar el dueño de la mercancía o quien responde por ella, como la empresa de transporte, indicando qué interés asegura.",
+      "El seguro de transporte de mercancías cubre la pérdida o el daño de la carga por riesgos del trayecto, como volcamiento, choque, incendio del vehículo o hurto, desde que el transportador la recibe hasta que la entrega. Se toma por un solo despacho o como póliza automática para los envíos de un periodo. Lo puede tomar el dueño de la carga o quien responde por ella.",
     secciones: [
       {
         titulo: "Caso ilustrativo: el camión que no llegó a Santa Marta",
@@ -509,8 +534,13 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Póliza automática o por despacho",
+        titulo: "¿Conviene una póliza automática o una por despacho?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "La póliza por despacho asegura un solo viaje y sirve si envías carga de vez en cuando; la automática cubre los envíos de un periodo y conviene si despachas con frecuencia. Así se comparan:",
+          },
           {
             tipo: "tabla",
             caption: "Modalidades del seguro de transporte de mercancías",
@@ -556,7 +586,7 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Carga propia o de terceros",
+        titulo: "¿Quién puede asegurar la carga: el dueño o el transportador?",
         bloques: [
           {
             tipo: "p",
@@ -582,12 +612,12 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Contexto de la Costa: puerto y carreteras",
+        titulo: "¿Qué riesgos tiene mover carga desde Barranquilla?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "Barranquilla mueve carga por el puerto y por las vías hacia Cartagena (Vía al Mar o La Cordialidad), Santa Marta y La Guajira (Troncal del Caribe) y el interior. Esos trayectos combinan tramos largos de noche, lluvias fuertes en temporada y paradas que la aseguradora puede restringir. Si tu carga queda en una bodega del puerto o en tu centro de distribución antes de seguir viaje, pregunta si esa permanencia está cubierta: la ley permite extender la cobertura a los lugares inicial y final del trayecto si así se pacta (artículo 1118).",
+              "Mover carga desde Barranquilla, por el puerto o por las vías hacia Cartagena (Vía al Mar o La Cordialidad), Santa Marta y La Guajira (Troncal del Caribe) y el interior, combina tramos largos de noche, lluvias fuertes en temporada y paradas que la aseguradora puede restringir. Si tu carga queda en una bodega del puerto o en tu centro de distribución antes de seguir viaje, pregunta si esa permanencia está cubierta: la ley permite extender la cobertura a los lugares inicial y final del trayecto si así se pacta (artículo 1118).",
           },
           {
             tipo: "pasos",
@@ -648,7 +678,7 @@ export const GUIAS_PYMES: Guia[] = [
     description:
       "Qué cubre un seguro multirriesgo para pyme: incendio, terremoto, robo, equipos, maquinaria, RC y lucro cesante, y cómo evitar el infraseguro. Asesórate.",
     respuesta:
-      "Un seguro para pyme, o multirriesgo, agrupa en una póliza la protección de los bienes del negocio, como local, maquinaria, equipos e inventario, frente a incendio y riesgos aliados, terremoto, sustracción, daños de equipo electrónico y rotura de maquinaria, y puede sumar responsabilidad civil y lucro cesante. El valor asegurado debe reflejar lo que cuesta reponer los bienes. Si aseguras por menos, el Código de Comercio permite a la aseguradora pagar solo en proporción.",
+      "Un seguro para pyme, o multirriesgo, protege en una sola póliza el local, la maquinaria, los equipos y el inventario frente a incendio, terremoto, sustracción, daños de equipo electrónico y rotura de maquinaria, y puede sumar responsabilidad civil y lucro cesante. El valor asegurado debe reflejar lo que cuesta reponer los bienes: si aseguras por menos, la aseguradora puede pagar solo en proporción.",
     secciones: [
       {
         titulo: "Caso ilustrativo: la ferretería que se aseguró por la mitad",
@@ -674,6 +704,11 @@ export const GUIAS_PYMES: Guia[] = [
       {
         titulo: "¿Qué cubre un seguro para pyme?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Cubre los bienes del negocio frente a incendio, terremoto, robo y daños de equipos y maquinaria, y puede sumar responsabilidad civil y lucro cesante, según la póliza. Estas son las coberturas frecuentes:",
+          },
           {
             tipo: "tabla",
             caption: "Coberturas frecuentes en un seguro multirriesgo para pyme",
@@ -702,12 +737,12 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo definir el valor asegurado",
+        titulo: "¿Cómo definir el valor asegurado del seguro para pyme?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "El valor asegurado es el tope de lo que te pueden pagar y la base para calcular la prima. En los seguros de daños, la indemnización no puede pasar del valor real del bien al momento del siniestro (artículo 1089 del Código de Comercio), aunque las partes pueden pactar que se pague por valor de reposición o reemplazo (artículo 1090). En la práctica, muchas pólizas para pyme se contratan a valor de reposición: lo que costaría comprar o construir hoy un bien nuevo equivalente.",
+              "Defínelo por lo que costaría reponer hoy los bienes del negocio. El valor asegurado es el tope de lo que te pueden pagar y la base para calcular la prima. En los seguros de daños, la indemnización no puede pasar del valor real del bien al momento del siniestro (artículo 1089 del Código de Comercio), aunque las partes pueden pactar que se pague por valor de reposición o reemplazo (artículo 1090). En la práctica, muchas pólizas para pyme se contratan a valor de reposición: lo que costaría comprar o construir hoy un bien nuevo equivalente.",
           },
           {
             tipo: "pasos",
@@ -722,12 +757,12 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Por qué el infraseguro castiga la indemnización",
+        titulo: "¿Qué es el infraseguro y por qué reduce la indemnización?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "El artículo 1102 del Código de Comercio dice que, si no está asegurado el valor íntegro del interés, la aseguradora solo indemniza el daño a prorrata entre la cantidad asegurada y la que no lo está. Es la llamada regla proporcional: si aseguraste la mitad del valor, te pagan la mitad de cada pérdida, aunque la pérdida sea pequeña.",
+              "El infraseguro es asegurar los bienes por menos de lo que valen, y reduce la indemnización porque la aseguradora paga en proporción. El artículo 1102 del Código de Comercio dice que, si no está asegurado el valor íntegro del interés, la aseguradora solo indemniza el daño a prorrata entre la cantidad asegurada y la que no lo está. Es la llamada regla proporcional: si aseguraste la mitad del valor, te pagan la mitad de cada pérdida, aunque la pérdida sea pequeña.",
           },
           {
             tipo: "p",
@@ -784,7 +819,7 @@ export const GUIAS_PYMES: Guia[] = [
   {
     slug: "lucro-cesante-seguro-negocio",
     titulo: "¿Qué es el lucro cesante en un seguro y cuándo vale la pena para tu negocio?",
-    title: "Lucro cesante: qué es y cuándo vale la pena",
+    title: "Lucro cesante en el seguro: qué es y cuándo vale la pena",
     description:
       "El lucro cesante cubre la utilidad que pierde tu negocio mientras está parado tras un siniestro. Cómo se calcula y a quién le conviene. Asesórate gratis.",
     respuesta:
@@ -812,8 +847,13 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Qué cubre el lucro cesante",
+        titulo: "¿Qué cubre el lucro cesante en un seguro?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "El lucro cesante cubre la utilidad que el negocio deja de ganar, los gastos fijos que sigue pagando y algunos gastos extra para reducir la pérdida, siempre que se pacte en la póliza.",
+          },
           {
             tipo: "p",
             texto:
@@ -835,7 +875,7 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo se calcula el período de indemnización",
+        titulo: "¿Qué es el período de indemnización del lucro cesante?",
         bloques: [
           {
             tipo: "p",
@@ -859,7 +899,7 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo se define el valor asegurado",
+        titulo: "¿Cómo se calcula el valor asegurado del lucro cesante?",
         bloques: [
           {
             tipo: "p",
@@ -886,8 +926,13 @@ export const GUIAS_PYMES: Guia[] = [
         ],
       },
       {
-        titulo: "¿Para quién vale la pena?",
+        titulo: "¿Para qué negocios vale la pena el lucro cesante?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Vale la pena sobre todo para negocios que no pueden volver a operar pronto después de un siniestro o que tienen gastos fijos altos. Por ejemplo:",
+          },
           {
             tipo: "lista",
             items: [

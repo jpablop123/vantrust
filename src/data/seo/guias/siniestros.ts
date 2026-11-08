@@ -48,7 +48,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Paso a paso después de un choque",
+        titulo: "¿Qué hacer después de un choque, paso a paso?",
         bloques: [
           {
             tipo: "pasos",
@@ -65,12 +65,12 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Choques simples: sin heridos, el acuerdo es entre las partes",
+        titulo: "¿Qué hacer si el choque fue simple y no hay heridos?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "El Código Nacional de Tránsito (Ley 769 de 2002), en su artículo 143, modificado por el artículo 16 de la Ley 2251 de 2022, regula los accidentes en los que solo hay daños materiales. Dice que los conductores, las aseguradoras y demás interesados recogen las pruebas con herramientas técnicas y tecnológicas, como fotos y videos, y que ese material reemplaza el informe de accidente de tránsito (el IPAT, conocido como croquis).",
+              "Si solo hay daños materiales, los conductores recogen las pruebas y pueden llegar a un acuerdo sin esperar al agente de tránsito. El Código Nacional de Tránsito (Ley 769 de 2002), en su artículo 143, modificado por el artículo 16 de la Ley 2251 de 2022, regula los accidentes en los que solo hay daños materiales. Dice que los conductores, las aseguradoras y demás interesados recogen las pruebas con herramientas técnicas y tecnológicas, como fotos y videos, y que ese material reemplaza el informe de accidente de tránsito (el IPAT, conocido como croquis).",
           },
           {
             tipo: "p",
@@ -90,7 +90,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Fotos y datos que debes tomar",
+        titulo: "¿Qué fotos y datos debes tomar en un choque?",
         bloques: [
           {
             tipo: "tabla",
@@ -110,7 +110,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Avisar a la aseguradora: el plazo de tres días",
+        titulo: "¿Qué dice la ley sobre avisar el choque a la aseguradora?",
         bloques: [
           {
             tipo: "p",
@@ -130,7 +130,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Lo que no debes hacer",
+        titulo: "¿Qué no debes hacer después de un choque?",
         bloques: [
           {
             tipo: "lista",
@@ -156,7 +156,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
       {
         pregunta: "¿Cuánto tiempo tengo para avisar a la aseguradora?",
         respuesta:
-          "El Código de Comercio fija tres días desde que conociste o debiste conocer el siniestro. Tu póliza puede darte más tiempo, nunca menos.",
+          "El artículo 1075 del Código de Comercio fija tres días desde que conociste o debiste conocer el siniestro. Tu póliza puede darte más tiempo, nunca menos, así que revisa qué plazo tiene la tuya.",
       },
       {
         pregunta: "¿Puedo arreglar el choque con el otro conductor sin usar el seguro?",
@@ -171,7 +171,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
       {
         pregunta: "¿Firmar el informe de tránsito es aceptar la culpa?",
         respuesta:
-          "No. La Corte Constitucional aclaró que firmarlo no significa aceptar los hechos y que puedes escribir tus observaciones.",
+          "No. La Corte Constitucional aclaró que firmar el informe de accidente de tránsito no significa aceptar los hechos que describe. Al firmarlo puedes escribir tus observaciones si no estás de acuerdo con lo que dice.",
       },
     ],
     ramoRuta: "/seguros/automoviles",
@@ -194,11 +194,11 @@ export const GUIAS_SINIESTROS: Guia[] = [
   {
     slug: "carro-inundado-arroyo-barranquilla-seguro",
     titulo: "¿El seguro cubre si un arroyo de Barranquilla daña tu carro?",
-    title: "¿El seguro cubre si un arroyo daña tu carro?",
+    title: "¿El seguro cubre si un arroyo daña tu carro en Barranquilla?",
     description:
       "Si un arroyo de Barranquilla daña tu carro, la cobertura depende de tu póliza y de cómo pasó. Qué hacer y qué evitar. Revisa tu póliza con tu asesor.",
     respuesta:
-      "Depende de tu póliza: muchas pólizas de autos todo riesgo cubren los daños por eventos de la naturaleza, como inundaciones, pero cada una tiene sus condiciones y exclusiones. Si el arroyo arrastró o inundó el carro sin que tú lo expusieras, la reclamación suele ser más clara; si decidiste meterte al arroyo, la aseguradora puede discutir que hubo culpa grave. No enciendas el motor, documenta y avisa en tres días.",
+      "El seguro cubre si un arroyo daña tu carro cuando tu póliza incluye eventos de la naturaleza, como inundaciones; muchas pólizas todo riesgo los incluyen, con sus condiciones y exclusiones. Si el arroyo arrastró o inundó el carro sin que lo expusieras, la reclamación suele ser más clara; si te metiste al arroyo, la aseguradora puede alegar culpa grave. No enciendas el motor y avisa en tres días.",
     secciones: [
       {
         titulo: "Caso ilustrativo: dos carros, el mismo aguacero",
@@ -226,12 +226,12 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo suelen tratar las pólizas la inundación y los eventos de la naturaleza",
+        titulo: "¿Qué pólizas de autos cubren la inundación del carro?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "No hay una respuesta única: depende de lo que diga tu póliza. En general, las pólizas de autos todo riesgo incluyen una cobertura de daños al carro que puede abarcar eventos de la naturaleza como inundación, terremoto o caída de árboles. Las pólizas básicas, en cambio, a veces solo cubren responsabilidad civil y no los daños a tu propio carro.",
+              "En general, las pólizas de autos todo riesgo incluyen una cobertura de daños al carro que puede abarcar eventos de la naturaleza como inundación, terremoto o caída de árboles. Las pólizas básicas, en cambio, a veces solo cubren responsabilidad civil y no los daños a tu propio carro. No hay una respuesta única: depende de lo que diga tu póliza.",
           },
           {
             tipo: "p",
@@ -253,12 +253,12 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Por qué meterte en un arroyo puede complicar la reclamación",
+        titulo: "¿Por qué cruzar un arroyo puede complicar la reclamación?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "En Barranquilla los arroyos son un riesgo conocido: cuando llueve fuerte, las autoridades piden no cruzarlos. Si decides entrar con el carro, la aseguradora puede analizar si esa decisión fue una imprudencia grave.",
+              "Porque si decides entrar con el carro, la aseguradora puede analizar si esa decisión fue una imprudencia grave. En Barranquilla los arroyos son un riesgo conocido: cuando llueve fuerte, las autoridades piden no cruzarlos.",
           },
           {
             tipo: "p",
@@ -273,7 +273,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Qué hacer si el agua alcanzó tu carro",
+        titulo: "¿Qué hacer si el agua de un arroyo alcanzó tu carro?",
         bloques: [
           {
             tipo: "pasos",
@@ -294,7 +294,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
       {
         pregunta: "¿Mi póliza todo riesgo cubre inundación?",
         respuesta:
-          "Muchas pólizas todo riesgo incluyen eventos de la naturaleza, pero no todas ni con las mismas condiciones. Revisa coberturas y exclusiones con tu asesor.",
+          "Muchas pólizas todo riesgo incluyen eventos de la naturaleza, como la inundación, pero no todas ni con las mismas condiciones. Revisa las coberturas y las exclusiones de tu póliza con tu asesor para saber si estás cubierto.",
       },
       {
         pregunta: "¿Qué pasa si el carro estaba parqueado cuando lo inundó el arroyo?",
@@ -304,17 +304,17 @@ export const GUIAS_SINIESTROS: Guia[] = [
       {
         pregunta: "¿Me pueden negar la reclamación si crucé el arroyo?",
         respuesta:
-          "Pueden objetarla si consideran que hubo culpa grave, que la ley declara inasegurable. Depende de los hechos de cada caso.",
+          "Pueden objetarla si consideran que cruzar el arroyo fue culpa grave, que la ley declara inasegurable. No es automático: depende de los hechos de cada caso, por eso conviene documentar bien cómo pasó y contarlo tal como fue.",
       },
       {
         pregunta: "¿Puedo intentar prender el carro para sacarlo del agua?",
         respuesta:
-          "No es recomendable. Encender un motor con agua puede agravar el daño, y la ley te obliga a evitar que el daño crezca.",
+          "No es recomendable. Encender un motor con agua puede agravar el daño, y la ley te obliga a evitar que el daño crezca. Deja el carro apagado y pregúntale a tu aseguradora si envía grúa.",
       },
       {
         pregunta: "¿Cuánto tiempo tengo para avisar?",
         respuesta:
-          "Tres días desde que conociste el siniestro, según el Código de Comercio, salvo que tu póliza te dé más.",
+          "Tienes tres días desde que conociste el siniestro para avisar a la aseguradora del daño, según el artículo 1075 del Código de Comercio, salvo que tu póliza te dé más tiempo.",
       },
     ],
     ramoRuta: "/seguros/automoviles",
@@ -368,7 +368,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Los primeros pasos",
+        titulo: "¿Qué hacer primero si te roban el carro?",
         bloques: [
           {
             tipo: "pasos",
@@ -389,12 +389,12 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Documentos que suelen pedir",
+        titulo: "¿Qué documentos piden para reclamar el robo del carro?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "Cada aseguradora tiene su lista y puede pedir documentos adicionales. Estos son los que se piden con frecuencia en una reclamación por hurto total:",
+              "Suelen pedir la denuncia, la certificación de la Fiscalía, los documentos de propiedad del carro y los formularios de traspaso. Cada aseguradora tiene su lista y puede pedir documentos adicionales. Estos son los que se piden con frecuencia en una reclamación por hurto total:",
           },
           {
             tipo: "tabla",
@@ -415,7 +415,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo funciona la pérdida total por hurto y el traspaso",
+        titulo: "¿Cómo funciona la pérdida total por hurto y el traspaso?",
         bloques: [
           {
             tipo: "p",
@@ -435,7 +435,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Los tiempos del trámite",
+        titulo: "¿Qué plazos tiene la reclamación por robo del carro?",
         bloques: [
           {
             tipo: "lista",
@@ -459,7 +459,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
       {
         pregunta: "¿Mi seguro cubre el robo del carro?",
         respuesta:
-          "Solo si tu póliza incluye la cobertura de hurto. Las pólizas que solo tienen responsabilidad civil no pagan tu carro.",
+          "Solo si tu póliza incluye la cobertura de hurto. Las pólizas que solo tienen responsabilidad civil no pagan tu carro si te lo roban. Revisa tus coberturas con tu asesor.",
       },
       {
         pregunta: "¿Cuánto se demora el pago por robo?",
@@ -469,12 +469,12 @@ export const GUIAS_SINIESTROS: Guia[] = [
       {
         pregunta: "¿Qué pasa si encuentran el carro después de que me pagaron?",
         respuesta:
-          "Como lo traspasaste a la aseguradora, el carro es de ella. Si aparece antes del pago, la póliza dice cómo sigue el trámite.",
+          "Como lo traspasaste a la aseguradora cuando te pagó, el carro recuperado es de ella. Si el carro aparece antes del pago, lo que dice tu póliza define cómo sigue el trámite.",
       },
       {
         pregunta: "¿Por qué tengo que traspasar el carro a la aseguradora?",
         respuesta:
-          "Porque la aseguradora te paga el valor del carro. Si te paga, el carro pasa a ser suyo.",
+          "Porque la aseguradora te paga el valor del carro como pérdida total. Si te paga, el carro pasa a ser suyo, y por eso debes traspasárselo para recibir la indemnización.",
       },
       {
         pregunta: "¿Qué pasa si el carro tiene crédito?",
@@ -502,7 +502,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
   {
     slug: "aseguradora-no-paga-siniestro-que-hacer",
     titulo: "¿Qué hacer si la aseguradora no quiere pagar tu reclamación?",
-    title: "Qué hacer si la aseguradora no quiere pagar",
+    title: "Qué hacer si la aseguradora no quiere pagar tu reclamación",
     description:
       "Si tu aseguradora objetó o no responde: plazos, cómo responder, Defensor del Consumidor Financiero, Superfinanciera y prescripción. Habla con tu asesor.",
     respuesta:
@@ -534,7 +534,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Qué te deben demostrar y qué debes demostrar tú",
+        titulo: "¿Quién debe probar qué en una reclamación de seguro?",
         bloques: [
           {
             tipo: "p",
@@ -554,7 +554,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Razones frecuentes de objeción",
+        titulo: "¿Por qué una aseguradora objeta una reclamación?",
         bloques: [
           {
             tipo: "tabla",
@@ -571,12 +571,12 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "La reticencia: cuando la objeción es por lo que declaraste",
+        titulo: "¿Qué es la reticencia en un seguro?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "Al contratar, debes declarar con sinceridad los hechos que determinan el riesgo, según el cuestionario que te presente la aseguradora. Así lo dice el artículo 1058 del Código de Comercio. Si callaste u omitiste algo (reticencia) o lo dijiste de forma inexacta, y eso habría hecho que la aseguradora no contratara o cobrara más, el seguro puede ser anulado (nulidad relativa).",
+              "La reticencia es callar u omitir, al contratar, un hecho que habría cambiado la decisión de la aseguradora; puede hacer que el seguro sea anulado. Al contratar, debes declarar con sinceridad los hechos que determinan el riesgo, según el cuestionario que te presente la aseguradora. Así lo dice el artículo 1058 del Código de Comercio. Si callaste u omitiste algo (reticencia) o lo dijiste de forma inexacta, y eso habría hecho que la aseguradora no contratara o cobrara más, el seguro puede ser anulado (nulidad relativa).",
           },
           {
             tipo: "p",
@@ -586,7 +586,7 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Paso a paso si te objetan o no te pagan",
+        titulo: "¿Qué hacer paso a paso si te objetan la reclamación?",
         bloques: [
           {
             tipo: "pasos",
@@ -603,12 +603,12 @@ export const GUIAS_SINIESTROS: Guia[] = [
         ],
       },
       {
-        titulo: "Defensor del Consumidor Financiero, Superfinanciera y prescripción",
+        titulo: "¿Ante quién reclamar si la aseguradora no paga y en qué plazo?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "La Ley 1328 de 2009, en su artículo 13, obliga a las entidades vigiladas a tener un Defensor del Consumidor Financiero. Debe atender de forma oportuna, resolver gratis y con objetividad las quejas sobre posibles incumplimientos de la entidad, ser tu vocero ante ella y actuar como conciliador si lo pides. El artículo 14 excluye algunos asuntos, entre ellos los que ya estén en un juicio, los hechos de hace tres años o más y los que superen cien salarios mínimos mensuales.",
+              "Puedes acudir gratis al Defensor del Consumidor Financiero o a la Superintendencia Financiera, y por regla general tienes dos años para reclamar. La Ley 1328 de 2009, en su artículo 13, obliga a las entidades vigiladas a tener un Defensor del Consumidor Financiero. Debe atender de forma oportuna, resolver gratis y con objetividad las quejas sobre posibles incumplimientos de la entidad, ser tu vocero ante ella y actuar como conciliador si lo pides. El artículo 14 excluye algunos asuntos, entre ellos los que ya estén en un juicio, los hechos de hace tres años o más y los que superen cien salarios mínimos mensuales.",
           },
           {
             tipo: "p",
@@ -632,22 +632,22 @@ export const GUIAS_SINIESTROS: Guia[] = [
       {
         pregunta: "¿Cuánto tiempo tiene la aseguradora para pagarme?",
         respuesta:
-          "Un mes desde que acreditas la ocurrencia del siniestro y la cuantía de la pérdida. Si se pasa, debe pagar intereses de mora.",
+          "Un mes desde que acreditas la ocurrencia del siniestro y la cuantía de la pérdida, según el artículo 1080 del Código de Comercio. Si se pasa de ese plazo, debe pagar intereses de mora.",
       },
       {
         pregunta: "¿Qué es una objeción de la reclamación?",
         respuesta:
-          "Es la respuesta en la que la aseguradora dice por qué no va a pagar. La ley exige que sea seria y fundada.",
+          "Es la respuesta en la que la aseguradora dice por qué no va a pagar tu reclamación. La ley exige que sea seria y fundada, así que pídela por escrito con las razones y las cláusulas en que se basa.",
       },
       {
         pregunta: "¿Cuánto cobra el Defensor del Consumidor Financiero?",
         respuesta:
-          "Nada. La Ley 1328 de 2009 dice que resuelve las quejas de forma gratuita para el consumidor.",
+          "Nada. La Ley 1328 de 2009 dice que el Defensor del Consumidor Financiero resuelve las quejas de forma gratuita para el consumidor. Toda entidad vigilada por la Superintendencia Financiera debe tener uno.",
       },
       {
         pregunta: "¿Hasta cuándo puedo reclamar?",
         respuesta:
-          "Por regla general, dos años desde que conociste el hecho (prescripción ordinaria), con un máximo de cinco años desde que nació el derecho (extraordinaria).",
+          "Por regla general, dos años desde que conociste el hecho (prescripción ordinaria), con un máximo de cinco años desde que nació el derecho (extraordinaria). Así lo fija el artículo 1081 del Código de Comercio.",
       },
       {
         pregunta: "¿Me pueden anular la póliza por algo que no dije al contratar?",

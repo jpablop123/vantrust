@@ -66,12 +66,12 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Los amparos de un todo riesgo",
+        titulo: "¿Qué amparos tiene un seguro todo riesgo de carro?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "Cada aseguradora arma su producto con nombres distintos, pero en muchas pólizas encuentras estos amparos:",
+              "Un todo riesgo suele incluir daños al carro, hurto, responsabilidad civil y asistencias, aunque cada aseguradora arma su producto con nombres distintos. En muchas pólizas encuentras estos amparos:",
           },
           {
             tipo: "lista",
@@ -97,8 +97,13 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Qué cubre y qué no suele cubrir",
+        titulo: "¿Qué no cubre un seguro todo riesgo de carro?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Un todo riesgo no suele cubrir los daños por manejar embriagado o sin licencia, el desgaste o las fallas mecánicas, ni los daños causados a propósito. Esta tabla resume situaciones comunes:",
+          },
           {
             tipo: "tabla",
             caption: "Situaciones comunes en un todo riesgo (siempre según la póliza)",
@@ -129,7 +134,7 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Cuándo un choque es pérdida total",
+        titulo: "¿Cuándo un choque se considera pérdida total?",
         bloques: [
           {
             tipo: "p",
@@ -154,8 +159,13 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo revisar tu póliza en diez minutos",
+        titulo: "¿Cómo revisar qué cubre tu póliza de todo riesgo?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Empieza por la carátula y el capítulo de exclusiones: ahí están los amparos, los deducibles, los límites y lo que no te cubre. Revisa esto:",
+          },
           {
             tipo: "lista",
             items: [
@@ -193,7 +203,7 @@ export const GUIAS_AUTO: Guia[] = [
       {
         pregunta: "¿Puedo escoger el taller?",
         respuesta:
-          "Depende de la póliza. Muchas aseguradoras trabajan con talleres en convenio y algunas permiten otros talleres con condiciones. Pregúntalo al cotizar.",
+          "Según la póliza. Muchas aseguradoras trabajan con talleres en convenio y algunas permiten llevar el carro a otros talleres con ciertas condiciones. Pregúntalo al cotizar y revisa qué dice tu clausulado antes de tener un choque.",
       },
       {
         pregunta: "¿Qué hago si no estoy de acuerdo con lo que me pagan?",
@@ -261,7 +271,7 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Qué es el deducible",
+        titulo: "¿Qué es el deducible en un seguro de carro?",
         bloques: [
           {
             tipo: "p",
@@ -286,7 +296,7 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo se calcula: un ejemplo con números",
+        titulo: "¿Cómo se calcula el deducible del seguro de carro?",
         bloques: [
           {
             tipo: "p",
@@ -310,8 +320,13 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Prima o deducible: cómo encontrar el equilibrio",
+        titulo: "¿Conviene un deducible alto o bajo?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Un deducible bajo encarece la prima pero te deja reclamar casi cualquier choque; uno alto baja la prima pero te hace pagar más en cada reclamación. Así se comparan:",
+          },
           {
             tipo: "tabla",
             caption: "Qué cambia según el deducible que escojas",
@@ -335,8 +350,13 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Preguntas para hacerle al asesor",
+        titulo: "¿Qué preguntar sobre el deducible antes de contratar?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Pregunta el deducible de cada amparo, cómo se fija el mínimo y cuánto cambia la prima si lo subes o lo bajas. En concreto:",
+          },
           {
             tipo: "lista",
             items: [
@@ -373,7 +393,7 @@ export const GUIAS_AUTO: Guia[] = [
       {
         pregunta: "¿Puedo cambiar el deducible a mitad de la vigencia?",
         respuesta:
-          "Depende de la aseguradora. Lo más común es ajustarlo en la renovación. Pregunta a tu asesor qué opciones tienes.",
+          "Eso lo decide cada aseguradora. Lo más común es ajustar el deducible en la renovación, cuando se revisan de nuevo la prima y los amparos. Pregunta a tu asesor qué opciones tienes con tu póliza actual.",
       },
     ],
     ramoRuta: "/seguros/automoviles",
@@ -434,12 +454,12 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Los factores que mueven la prima",
+        titulo: "¿Qué factores influyen en el precio del seguro todo riesgo?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "Fasecolda explica que el valor del carro no es la única variable para fijar el precio de un seguro, y que para el asegurador la variable más significativa no es el carro sino la persona. Estos son los factores que suelen pesar:",
+              "Influyen el carro, quién lo maneja, cómo se usa, el deducible y los accesorios declarados. Fasecolda explica que el valor del carro no es la única variable para fijar el precio de un seguro, y que para el asegurador la variable más significativa no es el carro sino la persona. Estos son los factores que suelen pesar:",
           },
           {
             tipo: "tabla",
@@ -461,12 +481,12 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "La guía de valores de Fasecolda y el valor asegurado",
+        titulo: "¿Qué es la guía de valores de Fasecolda?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "Fasecolda publica una guía de valores con el valor comercial promedio de los vehículos que circulan en Colombia. Se actualiza cada mes y su uso es voluntario: es una referencia, no una norma. Cada carro tiene un código Fasecolda que aparece en la póliza.",
+              "La guía de valores de Fasecolda es la lista que publica el gremio con el valor comercial promedio de los vehículos que circulan en Colombia. Se actualiza cada mes y su uso es voluntario: es una referencia, no una norma. Cada carro tiene un código Fasecolda que aparece en la póliza.",
           },
           {
             tipo: "p",
@@ -481,8 +501,13 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Cómo bajar la prima sin quedar mal cubierto",
+        titulo: "¿Cómo bajar el precio del todo riesgo sin quedar mal cubierto?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Compara con los mismos amparos, ajusta el deducible a lo que puedes pagar y quita lo que no usas, pero sin bajar la responsabilidad civil. Paso a paso:",
+          },
           {
             tipo: "pasos",
             items: [
@@ -502,12 +527,12 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Por qué no te damos un precio aquí",
+        titulo: "¿Cuánto cuesta el seguro todo riesgo en Barranquilla?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "Cualquier precio publicado en una página sería un número que no aplica a tu carro ni a ti. Con los datos de tu vehículo, quién lo maneja y cómo lo usas, un asesor de VanTrust te cotiza con varias de las aseguradoras con las que trabajamos y te explica por qué una cuesta más que otra.",
+              "No hay una cifra única: el precio sale de cotizar con los datos de tu carro, quién lo maneja y cómo lo usas. Cualquier precio publicado en una página sería un número que no aplica a tu carro ni a ti. Con los datos de tu vehículo, quién lo maneja y cómo lo usas, un asesor de VanTrust te cotiza con varias de las aseguradoras con las que trabajamos y te explica por qué una cuesta más que otra.",
           },
           {
             tipo: "lista",
@@ -608,8 +633,13 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Póliza colectiva o pólizas individuales",
+        titulo: "¿Conviene una póliza colectiva de flota o pólizas individuales?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "La póliza colectiva conviene a empresas con varios vehículos de uso similar; las individuales, a quienes tienen muy pocos vehículos o muy distintos entre sí. Estas son las diferencias prácticas:",
+          },
           {
             tipo: "tabla",
             caption: "Diferencias prácticas entre las dos formas de asegurar una flota",
@@ -632,8 +662,13 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Qué revisar antes de asegurar la flota",
+        titulo: "¿Qué revisar antes de asegurar la flota de tu empresa?",
         bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Revisa el uso real y el tipo de cada vehículo, las rutas, el límite de responsabilidad civil y el valor asegurado. En detalle:",
+          },
           {
             tipo: "lista",
             items: [
@@ -654,7 +689,7 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Qué pasa con los conductores",
+        titulo: "¿Por qué los conductores son clave en el seguro de flota?",
         bloques: [
           {
             tipo: "p",
@@ -679,12 +714,12 @@ export const GUIAS_AUTO: Guia[] = [
         ],
       },
       {
-        titulo: "Mantener la póliza al día",
+        titulo: "¿Qué hacer si cambian los vehículos de la flota?",
         bloques: [
           {
             tipo: "p",
             texto:
-              "Una flota cambia: entran vehículos, salen otros y cambian los usos. El artículo 1060 del Código de Comercio obliga a avisar por escrito a la aseguradora los cambios que agraven el riesgo. Si el cambio depende de ti, el aviso es con al menos diez días de anticipación.",
+              "Debes avisar por escrito a la aseguradora los cambios que agraven el riesgo, como lo exige el artículo 1060 del Código de Comercio. Y una flota cambia: entran vehículos, salen otros y cambian los usos. Si el cambio depende de ti, el aviso es con al menos diez días de anticipación.",
           },
           {
             tipo: "lista",
@@ -717,17 +752,17 @@ export const GUIAS_AUTO: Guia[] = [
       {
         pregunta: "¿El seguro de la flota cubre la mercancía que llevo?",
         respuesta:
-          "No. El seguro de auto cubre el vehículo y los daños a terceros. Para la carga necesitas un seguro de transporte de mercancías.",
+          "No. El seguro de auto cubre el vehículo y los daños que causes a terceros, pero no la carga. Para proteger la mercancía que llevan los vehículos de la flota necesitas un seguro de transporte de mercancías.",
       },
       {
         pregunta: "¿Puedo asegurar en la misma póliza carros y camiones?",
         respuesta:
-          "Muchas veces sí, aunque cada tipo de vehículo puede tener condiciones y tarifas distintas dentro de la misma póliza. Depende de la aseguradora.",
+          "Muchas veces sí. Cada aseguradora decide si acepta distintos tipos de vehículo en una misma póliza, y cada tipo puede tener condiciones y tarifas distintas dentro de ella. Pregúntale a tu asesor cómo lo maneja cada opción.",
       },
       {
         pregunta: "¿Qué pasa si un vehículo de reparto está asegurado como particular?",
         respuesta:
-          "Es un riesgo. Si la aseguradora encuentra que el uso real era distinto al declarado, puede objetar la reclamación. Corrige el uso cuanto antes.",
+          "Es un riesgo. Si la aseguradora encuentra que el uso real del vehículo era distinto al declarado, puede objetar la reclamación. Corrige el uso cuanto antes y avísalo por escrito a la aseguradora, como pide la ley para los cambios que agravan el riesgo.",
       },
     ],
     ramoRuta: "/seguros/automoviles",
