@@ -671,4 +671,538 @@ export const GUIAS_SINIESTROS: Guia[] = [
       "Guía transversal (autos, vida, salud, hogar, pymes). Se dejó ramoRuta en /seguros/automoviles por instrucción; evaluar si conviene otro ramo o enlazarla desde las páginas de pymes.",
     ],
   },
+
+  // 5. Qué hacer si se incendia tu negocio
+  {
+    slug: "que-hacer-si-se-incendia-tu-negocio",
+    titulo: "¿Qué hacer si se incendia tu negocio? Las primeras horas y el seguro",
+    title: "Qué hacer si se incendia tu negocio: guía con tu seguro",
+    description:
+      "Qué hacer si se incendia tu negocio: seguridad, evitar más daños, inventario, aviso en 3 días y ajustador. Si te pasó, escríbele a tu asesor de VanTrust.",
+    respuesta:
+      "Si se incendia tu negocio, lo primero es sacar a las personas y llamar a los bomberos por la línea de emergencias 123. Cuando el fuego esté controlado, protege lo que quedó para que el daño no crezca, toma fotos antes de mover nada, haz el inventario de lo perdido y avisa a la aseguradora dentro de los tres días siguientes.",
+    secciones: [
+      {
+        titulo: "Caso ilustrativo: el cortocircuito en una tienda del centro",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Este es un ejemplo para explicar cómo funciona; no es un cliente real.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Hernando tiene una tienda de ropa en el centro de Barranquilla. Hace un año tomó un seguro para pyme con cobertura de incendio para el local y la mercancía. No incluyó lucro cesante porque le pareció un gasto de más.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Un domingo en la noche, un cortocircuito prende la bodega del fondo. El vigilante de la cuadra llama al 123 y los bomberos controlan el fuego. A la mañana siguiente, Hernando encuentra el techo con huecos y medio inventario mojado. En vez de botar todo, toma fotos y videos, cubre lo que quedó seco con plásticos, contrata a un cerrajero para asegurar la puerta y le escribe a su asesor, que lo ayuda a dar el aviso a la aseguradora ese mismo día.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Con las facturas de proveedores y el inventario del sistema de caja, el ajustador pudo estimar la mercancía perdida, y los gastos para proteger lo que quedó entraron en la reclamación. Lo que no recuperó fueron las semanas con el local cerrado: eso solo lo cubre el lucro cesante, que no había contratado. La lección: en un incendio, lo que haces en las primeras horas y los papeles que guardas pesan tanto como la póliza.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué hacer en las primeras horas si se incendia tu negocio?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Primero las personas, después los bienes y por último el seguro. Este es el orden que conviene seguir:",
+          },
+          {
+            tipo: "pasos",
+            items: [
+              "Saca a todos del local y no vuelvas a entrar por mercancía, plata o documentos. Ninguna póliza vale más que una vida.",
+              "Llama a la línea de emergencias 123 para que lleguen los bomberos. Si puedes hacerlo sin riesgo, corta la energía desde el tablero principal.",
+              "Cuando los bomberos den permiso, protege lo que quedó: tapa huecos en el techo o en las vitrinas, saca el agua, separa lo mojado de lo seco y pon vigilancia si el local quedó abierto.",
+              "Toma fotos y videos de todo antes de mover o botar nada: fachada, techo, estantes, mercancía, máquinas y el punto donde empezó el fuego.",
+              "Avisa a la aseguradora y a tu asesor. Tienes tres días desde que conociste el siniestro, pero entre antes, mejor.",
+              "Pregunta a los bomberos cómo obtener una constancia de su atención; muchas aseguradoras la piden en la reclamación.",
+              "Guarda las facturas de todo lo que gastes para proteger el local y la mercancía.",
+              "No botes los bienes dañados hasta que el ajustador los vea o la aseguradora te autorice.",
+            ],
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué dice la ley sobre evitar que el daño crezca?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "La ley te obliga a evitar que el daño crezca y, a cambio, la aseguradora te reconoce lo que gastes razonablemente en eso. El artículo 1074 del Código de Comercio dice que, ocurrido el siniestro, el asegurado debe evitar su extensión y propagación y proveer al salvamento de las cosas aseguradas. La aseguradora se hace cargo de los gastos razonables que hagas para cumplir esa obligación, dentro de las reglas del valor de la indemnización.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si no lo haces, el artículo 1078 permite a la aseguradora descontar de la indemnización los perjuicios que te haya causado ese incumplimiento. Dicho fácil: si la mercancía que quedó seca se daña porque nadie tapó el techo antes del aguacero, esa parte puede quedar por fuera.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Plásticos, lonas y tablas para tapar techos, puertas y vitrinas.",
+              "Cerrajero o vigilancia para que no se roben lo que quedó.",
+              "Bombas o personal para sacar el agua que dejaron los bomberos.",
+              "Traslado de la mercancía buena a otro sitio seguro.",
+            ],
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué inventario y documentos necesitas para reclamar?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Necesitas probar qué tenías y cuánto perdiste. El artículo 1077 del Código de Comercio pone en el asegurado la carga de demostrar la ocurrencia del siniestro y la cuantía de la pérdida; la aseguradora, por su parte, debe demostrar los hechos que la excluyen.",
+          },
+          {
+            tipo: "tabla",
+            caption: "Qué reunir para la reclamación por incendio",
+            columnas: ["Documento o prueba", "Para qué sirve"],
+            filas: [
+              ["Fotos y videos del daño, antes de limpiar", "Muestran el alcance real del incendio."],
+              ["Inventario de lo perdido, con cantidades", "Es la base para calcular la mercancía afectada."],
+              ["Facturas de compra y de proveedores", "Prueban qué tenías y cuánto costó."],
+              ["Reportes del sistema de caja o del programa contable", "Respaldan el inventario y las ventas."],
+              ["Constancia de atención de los bomberos", "Confirma el hecho, la fecha y la hora."],
+              ["Cotizaciones de reparación del local y de las máquinas", "Ayudan a estimar el daño a la estructura y los equipos."],
+              ["Facturas de los gastos para proteger lo que quedó", "Para que te los reconozcan según el artículo 1074."],
+              ["Copia de la póliza y de sus anexos", "Para revisar coberturas, valores asegurados y deducibles."],
+            ],
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué hace el ajustador y qué pasa con el salvamento?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "El ajustador revisa la pérdida y le recomienda a la aseguradora cuánto pagar según la póliza. El ajustador es el profesional que la aseguradora designa para inspeccionar el siniestro, revisar tus documentos y estimar el daño. Te visitará, te pedirá papeles y puede hacer preguntas sobre cómo empezó el fuego.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "El salvamento es lo que queda de los bienes asegurados después del siniestro y todavía tiene algún valor, como mercancía chamuscada que se puede rematar o una máquina que sirve por partes. En muchas pólizas, si la aseguradora paga un bien como pérdida total, ese salvamento pasa a ser de ella; si tú te lo quedas, se descuenta su valor. Revísalo en tu póliza.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "El artículo 1110 del Código de Comercio dice que la indemnización se paga en dinero o mediante la reposición, reparación o reconstrucción de la cosa asegurada, a opción de la aseguradora. Y el artículo 1080 le da un mes para pagar desde que acreditas tu derecho; si se pasa, debe intereses de mora.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si aseguraste por menos de lo que valían tus bienes, la indemnización baja en proporción. Lo explicamos en la guía ¿Qué cubre un seguro para pyme y cómo definir el valor asegurado?",
+          },
+        ],
+      },
+      {
+        titulo: "¿El seguro cubre los días que el negocio queda cerrado?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Solo si contrataste lucro cesante. El lucro cesante es la cobertura que reconoce la utilidad que dejas de ganar y los gastos fijos que sigues pagando mientras el negocio no puede operar por un daño cubierto. El artículo 1088 del Código de Comercio dice que la indemnización puede comprender el lucro cesante, pero que este debe ser objeto de un acuerdo expreso.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si no está en tu póliza, la aseguradora paga el daño material, pero no los arriendos, nóminas ni ventas perdidas mientras reparas. Para entender cuándo vale la pena, lee ¿Qué es el lucro cesante en un seguro y cuándo vale la pena para tu negocio? Y si después del incendio te objetan la reclamación, revisa ¿Qué hacer si la aseguradora no quiere pagar tu reclamación?",
+          },
+          {
+            tipo: "p",
+            texto:
+              "En VanTrust el asesor te acompaña desde el aviso hasta el pago: te dice qué documentos pide tu aseguradora, está pendiente de la visita del ajustador y hace seguimiento al trámite.",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        pregunta: "¿Puedo limpiar el local antes de que llegue el ajustador?",
+        respuesta:
+          "Puedes y debes hacer lo necesario para que el daño no crezca, como tapar el techo o sacar el agua. Pero antes toma fotos y videos de todo, y no botes los bienes dañados hasta que la aseguradora los vea o te autorice a hacerlo.",
+      },
+      {
+        pregunta: "¿Me pagan si el incendio empezó por un cortocircuito?",
+        respuesta:
+          "En muchas pólizas el incendio accidental se cubre aunque haya empezado por una falla eléctrica. Lo que suele necesitar una cobertura aparte es el daño interno de equipos eléctricos o electrónicos sin que haya fuego. Revisa las exclusiones de tu póliza con el asesor.",
+      },
+      {
+        pregunta: "¿Qué pasa si el fuego vino del local de al lado?",
+        respuesta:
+          "Tu aseguradora responde por tu daño según tu póliza. Si paga, la ley le permite cobrarle después al responsable lo que pagó, porque se subroga en tus derechos. No tienes que esperar a que el vecino o su seguro te paguen primero.",
+      },
+      {
+        pregunta: "¿Me descuentan algo de lo que pagan por el incendio?",
+        respuesta:
+          "Normalmente sí: el deducible que dice tu póliza y, si aseguraste por debajo del valor real, la proporción del infraseguro. También puede descontarse el salvamento que te quedes. Pídele al asesor que te explique la cuenta antes de firmar el finiquito.",
+      },
+    ],
+    ramoRuta: "/pymes/todo-riesgo-pyme",
+    waMensaje:
+      "Hola, leí la guía de qué hacer si se incendia tu negocio. Tuve un incendio en mi local y necesito ayuda con la reclamación.",
+    autor: null,
+    revisadoPor: null,
+    publicado: "2026-11-08",
+    actualizado: "2026-11-08",
+    todo: [
+      ...PENDIENTE_REVISION,
+      PENDIENTE_CASO,
+      `Verificar con el asesor: Código de Comercio, arts. 1074 (evitar la extensión del siniestro y gastos razonables), 1075 (aviso en tres días), 1077 (carga de la prueba), 1078 (reducción por incumplimiento), 1080 (pago en un mes), 1088 (lucro cesante por acuerdo expreso), 1096 (subrogación) y 1110 (pago en dinero o reposición a opción del asegurador) — ${FP_CODIGO_COMERCIO} (texto consultado en https://normativa.colpensiones.gov.co/colpens/docs/codigo_comercio_pr033.htm y https://normativa.colpensiones.gov.co/colpens/docs/codigo_comercio_pr034.htm)`,
+      "Verificar con el asesor: que el 123 sea la línea para pedir bomberos en Barranquilla y el área metropolitana, y si los bomberos expiden una constancia o informe de atención y cómo se pide (se dejó en general).",
+      "Verificar con el asesor: cómo tratan el salvamento y el daño eléctrico sin incendio las pólizas pyme de las aseguradoras con las que trabaja VanTrust (se dejó en general: \"en muchas pólizas\").",
+    ],
+  },
+
+  // 6. Daños por agua en casa
+  {
+    slug: "reclamar-seguro-de-hogar-danos-por-agua",
+    titulo: "¿El seguro de hogar cubre los daños por agua en casa y cómo se reclaman?",
+    title: "Daños por agua en casa: qué cubre el seguro y cómo reclamar",
+    description:
+      "Daños por agua en casa: cuándo los cubre el seguro de hogar, por qué el desgaste se excluye y cómo documentar la reclamación. Pregúntale a tu asesor.",
+    respuesta:
+      "Los daños por agua en casa suelen estar cubiertos por el seguro de hogar cuando vienen de un hecho súbito y accidental, como un tubo que se revienta o un techo que el viento levanta. La humedad lenta, el desgaste y la falta de mantenimiento normalmente quedan por fuera. Para reclamar, corta el agua, toma fotos, guarda la pieza dañada y avisa en tres días.",
+    secciones: [
+      {
+        titulo: "Caso ilustrativo: el tubo roto en un apartamento del norte",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Este es un ejemplo para explicar cómo funciona; no es un cliente real.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Patricia y su esposo viven en un apartamento en el norte de Barranquilla. Tienen un seguro de hogar con contenidos. Un sábado en la madrugada se revienta el tubo que alimenta el sanitario y el agua corre por el pasillo hasta la sala. Se mojan el piso de madera, un sofá y el mueble del televisor.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Patricia cierra la llave de paso, baja los tacos de la luz y toma fotos y videos antes de secar. El plomero cambia el tubo y ella guarda el pedazo roto y la factura. El lunes le escribe a su asesor y avisa a la aseguradora. Al revisar, el ajustador también ve una mancha vieja de humedad en el clóset de la habitación, que venía de meses atrás por una junta mal sellada.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La aseguradora estudió el daño del tubo roto según la póliza, pero la mancha del clóset quedó por fuera: era un daño lento que nadie había arreglado. La lección: el seguro responde por lo súbito, no por lo que se deteriora con el tiempo. Y guardar la pieza rota y las fotos del primer momento hace más fácil demostrar qué pasó.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué daños por agua en casa cubre el seguro de hogar?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Por lo general cubre los daños por agua en casa que son súbitos e imprevistos, y deja por fuera los que se van formando poco a poco. Un daño súbito es el que ocurre de repente y sin que lo pudieras prever, como la rotura de un tubo. Cada póliza redacta sus coberturas a su manera, así que la tabla resume lo habitual, no una póliza concreta.",
+          },
+          {
+            tipo: "tabla",
+            caption: "Daños por agua: lo que suele cubrirse y lo que suele excluirse (según la póliza)",
+            columnas: ["Origen del agua", "Suele cubrirse", "Suele quedar por fuera"],
+            filas: [
+              ["Tubería que se rompe", "La rotura súbita y los daños que causa el agua en pisos, paredes y contenidos.", "Fugas lentas que llevaban meses o tuberías en mal estado conocido."],
+              ["Filtración", "Una filtración repentina por una avería accidental.", "Humedad, moho y manchas que se formaron con el tiempo."],
+              ["Lluvia", "El agua que entra porque un vendaval o granizo dañó techo, ventanas o puertas, si la póliza cubre esos eventos.", "Goteras por impermeabilización vencida o canales tapados."],
+              ["Inundación o agua desde la calle", "Lo que la póliza cubra como evento de la naturaleza.", "Lo que la póliza excluya o limite; revísalo en el texto."],
+              ["Electrodomésticos", "El daño del agua sobre otros bienes por una rotura accidental, en muchas pólizas.", "La pieza que falló por desgaste, como la manguera vieja de la lavadora."],
+              ["Agua que daña al vecino", "La responsabilidad civil familiar, si la tienes contratada.", "Daños que no te sean imputables o que excedan el límite."],
+            ],
+          },
+        ],
+      },
+      {
+        titulo: "¿Por qué el seguro no cubre el desgaste ni la falta de mantenimiento?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Porque el seguro cubre riesgos, es decir, hechos inciertos, y el deterioro de una tubería vieja o de un techo sin mantenimiento es algo que se sabe que va a pasar. El artículo 1104 del Código de Comercio dice que la avería, merma o pérdida de una cosa que proviene de su vicio propio no está comprendida en el riesgo que asume la aseguradora.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "El vicio propio es, según ese mismo artículo, el germen de destrucción o deterioro que llevan las cosas por su propia naturaleza o destino. El desgaste normal de un tubo o de una impermeabilización entra en esa idea. Además, la mayoría de las pólizas de hogar excluyen de forma expresa los daños por falta de mantenimiento.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "En Barranquilla esto pesa en temporada de lluvias: los aguaceros llegan de golpe y encuentran techos con canales y bajantes tapados. Limpiarlos antes del invierno no es solo prevención; también evita una objeción. Para el panorama completo de coberturas, lee ¿Qué cubre un seguro de hogar y qué no?",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué hacer apenas descubres el daño por agua?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Detén el agua, protege tu casa y deja pruebas. La ley te obliga a evitar que el daño crezca (artículo 1074 del Código de Comercio), y la aseguradora reconoce los gastos razonables que hagas para eso.",
+          },
+          {
+            tipo: "pasos",
+            items: [
+              "Cierra la llave de paso del apartamento o de la casa.",
+              "Si el agua llegó a enchufes o aparatos, baja los tacos de la luz antes de tocar nada.",
+              "Toma fotos y videos del origen del agua y de todo lo mojado antes de secar o mover.",
+              "Saca el agua y pon a secar lo que se pueda; levanta muebles y tapetes del piso.",
+              "Llama a un plomero o usa la asistencia de tu póliza, si la tienes. Pídele que deje por escrito la causa del daño.",
+              "Guarda la pieza que se rompió: el tubo, la manguera o el registro.",
+              "Avisa a la aseguradora y a tu asesor dentro de los tres días siguientes (artículo 1075).",
+              "Si el agua pasó al apartamento de un vecino, avísale y avisa también a la administración del edificio.",
+            ],
+          },
+        ],
+      },
+      {
+        titulo: "¿Cómo documentar la reclamación para que no te la objeten?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Demuestra que el daño fue súbito y cuánto vale. El artículo 1077 del Código de Comercio pone en ti la carga de probar la ocurrencia del siniestro y la cuantía de la pérdida.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Fotos y videos con fecha del momento del daño, no solo de después.",
+              "La pieza rota y el informe o la factura del plomero que diga la causa.",
+              "Lista de los bienes afectados con marca, referencia y, si tienes, factura o foto de compra.",
+              "Cotizaciones de reparación del piso, las paredes o los muebles.",
+              "Facturas de los gastos de emergencia, como plomería o secado.",
+              "Si vives en edificio, la comunicación con la administración, sobre todo si el tubo es de una zona común.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si el tubo que se rompió es de una zona común del edificio, puede responder el seguro de la copropiedad en vez del tuyo; pregúntalo en la administración. Y si te objetan la reclamación, revisa ¿Qué hacer si la aseguradora no quiere pagar tu reclamación? En VanTrust el asesor te acompaña en el aviso y en el trámite.",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        pregunta: "¿Me pagan la impermeabilización del techo si hay goteras?",
+        respuesta:
+          "Por lo general no. Impermeabilizar es mantenimiento, y la mayoría de las pólizas excluyen los daños por desgaste o falta de cuidado. Distinto es si un vendaval levantó el techo y entró agua: ese daño súbito puede estar cubierto si la póliza incluye ese evento.",
+      },
+      {
+        pregunta: "¿Puedo llamar al plomero sin esperar a la aseguradora?",
+        respuesta:
+          "Sí. Detener el agua es tu obligación y no tienes que esperar. Antes toma fotos, guarda la pieza rota y pide factura. Si tu póliza tiene asistencia de plomería, usarla deja el servicio registrado y puede ahorrarte el pago, según los límites del plan.",
+      },
+      {
+        pregunta: "¿Qué pasa si el agua vino del apartamento de arriba?",
+        respuesta:
+          "Tu seguro de hogar puede pagar tu daño según tu póliza y después cobrarle al responsable. También puedes reclamarle al vecino o a su seguro de responsabilidad civil. Toma fotos del techo, avisa a la administración y deja todo por escrito.",
+      },
+      {
+        pregunta: "Vivo en arriendo, ¿quién responde si se moja el apartamento?",
+        respuesta:
+          "Los daños al inmueble suelen tocarle al seguro del propietario, si lo tiene. Tus muebles y electrodomésticos los cubre un seguro de contenidos a tu nombre. Si el daño lo causaste tú, entra tu responsabilidad civil. Avisa siempre al propietario de inmediato.",
+      },
+    ],
+    ramoRuta: "/seguros/hogar",
+    waMensaje:
+      "Hola, leí la guía de daños por agua en casa. Se me rompió un tubo y quiero saber si mi seguro de hogar lo cubre.",
+    autor: null,
+    revisadoPor: null,
+    publicado: "2026-11-08",
+    actualizado: "2026-11-08",
+    todo: [
+      ...PENDIENTE_REVISION,
+      PENDIENTE_CASO,
+      `Verificar con el asesor: Código de Comercio, arts. 1074 (evitar la extensión del siniestro), 1075 (aviso en tres días), 1077 (carga de la prueba) y 1104 (vicio propio) — ${FP_CODIGO_COMERCIO} (texto consultado en https://normativa.colpensiones.gov.co/colpens/docs/codigo_comercio_pr033.htm y https://normativa.colpensiones.gov.co/colpens/docs/codigo_comercio_pr034.htm)`,
+      "Verificar con el asesor: cómo tratan las pólizas de hogar que comercializa VanTrust la rotura de tuberías, las filtraciones, la lluvia por techo dañado y el agua desde la calle (la tabla se dejó en general).",
+      "Verificar con el asesor: cuándo responde el seguro de la copropiedad por tuberías de zonas comunes. No se citó la Ley 675 de 2001 por no haberla verificado.",
+    ],
+  },
+
+  // 7. Siniestro de la póliza de cumplimiento
+  {
+    slug: "siniestro-poliza-de-cumplimiento-que-pasa",
+    titulo: "¿Qué pasa en un siniestro de la póliza de cumplimiento cuando la entidad declara el incumplimiento?",
+    title: "Siniestro de la póliza de cumplimiento: qué pasa ahora",
+    description:
+      "Siniestro de la póliza de cumplimiento: audiencia, multas, cláusula penal, recursos y qué te cobra la aseguradora después. Habla con tu asesor de VanTrust.",
+    respuesta:
+      "El siniestro de la póliza de cumplimiento ocurre cuando la entidad estatal, por acto administrativo, declara el incumplimiento, impone una multa o declara la caducidad, y ordena el pago al contratista y a la aseguradora. Antes debe citarte a una audiencia donde te defiendes. Si la aseguradora paga, después puede cobrarte a ti lo que pagó.",
+    secciones: [
+      {
+        titulo: "Caso ilustrativo: la obra en Soledad que se atrasó con las lluvias",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Este es un ejemplo para explicar cómo funciona; no es un cliente real.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Javier es contratista de obras en Soledad. Gana un contrato con una entidad municipal para adecuar un parque y entrega la póliza de cumplimiento que le piden. En plena temporada de lluvias, la obra se atrasa varias semanas y la supervisión reporta el retraso.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La entidad lo cita a una audiencia por un posible incumplimiento y cita también a la aseguradora. Javier le avisa a su asesor ese mismo día y llega a la audiencia con la bitácora de obra, las actas donde quedaron registrados los días de lluvia y los correos en los que había pedido ajustar el cronograma.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La entidad aceptó parte de la justificación e impuso una multa solo por los días que no estaban soportados. Javier la pagó directamente, así que la aseguradora no tuvo que pagar ni cobrarle después, y su historial con ella quedó limpio para las siguientes pólizas. La lección: el siniestro se decide en la audiencia, y quien llega con pruebas tiene con qué defenderse.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué es el siniestro de la póliza de cumplimiento?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "El siniestro de la póliza de cumplimiento es, en la contratación estatal, el acto administrativo con el que la entidad declara el incumplimiento, impone multas o declara la caducidad del contrato. Así lo dice el artículo 2.2.1.2.3.1.19 del Decreto 1082 de 2015, que regula cómo se hacen efectivas las garantías.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Dos términos que vas a oír: la multa es la sanción en dinero pactada en el contrato para presionar al contratista a cumplir mientras el contrato sigue; la cláusula penal es el valor pactado de antemano como estimación de los perjuicios si el contratista incumple. Las dos se pueden cobrar con cargo a la póliza si así se pactaron.",
+          },
+          {
+            tipo: "tabla",
+            caption: "Cómo se hace efectiva la garantía según el Decreto 1082 de 2015",
+            columnas: ["Situación", "Qué hace la entidad", "Qué significa para la póliza"],
+            filas: [
+              ["Caducidad", "Declara la caducidad por acto administrativo y ordena el pago al contratista y al garante.", "Ese acto constituye el siniestro."],
+              ["Multas", "Impone las multas por acto administrativo y ordena el pago al contratista y al garante.", "Ese acto constituye el siniestro."],
+              ["Incumplimiento", "Declara el incumplimiento, cuantifica los perjuicios y puede hacer efectiva la cláusula penal si está pactada.", "Ese acto es la reclamación a la aseguradora."],
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si quieres repasar cómo funciona la póliza antes de llegar a este punto, lee ¿Qué es una póliza de cumplimiento y cuándo la piden en una licitación?",
+          },
+        ],
+      },
+      {
+        titulo: "¿Cómo es la audiencia por incumplimiento del artículo 86 de la Ley 1474 de 2011?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Es el procedimiento que la entidad debe seguir antes de imponer una multa, una sanción o declarar el incumplimiento, y en él puedes defenderte. El artículo 86 de la Ley 1474 de 2011 lo organiza así:",
+          },
+          {
+            tipo: "pasos",
+            items: [
+              "Citación: cuando hay un posible incumplimiento, la entidad cita al contratista a audiencia. La citación debe describir los hechos, acompañar el informe de interventoría o supervisión y señalar las normas o cláusulas posiblemente violadas y sus consecuencias. Si la garantía es una póliza, la aseguradora también se cita.",
+              "Audiencia: el jefe de la entidad o su delegado presenta los hechos. Después, tú y la aseguradora pueden presentar descargos, rendir explicaciones, aportar pruebas y controvertir las de la entidad.",
+              "Decisión: la entidad decide en la misma audiencia, con resolución motivada, si impone o no la multa, la sanción o la declaratoria de incumplimiento.",
+              "Recurso: contra esa decisión solo procede el recurso de reposición, que se interpone, sustenta y decide en la misma audiencia.",
+              "Suspensión o cierre: la entidad puede suspender la audiencia para practicar pruebas, y puede dar por terminado el procedimiento si sabe que cesó el incumplimiento.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Ese último punto importa: si logras ponerte al día mientras avanza el procedimiento, la entidad puede terminarlo.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué puedes hacer cuando te citan a audiencia?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Prepárate con pruebas y no vayas solo. La audiencia es tu oportunidad de explicar el retraso o el incumplimiento, y lo que no presentes ahí es difícil de hacer valer después.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Avísale de inmediato a tu asesor y a la aseguradora; ella también fue citada y le conviene que la defensa sea coordinada.",
+              "Reúne la bitácora de obra, las actas de comité, los informes de supervisión y los correos con la entidad.",
+              "Documenta las causas que no dependían de ti: lluvias, cambios de diseño, demoras en pagos o en permisos.",
+              "Considera acompañarte de un abogado en contratación estatal.",
+              "Si puedes corregir el incumplimiento, hazlo y demuéstralo durante el procedimiento.",
+              "En la audiencia, si no estás de acuerdo, interpón y sustenta el recurso de reposición ahí mismo.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si la decisión queda en firme y sigues en desacuerdo, el camino es la jurisdicción de lo contencioso administrativo. Los plazos para demandar son cortos, así que consúltalo pronto con tu abogado.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué hace la aseguradora con el contratista después de pagar?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Te cobra lo que pagó. El artículo 1096 del Código de Comercio dice que la aseguradora que paga una indemnización se subroga, por ministerio de la ley y hasta el monto pagado, en los derechos del asegurado contra los responsables del siniestro. En la póliza de cumplimiento, el responsable es el contratista.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La subrogación es el derecho que adquiere la aseguradora, al pagar, de cobrarle al responsable lo que pagó. La contragarantía es el respaldo que el contratista le firma a la aseguradora al expedir la póliza, por ejemplo un pagaré o un contrato con codeudores, para que ese cobro sea más fácil. Por eso el estudio para expedir la póliza revisa tu capacidad financiera, como se explica en Requisitos para sacar una póliza de cumplimiento.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Además, si la garantía se reduce porque la entidad la hizo efectiva, el artículo 2.2.1.2.3.1.18 del Decreto 1082 de 2015 dice que la entidad debe pedirte que la restablezcas a su valor inicial. Un siniestro pagado también pesa en tu historial cuando pidas nuevas pólizas. Por eso, si puedes pagar tú la multa o corregir el incumplimiento a tiempo, suele ser mejor que dejar que pague la aseguradora.",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        pregunta: "¿La aseguradora puede negarse a pagar si la entidad ya declaró el incumplimiento?",
+        respuesta:
+          "Tiene poco margen. El artículo 2.2.1.2.3.2.6 del Decreto 1082 de 2015 dice que la aseguradora no puede defenderse de la entidad alegando la conducta del contratista, como inexactitudes al contratar el seguro, ni otras excepciones que tenga contra él. Por eso su defensa se juega en la audiencia.",
+      },
+      {
+        pregunta: "¿Me pueden multar si el atraso fue por las lluvias?",
+        respuesta:
+          "Te pueden citar, pero en la audiencia puedes demostrar que el retraso no dependió de ti. Las actas, la bitácora y los reportes que dejen constancia de los días de lluvia son tu mejor prueba. La entidad decide con lo que se presente ahí.",
+      },
+      {
+        pregunta: "Si pago la multa yo mismo, ¿la aseguradora queda por fuera?",
+        respuesta:
+          "Si pagas lo que ordenó la entidad, la aseguradora no tiene que pagar y no hay nada que cobrarte después. Avísale a la aseguradora y a tu asesor, y guarda el soporte del pago para cerrar el tema con todos.",
+      },
+      {
+        pregunta: "¿Qué pasa con mis contragarantías si no hubo siniestro?",
+        respuesta:
+          "Siguen respaldando la póliza mientras esté vigente, incluidos los amparos que duran después de terminar el contrato. Cuando la póliza vence sin reclamaciones, pregúntale a la aseguradora cómo se liberan, según lo que firmaste.",
+      },
+    ],
+    ramoRuta: "/pymes/polizas-de-cumplimiento",
+    waMensaje:
+      "Hola, leí la guía del siniestro de la póliza de cumplimiento. Me citaron a una audiencia por incumplimiento y necesito orientación.",
+    autor: null,
+    revisadoPor: null,
+    publicado: "2026-11-08",
+    actualizado: "2026-11-08",
+    todo: [
+      ...PENDIENTE_REVISION,
+      PENDIENTE_CASO,
+      "Verificar con el asesor: Ley 1474 de 2011, art. 86 (procedimiento para multas, sanciones y declaratorias de incumplimiento: citación al contratista y al garante, audiencia, resolución motivada, solo recurso de reposición, suspensión y terminación si cesa el incumplimiento) — https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=43292 (texto consultado en https://normativa.colpensiones.gov.co/colpens/docs/ley_1474_2011.htm)",
+      "Verificar con el asesor: Decreto 1082 de 2015, arts. 2.2.1.2.3.1.18 (restablecimiento de la garantía), 2.2.1.2.3.1.19 (efectividad de las garantías: caducidad, multas e incumplimiento con cláusula penal) y 2.2.1.2.3.2.6 (inoponibilidad de excepciones de la aseguradora; en la copia consultada aparece impreso como 2.2.1.1.3.2.6) — https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=77653 (texto consultado en https://normativa.colpensiones.gov.co/colpens/docs/decreto_1082_2015.htm)",
+      `Verificar con el asesor: Código de Comercio, art. 1096 (subrogación del asegurador que paga) — ${FP_CODIGO_COMERCIO} (texto consultado en https://normativa.colpensiones.gov.co/colpens/docs/codigo_comercio_pr033.htm)`,
+      "Verificar con el asesor: el plazo para demandar ante lo contencioso administrativo (no se puso por no haber verificado el CPACA).",
+      "Verificar con el asesor: el tipo de contragarantías que piden las aseguradoras con las que trabaja VanTrust y cómo se liberan (se dejó en general).",
+    ],
+  },
 ];

@@ -96,7 +96,7 @@ export const GUIAS_PYMES: Guia[] = [
           {
             tipo: "p",
             texto:
-              "Esto explica por qué una empresa nueva, con pérdidas en el último ejercicio o con mucho contrato encima puede recibir una tasa más alta, una exigencia de contragarantía más fuerte o incluso una negativa. No es nada personal: es cómo se suscribe este ramo. Si quieres saber qué documentos preparar para ese estudio, revisa nuestra guía Requisitos para sacar una póliza de cumplimiento.",
+              "Esto explica por qué una empresa nueva, con pérdidas en el último ejercicio o con mucho contrato encima puede recibir una tasa más alta, una exigencia de contragarantía más fuerte o incluso una negativa. No es nada personal: es cómo se suscribe este ramo. Si quieres saber qué documentos preparar para ese estudio, revisa nuestra guía ¿Cuáles son los requisitos para sacar una póliza de cumplimiento?.",
           },
         ],
       },
@@ -261,7 +261,7 @@ export const GUIAS_PYMES: Guia[] = [
           {
             tipo: "p",
             texto:
-              "Si además te preocupan los daños que el contratista pueda causar a terceros mientras trabaja, eso no lo cubre la de cumplimiento; lo explicamos en Póliza de cumplimiento vs. póliza de responsabilidad civil: diferencias.",
+              "Si además te preocupan los daños que el contratista pueda causar a terceros mientras trabaja, eso no lo cubre la de cumplimiento; lo explicamos en ¿Qué diferencia hay entre la póliza de cumplimiento y la de responsabilidad civil?.",
           },
         ],
       },
@@ -426,7 +426,7 @@ export const GUIAS_PYMES: Guia[] = [
           {
             tipo: "p",
             texto:
-              "Si te piden esta póliza junto con la de cumplimiento en un contrato, revisa en qué se diferencian en nuestra guía Póliza de cumplimiento vs. póliza de responsabilidad civil: diferencias.",
+              "Si te piden esta póliza junto con la de cumplimiento en un contrato, revisa en qué se diferencian en nuestra guía ¿Qué diferencia hay entre la póliza de cumplimiento y la de responsabilidad civil?.",
           },
         ],
       },

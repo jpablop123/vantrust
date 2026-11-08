@@ -14,7 +14,7 @@ export function waHref(mensaje: string): string {
   return waLink({ mensaje });
 }
 
-function RenderBloque({ b }: { b: Bloque }) {
+export function RenderBloque({ b }: { b: Bloque }) {
   switch (b.tipo) {
     case "p":
       return <p className="text-muted leading-relaxed">{b.texto}</p>;
@@ -83,13 +83,26 @@ function RenderBloque({ b }: { b: Bloque }) {
   }
 }
 
+/** Ancla estable para el título de una sección ("¿Qué cubre…?" → "que-cubre"). */
+export function anclaSeccion(titulo: string): string {
+  return titulo
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60)
+    .replace(/-+$/, "");
+}
+
 export function Secciones({ secciones }: { secciones: Seccion[] }) {
   return (
     <>
       {secciones.map((s) => (
         <section
           key={s.titulo}
-          className="bg-white rounded-2xl border border-primary/10 p-6 sm:p-8 shadow-sm space-y-4"
+          id={anclaSeccion(s.titulo)}
+          className="scroll-mt-28 bg-white rounded-2xl border border-primary/10 p-6 sm:p-8 shadow-sm space-y-4"
         >
           <h2 className="text-xl font-bold text-primary">{s.titulo}</h2>
           {s.bloques.map((b, i) => (
@@ -111,7 +124,10 @@ export function FaqSeccion({
 }) {
   if (!faqs.length) return null;
   return (
-    <section className="bg-white rounded-2xl border border-primary/10 p-6 sm:p-8 shadow-sm">
+    <section
+      id="preguntas-frecuentes"
+      className="scroll-mt-28 bg-white rounded-2xl border border-primary/10 p-6 sm:p-8 shadow-sm"
+    >
       <h2 className="text-xl font-bold text-primary mb-4">{titulo}</h2>
       <div className="divide-y divide-primary/10">
         {faqs.map((f) => (

@@ -8,6 +8,21 @@ const FUENTE_CCO =
 const FUENTE_FASECOLDA_FAQ =
   "https://www.fasecolda.com/ramos/automoviles/preguntas-frecuentes/";
 const FUENTE_FASECOLDA_GUIA = "https://www.fasecolda.com/guia-de-valores/";
+// Fuentes de las guías 5 a 8.
+const FUENTE_CCO_1107 = "https://leyes.co/codigo_de_comercio/1107.htm";
+const FUENTE_CCO_ALCALDIA =
+  "https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=41102";
+const FUENTE_LEY_769 =
+  "https://www.alcaldiabogota.gov.co/sisjur/normas/Norma1.jsp?i=5557";
+const FUENTE_D673 =
+  "https://normograma.com/keralty/compilacion/docs/decreto_0673_2014.htm";
+const FUENTE_D673_FP =
+  "https://www1.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=57097";
+const FUENTE_SFC_2002 = "https://www.superfinanciera.gov.co/publicaciones/18801";
+const FUENTE_SFC_2023 =
+  "https://normograma.com/keralty/compilacion/docs/concepto_superfinanciera_0054877_2023.htm";
+const FUENTE_FASECOLDA_RC_OBLIGATORIOS =
+  "https://www.fasecolda.com/wp-content/uploads/SEGUROS-OBLIGATORIOS-DE-RESPONSABILIDAD-CIVIL-EN-COLOMBIA-ACTUALIZADO-1.pdf";
 
 export const GUIAS_AUTO: Guia[] = [
   // 1. Qué cubre el todo riesgo
@@ -731,6 +746,777 @@ export const GUIAS_AUTO: Guia[] = [
       "Verificar con el asesor: mínimo de vehículos y condiciones de la póliza colectiva de flota en las aseguradoras con las que trabaja VanTrust.",
       "Verificar con el asesor: si las pólizas de flota que ofrece VanTrust exigen registrar conductores o cubren a cualquier conductor autorizado.",
       "Evaluar enlace a /pymes/transporte-de-mercancias desde la sección de mercancía.",
+    ],
+  },
+
+  // 5. Carro usado: el seguro al comprar
+  {
+    slug: "seguro-carro-usado-al-comprar",
+    titulo: "¿Cómo sacar el seguro de carro usado desde el día de la compra?",
+    title: "Seguro de carro usado: cómo asegurarlo desde la compra",
+    description:
+      "Seguro de carro usado: qué pasa con la póliza del dueño anterior, la inspección y el traspaso. Asegúralo desde el día de la entrega con un asesor.",
+    respuesta:
+      "El seguro de carro usado debes tomarlo a tu nombre antes de recibir el carro, porque la póliza del dueño anterior no pasa automáticamente a ti. Según el Código de Comercio, la venta extingue ese contrato salvo que la aseguradora consienta otra cosa. Pide la inspección, cotiza con los datos del carro y haz que la póliza empiece el día de la entrega.",
+    secciones: [
+      {
+        titulo: "Caso ilustrativo: el carro que venía «con seguro hasta diciembre»",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Este es un ejemplo para explicar cómo funciona; no es un cliente real.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Carolina vive en Soledad y compró su primer carro usado a un particular. El vendedor le dijo que el carro tenía todo riesgo vigente hasta diciembre, así que ella no buscó un seguro propio. Firmaron la compraventa un sábado y acordaron hacer el traspaso la semana siguiente.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "El martes, de camino al trabajo por la Circunvalar, Carolina golpeó a otro carro en un frenazo. Llamó a la aseguradora del vendedor y ahí vino la sorpresa: la póliza estaba a nombre del dueño anterior, y con la venta ese contrato se había extinguido. La aseguradora no había aceptado ningún cambio de asegurado. Carolina tuvo que pagar de su bolsillo el arreglo de los dos carros.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Con el segundo carro hizo distinto. Antes de pagar, pidió cotizar con un asesor, agendó la inspección y la póliza nueva empezó el mismo día en que le entregaron las llaves.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La lección: el seguro protege a una persona y un interés concretos. Cuando el carro cambia de dueño, el seguro del vendedor no te protege a ti. El tuyo debe arrancar cuando el carro empieza a ser tu responsabilidad.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué pasa con el seguro del dueño anterior cuando compras un carro usado?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "La póliza del dueño anterior se extingue con la venta, salvo que la aseguradora acepte expresamente que siga. Por eso no debes contar con ella para manejar el carro que acabas de comprar.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Lo dice el artículo 1107 del Código de Comercio: la transferencia del interés asegurado o de la cosa asegurada por un acto entre vivos, como una venta, produce automáticamente la extinción del contrato de seguro. El interés asegurado es la relación económica que tiene una persona con el bien: quien pierde plata si el carro se daña. Cuando vendes el carro, ese interés pasa al comprador.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Hay una excepción: si la aseguradora da su consentimiento expreso, el contrato no se extingue. No lo supongas: pide que te lo confirmen por escrito.",
+              "Cuando el contrato se extingue, la aseguradora debe devolverle al vendedor la prima no devengada, es decir, la parte de la prima que corresponde al tiempo que ya no va a cubrir.",
+              "Para el vendedor también es importante: debe avisar a su aseguradora de la venta y pedir esa devolución.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Hay un punto que conviene aclarar con el asesor: desde cuándo cada aseguradora considera que el carro cambió de dueño, si desde la entrega o desde que se inscribe el traspaso. Lo más seguro es que tu póliza empiece el día en que recibes el carro, aunque el traspaso esté en trámite.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Cómo se asegura un carro usado antes de recibirlo?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Un carro usado se asegura con una póliza nueva a tu nombre, después de una inspección y con el valor asegurado que corresponde a ese carro. Estos son los pasos, en orden:",
+          },
+          {
+            tipo: "pasos",
+            items: [
+              "Antes de pagar, pide la placa, la línea, el modelo y la versión del carro para cotizar. Con esos datos el asesor consulta su valor en la guía de valores de Fasecolda.",
+              "Consulta el historial del carro en el RUNT: estado del registro, limitaciones como prendas o embargos y la revisión técnico-mecánica.",
+              "Agenda la inspección del vehículo con la aseguradora que elijas. Es la revisión en la que la aseguradora verifica el estado del carro, sus accesorios y que los números de motor y chasis coincidan con los documentos.",
+              "Elige los amparos: todo riesgo o una opción más básica. Si dudas, compara antes de firmar.",
+              "Pregunta qué documentos acepta la aseguradora mientras sale el traspaso, como el contrato de compraventa y la tarjeta de propiedad del vendedor.",
+              "Pide que la póliza empiece el día y la hora de la entrega, y recibe la póliza expedida antes de llevarte el carro.",
+              "Paga la prima a tiempo. La mora en el pago termina el contrato, como se explica en la guía «¿Cómo cambiar de aseguradora sin quedarme desprotegido?».",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si la inspección encuentra golpes sin reparar, la aseguradora los anota y pueden quedar por fuera de la cobertura. Inspeccionar antes de cerrar el negocio también te sirve para negociar el precio.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué tiene que ver el traspaso con el seguro de carro usado?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "El traspaso es el registro del cambio de dueño en el organismo de tránsito, y es lo que te hace propietario ante la ley. Mientras no se haga, el vendedor sigue figurando como dueño, y eso puede complicar una reclamación.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "El artículo 47 de la Ley 769 de 2002, el Código Nacional de Tránsito, dice que la tradición del dominio de un vehículo requiere, además de la entrega material, su inscripción en el organismo de tránsito. La inscripción debe hacerse dentro de los sesenta días hábiles siguientes a la adquisición.",
+          },
+          {
+            tipo: "tabla",
+            caption: "Qué hacer antes, durante y después de comprar un carro usado",
+            columnas: ["Momento", "Qué revisar o hacer", "Por qué importa para el seguro"],
+            filas: [
+              ["Antes de pagar", "Historial en el RUNT, prendas, embargos y estado de la revisión técnico-mecánica.", "Un carro con limitaciones puede retrasar el traspaso y la reclamación."],
+              ["Antes de pagar", "Inspección del vehículo y cotización.", "Sabes qué cubre la póliza y en qué estado recibes el carro."],
+              ["El día de la entrega", "Póliza nueva expedida a tu nombre.", "La del vendedor no te protege a ti."],
+              ["En las semanas siguientes", "Traspaso en el organismo de tránsito, dentro del plazo legal.", "Quedas como dueño ante la ley y ante la aseguradora."],
+              ["Después del traspaso", "Envía a la aseguradora la nueva tarjeta de propiedad.", "Los datos de la póliza quedan al día."],
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si el carro tenía una prenda a favor de un banco, pide el levantamiento antes del traspaso. Y si tú vas a comprar con crédito, el banco entrará como beneficiario de tu póliza, lo que se explica en la guía «Seguro de carro financiado: ¿puedo elegir la aseguradora o me toca la del banco?».",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué errores encarecen o complican el seguro de un carro usado?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Los errores más comunes son asegurar por un valor que no corresponde, no declarar los accesorios y no decir el uso real del carro. Todos se evitan con información completa desde el principio.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Asegurar por lo que pagaste y no por el valor de referencia del carro. El precio de un negocio entre particulares puede ser distinto al valor comercial; la guía «¿De qué depende el precio del seguro todo riesgo en Barranquilla?» explica cómo se usa la guía de Fasecolda.",
+              "No declarar accesorios como rines, sonido o blindaje. Lo que no está declarado puede no estar cubierto.",
+              "Declarar uso particular si vas a usar el carro para trabajar con plataformas o para reparto.",
+              "Ocultar golpes o reparaciones grandes. Lo que declaras al tomar el seguro importa: una declaración inexacta puede afectar la reclamación.",
+              "Dejar el seguro para después del traspaso. Los primeros días con un carro que no conoces también son de riesgo.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "En VanTrust trabajamos con varias aseguradoras. Un asesor te ayuda a cotizar el carro antes de comprarlo, a coordinar la inspección y a que la póliza quede lista para el día de la entrega.",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        pregunta: "¿El vendedor me puede pasar su seguro todo riesgo?",
+        respuesta:
+          "Solo si la aseguradora del vendedor da su consentimiento expreso. Sin eso, la venta extingue la póliza según el artículo 1107 del Código de Comercio. Lo más seguro es tomar una póliza nueva a tu nombre que empiece el día de la entrega.",
+      },
+      {
+        pregunta: "¿Puedo asegurar el carro antes de que salga el traspaso?",
+        respuesta:
+          "En muchos casos sí, con el contrato de compraventa y los documentos del carro, pero cada aseguradora define qué documentos acepta. Pregúntalo al cotizar para que la póliza empiece el mismo día en que recibes el carro.",
+      },
+      {
+        pregunta: "¿Me pueden negar el seguro de un carro muy viejo?",
+        respuesta:
+          "Algunas aseguradoras ponen límites de antigüedad para el todo riesgo o piden condiciones especiales para carros con muchos años. Si no consigues un todo riesgo, existe la opción de una póliza de responsabilidad civil para cubrir los daños que causes a otros.",
+      },
+      {
+        pregunta: "¿Quién paga la inspección del carro usado?",
+        respuesta:
+          "Depende de la aseguradora. En muchos casos la inspección para tomar la póliza no tiene costo para quien la solicita, pero conviene confirmarlo al cotizar. No la confundas con un peritaje privado que contrates para revisar el estado mecánico del carro.",
+      },
+      {
+        pregunta: "¿El vendedor recupera algo del seguro que ya había pagado?",
+        respuesta:
+          "Sí. Cuando la póliza se extingue por la venta, la aseguradora debe devolverle la prima no devengada, es decir, la parte que corresponde al tiempo que ya no va a cubrir. El vendedor debe avisar de la venta y pedir esa devolución.",
+      },
+    ],
+    ramoRuta: "/seguros/automoviles",
+    waMensaje:
+      "Hola, leí la guía del seguro de carro usado. Voy a comprar un carro y quiero asegurarlo desde el día de la entrega.",
+    autor: null,
+    revisadoPor: null,
+    publicado: "2026-11-08",
+    actualizado: "2026-11-08",
+    todo: [
+      ...PENDIENTE_REVISION,
+      PENDIENTE_CASO,
+      `Verificar con el asesor: Código de Comercio, art. 1107 (la venta extingue el seguro, salvo consentimiento expreso del asegurador; devolución de la prima no devengada) — ${FUENTE_CCO_1107} y ${FUENTE_CCO}`,
+      `Verificar con el asesor: Ley 769 de 2002, art. 47 (tradición: entrega más inscripción en el organismo de tránsito dentro de los 60 días hábiles siguientes) — ${FUENTE_LEY_769}`,
+      `Verificar con el asesor: guía de valores de Fasecolda como referencia del valor asegurado — ${FUENTE_FASECOLDA_GUIA}`,
+      "Verificar con el asesor: desde qué momento (entrega o inscripción del traspaso) las aseguradoras con las que trabaja VanTrust consideran transferido el interés asegurado, y qué documentos aceptan para asegurar antes del traspaso.",
+      "Verificar con el asesor: si la inspección para tomar la póliza tiene costo en las aseguradoras con las que trabaja VanTrust y si hay límites de antigüedad del vehículo para todo riesgo.",
+    ],
+  },
+
+  // 6. Carro financiado: elegir aseguradora
+  {
+    slug: "seguro-carro-financiado-puedo-elegir-aseguradora",
+    titulo: "Seguro de carro financiado: ¿puedo elegir la aseguradora o me toca la del banco?",
+    title: "Seguro de carro financiado: ¿puedes elegir aseguradora?",
+    description:
+      "Seguro de carro financiado: puedes elegir la aseguradora y endosar la póliza al banco. Te explicamos el endoso, la norma y los pasos. Cotiza con un asesor.",
+    respuesta:
+      "Sí, con un seguro de carro financiado puedes elegir la aseguradora. El Estatuto Orgánico del Sistema Financiero protege tu libertad de escoger aseguradora e intermediario, y el banco puede aceptar una póliza que tomes por tu cuenta, endosada a su favor como beneficiario oneroso. Debe cumplir las condiciones mínimas que el banco te informe por escrito.",
+    secciones: [
+      {
+        titulo: "Caso ilustrativo: la póliza que venía en la cuota",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Este es un ejemplo para explicar cómo funciona; no es un cliente real.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Jaime y Luisa viven en el norte de Barranquilla y compraron una camioneta con crédito de vehículo. En el concesionario les dijeron que el seguro venía incluido en la cuota del banco. Firmaron todo el mismo día y no preguntaron más.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Meses después, la camioneta pasó varios días en el taller por un choque menor. Ahí descubrieron que su póliza no tenía carro de reemplazo y que el deducible era más alto de lo que esperaban. Nadie les había dicho que podían comparar.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Al llegar la renovación, hablaron con un asesor. Compararon opciones en varias aseguradoras, escogieron una póliza con las coberturas que necesitaban, la endosaron al banco como beneficiario y la entregaron antes del vencimiento. El banco la revisó con sus condiciones mínimas y la aceptó.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La lección: el seguro que ofrece el banco es una opción, no una obligación. Lo obligatorio es que el carro esté asegurado como pide el crédito.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Por qué el banco exige seguro para un carro financiado?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "El banco exige el seguro porque el carro es la garantía del crédito. Si el carro se pierde por un choque o un robo, el seguro paga y con esa plata se cubre primero la deuda.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "La prenda es la garantía que tiene el banco sobre el carro mientras debes el crédito. Por lo general es una prenda sin tenencia: tú usas el carro y el banco conserva el derecho sobre él.",
+              "El beneficiario oneroso es la persona que recibe primero la indemnización, hasta el saldo de la deuda. En un carro financiado es el banco.",
+              "El endoso es la anotación en la póliza que pone al banco como beneficiario oneroso. Así el banco sabe que su garantía está protegida.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Un concepto de la Superintendencia Financiera de 2002 describe este esquema: el crédito exige una prenda sobre el vehículo, el deudor debe mantenerlo asegurado y la entidad figura como beneficiaria a título oneroso. Si hay pérdida total o hurto, la indemnización va primero al banco y el saldo, si queda, te llega a ti. La guía «¿Qué hacer si te roban el carro y tienes seguro?» explica ese trámite.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué dice la norma sobre elegir la aseguradora en un crédito?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "La norma protege tu libertad de escoger la aseguradora. El artículo 100, numeral 2, del Estatuto Orgánico del Sistema Financiero (Decreto 663 de 1993) dice que la Superintendencia Financiera protege la libertad de tomadores y asegurados para decidir la contratación de los seguros y escoger sin limitaciones la aseguradora y, en su caso, el intermediario.",
+          },
+          {
+            tipo: "tabla",
+            caption: "Las reglas principales sobre seguros ligados a créditos en Colombia",
+            columnas: ["Norma o documento", "Qué dice, en palabras simples"],
+            filas: [
+              ["Estatuto Orgánico del Sistema Financiero, art. 100, num. 2", "Puedes escoger sin limitaciones la aseguradora y el intermediario."],
+              ["Decreto 673 de 2014, que modificó el Decreto 2555 de 2010 (art. 2.36.2.1.1)", "Si el banco toma el seguro por cuenta de sus deudores, debe invitar a las aseguradoras con mecanismos de amplia difusión, darles la misma información y escoger con criterios objetivos. Si escoge más de una aseguradora, solo el deudor elige cuál lo cubre. El proceso se repite al menos cada dos años."],
+              ["Concepto de la Superfinanciera de 2002", "La entidad puede aceptar pólizas que el deudor contrate directamente, en ejercicio de su libertad de contratación."],
+              ["Concepto de la Superfinanciera 2023054877 de 2023", "Las entidades deben tener procedimientos para que el deudor ejerza esa libertad, informar por escrito las condiciones de aceptación o rechazo, y no pueden usar esos trámites como excusa para rechazar pólizas individuales."],
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "En resumen: el banco puede pedir unas condiciones mínimas para la póliza, como los amparos, el valor asegurado y el endoso a su favor. Lo que no debería hacer es obligarte a tomar su seguro o rechazar tu póliza solo por el canal en que la presentaste.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Cómo endosar al banco el seguro de carro financiado que tomas por tu cuenta?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Para usar tu propia póliza, pides al banco sus condiciones por escrito, tomas una póliza que las cumpla con el endoso a su favor y la entregas antes de que venza la anterior. Estos son los pasos:",
+          },
+          {
+            tipo: "pasos",
+            items: [
+              "Pide al banco, por escrito, las condiciones mínimas que debe tener la póliza: amparos, valor asegurado, deducibles máximos si los fija y cómo debe figurar como beneficiario oneroso.",
+              "Cotiza con varias aseguradoras con esas condiciones. Compara también lo que el banco no exige pero a ti te sirve, como el carro de reemplazo o los límites de responsabilidad civil.",
+              "Pide a la aseguradora que expida la póliza con el endoso a favor del banco.",
+              "Entrega la póliza y el certificado de endoso por el canal que indique el banco, con tiempo antes del vencimiento.",
+              "Guarda la constancia de entrega y confirma que el banco dejó de cobrarte su seguro en la cuota.",
+              "Repite el proceso en cada renovación. Si la póliza vence y el banco no recibe la nueva, en muchos contratos de crédito puede incluir el carro en su propia póliza y cobrarla en la cuota.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si el banco rechaza tu póliza, pide que te diga por escrito qué condición no cumple. Si crees que el rechazo no tiene fundamento, puedes acudir al defensor del consumidor financiero del banco y a la Superintendencia Financiera.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué conviene revisar antes de cambiar el seguro de tu carro financiado?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Antes de cambiarte, revisa que la nueva póliza cumpla lo que pide el banco y que no te deje días sin cobertura. El precio importa, pero no es lo único.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Coberturas: pérdida parcial y total por daños, hurto, responsabilidad civil y asistencias. La guía «¿Qué cubre un seguro todo riesgo de carro en Colombia?» explica cada amparo.",
+              "Deducibles: compáralos con lo que puedes pagar de tu bolsillo en un choque. La guía «¿Qué es el deducible del seguro de carro y cómo elegirlo?» te ayuda a decidir.",
+              "Fechas: la póliza nueva debe empezar exactamente cuando vence la anterior.",
+              "Forma de pago: si pagabas el seguro en la cuota del banco, ahora lo pagas directo a la aseguradora o a plazos según la póliza.",
+              "Inspección: muchas aseguradoras piden inspeccionar el carro antes de asegurarlo con ellas.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "En VanTrust comparamos opciones en varias aseguradoras, gestionamos el endoso al banco y te acompañamos si hay un siniestro, también cuando el pago va primero a la entidad financiera.",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        pregunta: "¿El banco me puede obligar a tomar el seguro que ofrece?",
+        respuesta:
+          "No debería. El Estatuto Orgánico del Sistema Financiero protege tu libertad de escoger la aseguradora. El banco sí puede exigir que el carro esté asegurado con unas condiciones mínimas y con el endoso a su favor como beneficiario oneroso.",
+      },
+      {
+        pregunta: "¿Puedo cambiar de aseguradora en la mitad del crédito?",
+        respuesta:
+          "Sí. Puedes cambiarte al renovar o incluso antes, siempre que la póliza nueva cumpla las condiciones del banco, quede endosada a su favor y empiece sin dejar días sin cobertura. Avisa al banco para que deje de cobrarte su seguro.",
+      },
+      {
+        pregunta: "¿Qué pasa si se vence mi póliza y no la renuevo a tiempo?",
+        respuesta:
+          "El carro queda sin seguro y estarías incumpliendo una condición del crédito. En muchos contratos el banco puede asegurar el carro por su cuenta y cobrarte esa póliza en la cuota. Renueva y entrega el endoso antes del vencimiento.",
+      },
+      {
+        pregunta: "Si hay pérdida total, ¿a quién le pagan?",
+        respuesta:
+          "Primero al banco, que es el beneficiario oneroso, hasta el saldo de la deuda. Si la indemnización es mayor que lo que debes, la diferencia te la pagan a ti. Por eso conviene que el valor asegurado esté al día con el valor del carro.",
+      },
+      {
+        pregunta: "¿A quién me quejo si el banco rechaza mi póliza sin razón?",
+        respuesta:
+          "Primero pide al banco las razones del rechazo por escrito. Si no estás de acuerdo, puedes acudir al defensor del consumidor financiero de la entidad y presentar una queja ante la Superintendencia Financiera de Colombia.",
+      },
+    ],
+    ramoRuta: "/seguros/automoviles",
+    waMensaje:
+      "Hola, leí la guía del seguro de carro financiado. Tengo crédito de vehículo y quiero cotizar una póliza para endosarla al banco.",
+    autor: null,
+    revisadoPor: null,
+    publicado: "2026-11-08",
+    actualizado: "2026-11-08",
+    todo: [
+      ...PENDIENTE_REVISION,
+      PENDIENTE_CASO,
+      `Verificar con el asesor: Estatuto Orgánico del Sistema Financiero (Decreto 663 de 1993), art. 100, num. 2 (libertad de escoger aseguradora e intermediario), citado por la Superfinanciera en el concepto 2002007356-2 — ${FUENTE_SFC_2002}`,
+      `Verificar con el asesor: concepto 2002007356-2 de 2002 de la Superfinanciera (prenda, beneficiario oneroso y aceptación de pólizas contratadas por el deudor) — ${FUENTE_SFC_2002}`,
+      `Verificar con el asesor: Decreto 673 de 2014, que sustituyó el Título 2 del Libro 36 de la Parte 2 del Decreto 2555 de 2010; art. 2.36.2.1.1 (invitación a aseguradoras, información igual, selección objetiva, elección del deudor y repetición cada dos años) — ${FUENTE_D673} y ${FUENTE_D673_FP}`,
+      `Verificar con el asesor: concepto 2023054877-001-000 del 5 de julio de 2023 de la Superfinanciera (procedimientos, condiciones de aceptación o rechazo por escrito y Circular Básica Jurídica, Parte I, Título III, Capítulo I, num. 1.3) — ${FUENTE_SFC_2023}`,
+      "Verificar con el asesor: las causales de rechazo de pólizas del numeral 1.3.2.5 de la Circular Básica Jurídica (no se pudieron leer en la fuente consultada) y si existe un plazo para que el banco responda en créditos de vehículo.",
+      "Verificar con el asesor: que en los créditos de vehículo de los bancos con que trabajan los clientes de VanTrust el banco pueda incluir el carro en su póliza colectiva si el deudor no entrega la renovación.",
+    ],
+  },
+
+  // 7. Solo responsabilidad civil vs. todo riesgo
+  {
+    slug: "seguro-responsabilidad-civil-carro-sin-todo-riesgo",
+    titulo: "¿Sirve un seguro de responsabilidad civil para carro en vez de un todo riesgo?",
+    title: "Seguro de responsabilidad civil para carro vs. todo riesgo",
+    description:
+      "Seguro de responsabilidad civil para carro: qué cubre, qué no y cuándo conviene en vez del todo riesgo, como en carros antiguos. Compara con un asesor.",
+    respuesta:
+      "Un seguro de responsabilidad civil para carro sirve si lo que más te preocupa es dañar a otros y tu carro vale poco o es difícil de asegurar en todo riesgo. Paga los daños que causes a terceros hasta el límite contratado, pero no repara tu carro ni te paga si te lo roban. Por eso conviene sobre todo en carros antiguos o de bajo valor.",
+    secciones: [
+      {
+        titulo: "Caso ilustrativo: el carro viejo de don Álvaro",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Este es un ejemplo para explicar cómo funciona; no es un cliente real.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Don Álvaro vive en Puerto Colombia y tiene un carro de hace más de veinte años que usa para hacer mandados y visitar a sus hijos en Barranquilla. Cuando preguntó por un todo riesgo, le dijeron que por la edad del carro las opciones eran pocas y caras. Pensó en quedarse solo con lo obligatorio.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Un asesor le explicó que su mayor riesgo no era el carro, que valía poco, sino lo que podía dañarle a otro. Tomó una póliza solo de responsabilidad civil extracontractual.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Meses después, saliendo de un parqueadero en el centro, golpeó la puerta de una camioneta casi nueva. La póliza respondió por la reparación de la camioneta, hasta el límite contratado. El arreglo de su propio carro lo pagó él, porque esa póliza no cubre daños propios.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La lección: cuando el carro vale poco, el golpe grande para tu bolsillo es el daño que le haces a otro. Una póliza de responsabilidad civil protege justamente eso, y no más.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué es un seguro de responsabilidad civil para carro?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Un seguro de responsabilidad civil para carro es una póliza que paga los daños que le causes a otras personas con tu vehículo: a sus carros, a sus bienes o a ellas mismas. No cubre los daños de tu propio carro.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La responsabilidad civil extracontractual es la obligación de reparar el daño que le causas a alguien con quien no tienes un contrato, como el dueño del carro con el que chocas. El artículo 1127 del Código de Comercio define el seguro de responsabilidad como el que impone a la aseguradora la obligación de indemnizar los perjuicios patrimoniales que cause el asegurado, y dice que su propósito es resarcir a la víctima.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "La víctima puede reclamar directamente a tu aseguradora (artículo 1133 del Código de Comercio).",
+              "La aseguradora responde también por los costos del proceso que la víctima te haga, con las condiciones del artículo 1128 del Código de Comercio.",
+              "El límite asegurado es el máximo que paga la póliza. Lo que pase de ese límite te toca a ti.",
+              "En muchas pólizas se puede sumar asistencia jurídica y algunas asistencias en carretera, según la aseguradora.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si en el accidente hay personas heridas, sus gastos médicos los atiende primero el SOAT del vehículo, que es obligatorio. En muchas pólizas, la responsabilidad civil por lesiones responde por lo que exceda lo que cubre el SOAT.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué cubre la responsabilidad civil sola frente a un todo riesgo?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "La responsabilidad civil sola cubre a los demás; el todo riesgo te cubre a ti y a los demás. Esta tabla muestra la diferencia en las situaciones más comunes, siempre según la póliza:",
+          },
+          {
+            tipo: "tabla",
+            caption: "Póliza solo de responsabilidad civil vs. todo riesgo (siempre según la póliza)",
+            columnas: ["Situación", "Solo responsabilidad civil", "Todo riesgo"],
+            filas: [
+              ["Chocas otro carro y tú tienes la culpa", "Paga el daño del otro carro, hasta el límite.", "Paga el daño del otro carro y el del tuyo, con deducible."],
+              ["Dañas una casa, un muro o un poste", "Sí, hasta el límite.", "Sí, hasta el límite."],
+              ["Hieres a una persona", "Responde por lo que exceda el SOAT, según la póliza.", "Igual, según la póliza."],
+              ["Te roban el carro", "No.", "Sí, por hurto total."],
+              ["Te roban espejos o llantas", "No.", "Depende: muchas pólizas lo cubren como hurto parcial."],
+              ["Tu carro queda destruido en un choque", "No.", "Sí, por pérdida total por daños."],
+              ["Un arroyo daña tu carro", "No.", "Depende de cómo trate la póliza los eventos de la naturaleza."],
+              ["Te chocan y el otro tiene la culpa", "Tu póliza no paga tu carro; reclamas al responsable o a su aseguradora.", "Puedes reclamar a tu póliza, que luego recobra al responsable."],
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Para ver con detalle qué incluye un todo riesgo, lee la guía «¿Qué cubre un seguro todo riesgo de carro en Colombia?». Y si te preocupan las lluvias, la guía «¿El seguro cubre si un arroyo de Barranquilla daña tu carro?» explica cómo se tratan esos daños.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Para quién tiene sentido asegurar solo la responsabilidad civil?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Tiene sentido para quien puede asumir la pérdida de su propio carro pero no podría pagar un daño grande a otra persona. Es una decisión de cuánto riesgo puedes cargar tú.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Carros antiguos o de bajo valor, en los que un todo riesgo cuesta mucho frente a lo que vale el carro o las aseguradoras ponen límites por la edad.",
+              "Personas que podrían reparar o reemplazar su carro con sus ahorros, pero no una camioneta de alta gama ajena.",
+              "Un segundo carro de la familia que se usa poco.",
+              "Carros que no consiguen un todo riesgo por su antigüedad o por su estado.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "No tiene sentido si el carro es nuevo o de valor alto, si lo compraste con crédito, o si perderlo te dejaría sin cómo trabajar. Un carro financiado suele necesitar un todo riesgo endosado al banco, como explica la guía «Seguro de carro financiado: ¿puedo elegir la aseguradora o me toca la del banco?».",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Entre los dos extremos hay opciones intermedias. En el mercado se ofrecen planes que suman a la responsabilidad civil la pérdida total o el hurto, sin cubrir las pérdidas parciales. Pregunta al asesor qué ofrece cada aseguradora para tu carro.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Cómo elegir el límite de responsabilidad civil de tu carro?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Elige el límite pensando en el daño más caro que podrías causar, no en lo que vale tu carro. En Barranquilla circulan a diario camionetas, buses y carros de alta gama, y un solo choque con uno de ellos puede costar mucho.",
+          },
+          {
+            tipo: "pasos",
+            items: [
+              "Mira dónde manejas: la Circunvalar, la Vía al Mar o el tráfico del norte de la ciudad tienen vehículos de mucho valor.",
+              "Pregunta qué límites ofrece cada aseguradora y cómo se reparten entre daños a bienes, lesiones a una persona y lesiones a varias personas.",
+              "Revisa si la póliza tiene deducible en la responsabilidad civil y de cuánto.",
+              "Confirma si incluye asistencia jurídica para el proceso y para las audiencias de tránsito.",
+              "Lee las exclusiones: manejar sin licencia o bajo los efectos del alcohol suelen estar excluidos, igual que en un todo riesgo.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si chocas, actúa igual que con cualquier póliza: la guía «¿Qué hacer si chocas? Paso a paso para no complicar la reclamación» explica los pasos. En VanTrust un asesor te ayuda a comparar opciones de responsabilidad civil y todo riesgo en varias aseguradoras y te acompaña si tienes un siniestro.",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        pregunta: "¿La responsabilidad civil para carro es obligatoria en Colombia?",
+        respuesta:
+          "Para un carro particular, lo obligatorio es el SOAT, que atiende a las personas lesionadas en accidentes de tránsito. La póliza de responsabilidad civil es voluntaria, aunque en otros tipos de transporte, como el público, la ley sí exige pólizas de responsabilidad civil.",
+      },
+      {
+        pregunta: "¿Si me chocan, mi póliza de responsabilidad civil me paga?",
+        respuesta:
+          "No. Esa póliza paga los daños que tú causas a otros. Si el responsable es el otro conductor, reclamas a él o a su aseguradora. Si quieres que tu propia póliza responda por tu carro, necesitas un todo riesgo o un amparo de daños propios.",
+      },
+      {
+        pregunta: "¿Es más barata que un todo riesgo?",
+        respuesta:
+          "Por lo general sí, porque cubre menos cosas: no incluye daños propios ni hurto. El precio exacto depende de la aseguradora, del vehículo, del uso y del límite que elijas, así que conviene cotizar con los datos reales de tu carro.",
+      },
+      {
+        pregunta: "¿Puedo pasar después de responsabilidad civil a todo riesgo?",
+        respuesta:
+          "Sí, al renovar o cuando quieras, si la aseguradora acepta el carro. Para el todo riesgo suelen pedir una inspección y pueden poner condiciones por la edad o el estado del vehículo. Pídelo con tiempo para no quedar días sin cobertura.",
+      },
+    ],
+    ramoRuta: "/seguros/automoviles",
+    waMensaje:
+      "Hola, leí la guía del seguro de responsabilidad civil para carro y quiero comparar esa opción con un todo riesgo para mi carro.",
+    autor: null,
+    revisadoPor: null,
+    publicado: "2026-11-08",
+    actualizado: "2026-11-08",
+    todo: [
+      ...PENDIENTE_REVISION,
+      PENDIENTE_CASO,
+      `Verificar con el asesor: Código de Comercio, arts. 1127 (seguro de responsabilidad), 1128 (costos del proceso) y 1133 (acción directa de la víctima) — ${FUENTE_CCO}`,
+      "Verificar con el asesor: qué aseguradoras de las que trabaja VanTrust ofrecen pólizas solo de responsabilidad civil para carros particulares, con qué límites, deducibles y asistencias, y si las ofrecen para carros antiguos.",
+      "Verificar con el asesor: planes intermedios disponibles (por ejemplo, RC más pérdida total o hurto) en las aseguradoras con las que trabaja VanTrust.",
+      "Verificar con el asesor: que la RC por lesiones opere en exceso del SOAT en las pólizas que ofrece VanTrust.",
+    ],
+  },
+
+  // 8. Camión de carga
+  {
+    slug: "seguro-para-camion-de-carga",
+    titulo: "¿Qué cubre un seguro para camión de carga y qué se exige a los transportadores?",
+    title: "Seguro para camión de carga: qué cubre y qué exige la ley",
+    description:
+      "Seguro para camión de carga, turbo o tractocamión: todo riesgo de pesados, responsabilidad civil y lo que la ley exige al transportador. Cotiza aquí.",
+    respuesta:
+      "Un seguro para camión de carga cubre el vehículo y los daños que cause a otros: pérdida parcial y total, hurto, responsabilidad civil extracontractual y asistencias para pesados, según la póliza. No cubre la mercancía que lleva, que necesita su propio seguro de transporte. Si transportas mercancías peligrosas, el Decreto 1079 de 2015 exige además una póliza de responsabilidad civil extracontractual.",
+    secciones: [
+      {
+        titulo: "Caso ilustrativo: el tractocamión de la Cordialidad",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Este es un ejemplo para explicar cómo funciona; no es un cliente real.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Rafael vive en Malambo y tiene un tractocamión con el que mueve contenedores entre el puerto de Barranquilla y bodegas de la zona. La empresa que le da los viajes le pedía que la carga fuera asegurada, y él pensaba que con eso todo estaba cubierto.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Una noche, en la Cordialidad, una llanta reventó y el tractocamión se salió de la vía. Golpeó la fachada de un local y el cabezote quedó muy dañado. La carga llegó bien a su destino en otro vehículo.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Ahí entendió la diferencia. El seguro de la mercancía no tenía nada que ver con su vehículo ni con el local. Por suerte, unos meses antes un asesor le había recomendado un todo riesgo para pesados con responsabilidad civil. Esa póliza respondió por el daño a la fachada, con el amparo de responsabilidad civil, y por la reparación del cabezote, descontando el deducible. Sin ella, habría tenido que pagar el arreglo del vehículo y el daño a terceros mientras el tractocamión, su fuente de ingresos, estaba parado.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La lección: en un vehículo de carga hay tres riesgos distintos: el vehículo, los daños a terceros y la mercancía. Cada uno se asegura por separado.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué es un seguro para camión de carga y en qué se diferencia del seguro de la mercancía?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "El seguro para camión de carga es la póliza de automóviles que protege al vehículo pesado y a su dueño frente a los daños que cause. El seguro de transporte de mercancías protege la carga que el camión lleva. Son pólizas distintas y una no reemplaza a la otra.",
+          },
+          {
+            tipo: "tabla",
+            caption: "Los tres riesgos de un vehículo de carga y cómo se aseguran",
+            columnas: ["Riesgo", "Qué protege", "Póliza que lo cubre"],
+            filas: [
+              ["El vehículo", "El camión, el turbo, el cabezote o el semirremolque frente a choques, volcamientos, hurto y otros eventos.", "Todo riesgo de vehículos pesados."],
+              ["Los daños a terceros", "Carros, personas, casas, locales o infraestructura que el vehículo afecte.", "Responsabilidad civil extracontractual, incluida en el todo riesgo o como póliza aparte."],
+              ["La mercancía", "La carga que se transporta, propia o de terceros.", "Seguro de transporte de mercancías."],
+              ["Las personas lesionadas", "Gastos médicos de los heridos en un accidente de tránsito.", "El SOAT, que es obligatorio, y en exceso la responsabilidad civil según la póliza."],
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Para la carga, lee la guía «¿Qué cubre el seguro de transporte de mercancías?». Si tienes varios vehículos, la guía «¿Cómo asegurar la flota de vehículos de una empresa?» explica la póliza colectiva.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué cubre un todo riesgo para vehículos pesados?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Un todo riesgo para pesados cubre, según la póliza, los mismos riesgos que el de un carro: daños, hurto y responsabilidad civil, pero ajustados a un vehículo que trabaja en carretera y cuesta más repararlo. Estos son los amparos que encuentras en muchas pólizas:",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Pérdida parcial por daños: reparación del vehículo después de un choque o un volcamiento, con deducible.",
+              "Pérdida total por daños: cuando repararlo cuesta tanto que la aseguradora paga el valor del vehículo.",
+              "Hurto total y parcial: robo del vehículo o de partes, según la póliza.",
+              "Responsabilidad civil extracontractual: daños a otros vehículos, a bienes y a personas, hasta el límite contratado. En pesados conviene un límite alto, porque un vehículo grande puede causar daños grandes.",
+              "Asistencias para pesados: grúa con capacidad para el vehículo, ayuda en carretera y asistencia jurídica, con los límites de la póliza.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Revisa también qué partes quedan cubiertas. En un tractocamión, el cabezote y el semirremolque son vehículos distintos: confirma si la póliza cubre los dos o si hay que declararlos por separado. Lo mismo con la carrocería, el furgón, la refrigeración o el rastreo satelital: lo que no esté declarado puede no estar cubierto.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si el vehículo es nuevo o lo compraste con crédito, la financiera pedirá que la póliza esté endosada a su favor. La guía «Seguro de carro financiado: ¿puedo elegir la aseguradora o me toca la del banco?» explica cómo funciona el endoso.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué seguros le exige la ley a un transportador de carga en Colombia?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Para cualquier vehículo es obligatorio el SOAT. Además, la ley exige seguros específicos en ciertos casos, como el transporte de mercancías peligrosas o de carga extradimensionada, y permite al Gobierno exigir otros al transportador.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "El artículo 994 del Código de Comercio dice que, cuando el Gobierno lo exija, el transportador debe tomar, por cuenta propia o por cuenta del propietario de la carga, un seguro que cubra a las personas y las cosas transportadas contra los riesgos inherentes al transporte.",
+              "Mercancías peligrosas: según el artículo 2.2.1.7.8.5.1 del Decreto 1079 de 2015, la empresa de servicio público de transporte de carga, o el remitente que usa vehículos propios, debe tener una póliza de responsabilidad civil extracontractual que cubra daños personales, daños materiales y contaminación causados por la mercancía en un accidente. Los artículos siguientes fijan la cobertura y los valores mínimos, expresados en salarios mínimos mensuales legales vigentes.",
+              "Carga extradimensionada: para el permiso de transporte de carga extradimensionada, el artículo 9, literal h, de la Resolución 4959 de 2006 del Ministerio de Transporte pide una póliza de responsabilidad civil extracontractual.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Fuera de esos casos, muchas exigencias vienen de los contratos. Las empresas de transporte y los generadores de carga suelen pedir al dueño del vehículo que tenga responsabilidad civil con un límite mínimo, todo riesgo o pólizas específicas antes de darle viajes. Pide esas condiciones por escrito y verifica que tu póliza las cumpla.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué revisar antes de asegurar un camión, un turbo o una tractomula?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Antes de asegurar, ten claros el uso, las rutas, quién maneja y qué te exigen tus clientes. Con esa información el asesor puede comparar pólizas que de verdad te sirvan.",
+          },
+          {
+            tipo: "pasos",
+            items: [
+              "Declara el uso real: carga propia, servicio público de carga para terceros o vinculación a una empresa de transporte.",
+              "Indica las rutas habituales, por ejemplo puerto de Barranquilla, Cartagena, Santa Marta o viajes al interior, y confirma que las asistencias funcionen en carretera.",
+              "Define el valor asegurado del vehículo, de la carrocería y de los equipos instalados, al día con su valor real.",
+              "Elige un límite de responsabilidad civil acorde con lo que te exigen tus contratos y con el daño que podría causar un vehículo pesado.",
+              "Verifica que cada conductor tenga licencia vigente de la categoría que corresponde al vehículo. Manejar sin la licencia adecuada es una exclusión común.",
+              "Lee las exclusiones y pregunta cómo trata la póliza el sobrepeso, el transporte de mercancías peligrosas y el uso de conductores no autorizados.",
+              "Si llevas carga de terceros, asegura la mercancía con su propia póliza.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si tienes un accidente, avisa a la aseguradora cuanto antes: la ley da tres días desde que conoces el siniestro y la póliza puede ampliar ese plazo (artículo 1075 del Código de Comercio). En VanTrust un asesor compara opciones para vehículos de carga en varias aseguradoras y te acompaña en el trámite si hay un siniestro.",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        pregunta: "¿El seguro de la mercancía cubre los daños de mi camión?",
+        respuesta:
+          "No. El seguro de transporte de mercancías protege la carga. Los daños del camión y los que este cause a otros se cubren con un todo riesgo para pesados o con una póliza de responsabilidad civil. Son pólizas distintas y conviene tener las dos.",
+      },
+      {
+        pregunta: "¿Es obligatorio tener póliza de responsabilidad civil para un camión?",
+        respuesta:
+          "El SOAT sí es obligatorio. La responsabilidad civil es obligatoria por ley en casos como el transporte de mercancías peligrosas o de carga extradimensionada, y muchas empresas de transporte y generadores de carga la exigen en sus contratos aunque la ley no lo pida.",
+      },
+      {
+        pregunta: "¿Se puede asegurar una tractomula vieja?",
+        respuesta:
+          "Muchas veces sí, aunque algunas aseguradoras ponen límites por la edad del vehículo o piden inspección y condiciones especiales. Si no consigues un todo riesgo, al menos asegura la responsabilidad civil, que es el riesgo más grande de un vehículo pesado.",
+      },
+      {
+        pregunta: "¿La póliza del camión cubre a cualquier conductor?",
+        respuesta:
+          "Depende de la póliza. Algunas cubren a cualquier conductor autorizado por el dueño y otras piden registrar a los conductores. En todos los casos, el conductor debe tener licencia vigente de la categoría que corresponde al vehículo.",
+      },
+      {
+        pregunta: "¿Puedo asegurar varios camiones en una sola póliza?",
+        respuesta:
+          "Sí, muchas aseguradoras ofrecen pólizas colectivas para flotas, con una sola fecha de renovación y condiciones comunes. Cada aseguradora define desde cuántos vehículos la ofrece, así que conviene comparar la colectiva con pólizas individuales.",
+      },
+    ],
+    ramoRuta: "/pymes/transporte-de-mercancias",
+    waMensaje:
+      "Hola, leí la guía del seguro para camión de carga y quiero cotizar el seguro de mi vehículo de carga.",
+    autor: null,
+    revisadoPor: null,
+    publicado: "2026-11-08",
+    actualizado: "2026-11-08",
+    todo: [
+      ...PENDIENTE_REVISION,
+      PENDIENTE_CASO,
+      `Verificar con el asesor: Código de Comercio, art. 994 (seguro que debe tomar el transportador cuando el Gobierno lo exija) — ${FUENTE_CCO_ALCALDIA} y ${FUENTE_CCO}`,
+      `Verificar con el asesor: Decreto 1079 de 2015, arts. 2.2.1.7.8.5.1 a 2.2.1.7.8.5.5 (RCE obligatoria para el transporte de mercancías peligrosas por carretera, cobertura y valores mínimos en SMMLV), según el listado de seguros obligatorios de RC de Fasecolda — ${FUENTE_FASECOLDA_RC_OBLIGATORIOS}`,
+      `Verificar con el asesor: Resolución 4959 de 2006 del Ministerio de Transporte, art. 9, literal h (RCE para el permiso de carga extradimensionada), según el listado de Fasecolda — ${FUENTE_FASECOLDA_RC_OBLIGATORIOS}`,
+      `Verificar con el asesor: Código de Comercio, art. 1075 (aviso del siniestro en tres días) — ${FUENTE_CCO}`,
+      "Verificar con el asesor: si el listado de Fasecolda está vigente y si hay otras pólizas obligatorias para empresas de servicio público de transporte de carga por carretera (no se encontró una exigencia general en las fuentes consultadas).",
+      "Verificar con el asesor: cómo tratan las aseguradoras con las que trabaja VanTrust el semirremolque, el sobrepeso, los límites de edad del vehículo y los conductores en las pólizas de pesados.",
     ],
   },
 ];

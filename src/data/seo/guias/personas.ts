@@ -984,4 +984,685 @@ export const GUIAS_PERSONAS: Guia[] = [
       "No se afirma en la guía que VanTrust tenga un registro vigente. Si el asesor quiere mencionarlo, que aporte el soporte.",
     ],
   },
+
+  // 7. Seguro de viaje
+  {
+    slug: "seguro-de-viaje-que-cubre",
+    titulo: "¿Qué cubre un seguro de viaje y cuándo es obligatorio?",
+    title: "Qué cubre un seguro de viaje y cuándo es obligatorio",
+    description:
+      "Qué cubre un seguro de viaje, cuándo lo exige Europa y por qué la tarjeta de crédito no siempre basta. Escríbenos antes de viajar y cotiza el tuyo.",
+    respuesta:
+      "Un seguro de viaje cubre, según la póliza, los gastos médicos por accidente o enfermedad durante el viaje, la repatriación, la pérdida de equipaje y, si lo incluye, la cancelación. Es obligatorio, por ejemplo, para pedir visa Schengen, con una cobertura médica mínima de 30.000 euros. La tarjeta de crédito puede traer un beneficio, pero con condiciones que conviene revisar.",
+    secciones: [
+      {
+        titulo: "Caso ilustrativo: el tobillo torcido en Madrid",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Este es un ejemplo para explicar cómo funciona; no es un cliente real.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Carolina, docente en Barranquilla, viaja a España a visitar a su hermana con una amiga. Antes de salir, le pregunta a su asesor y compra un seguro de viaje con gastos médicos y asistencia. Su amiga decide no comprarlo porque cree que su tarjeta de crédito ya la cubre.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "El tercer día, Carolina se tuerce el tobillo bajando unas escaleras. Llama a la línea de asistencia que aparece en su póliza; le indican a qué centro médico ir y la atención se coordina desde ahí, según las condiciones de su plan. Días después, la amiga tiene una infección y descubre que el beneficio de su tarjeta solo aplicaba si había pagado los tiquetes con esa tarjeta, y ella los había pagado con otra. Termina pagando la consulta de su bolsillo.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La lección: el seguro de viaje sirve si lo compras antes de salir, lees qué cubre y llamas a la asistencia antes de ir al médico. Y el beneficio de una tarjeta existe solo si cumples sus condiciones.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué cubre un seguro de viaje?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Un seguro de viaje es una póliza que te protege durante un viaje frente a gastos imprevistos de salud, problemas con el equipaje y, en algunos planes, la cancelación del viaje. Lo que cubre depende del plan que compres; la tabla resume lo habitual, no las condiciones de una póliza concreta.",
+          },
+          {
+            tipo: "tabla",
+            caption: "Coberturas habituales de un seguro de viaje (según la póliza)",
+            columnas: ["Cobertura", "Qué suele incluir", "Qué revisar"],
+            filas: [
+              ["Gastos médicos por accidente", "Consultas, urgencias, hospitalización y medicamentos por un accidente en el viaje.", "El monto máximo y si hay deducible."],
+              ["Gastos médicos por enfermedad", "Atención por una enfermedad que aparece durante el viaje.", "Si excluye las enfermedades que ya tenías."],
+              ["Repatriación", "El traslado a Colombia por razones médicas o, en caso de muerte, de los restos.", "Que esté incluida y con qué límite."],
+              ["Equipaje", "Pérdida, daño o demora de la maleta documentada por la aerolínea.", "Límites por maleta y por objeto, y qué documentos piden."],
+              ["Cancelación o interrupción", "Gastos no reembolsables si cancelas por causas que la póliza define.", "La lista exacta de causas cubiertas; no es cualquier motivo."],
+              ["Asistencia", "Una línea para orientarte y coordinar la atención.", "Que funcione las 24 horas y en tu destino."],
+            ],
+          },
+        ],
+      },
+      {
+        titulo: "¿Cuándo es obligatorio el seguro de viaje para ir a Europa?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Es obligatorio cuando pides una visa Schengen: el artículo 15 del Reglamento (CE) 810/2009, el Código de visados de la Unión Europea, exige demostrar un seguro médico de viaje con una cobertura mínima de 30.000 euros. Debe ser válido en todo el territorio de los Estados miembros y durante toda la estancia o el tránsito.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La Comisión Europea explica que ese seguro debe cubrir la atención médica de urgencia, la hospitalización y la repatriación, incluida la repatriación en caso de muerte.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "¿Y si tienes pasaporte colombiano? Hoy Colombia está en la lista de países cuyos nacionales no necesitan visa para estancias cortas, según el Anexo II del Reglamento (UE) 2018/1806. En ese caso no tramitas la visa, pero viajar a Europa sin seguro médico es un riesgo grande. El requisito de visa sí aplica, por ejemplo, a quienes viven en Barranquilla con otra nacionalidad que sí necesita visa Schengen.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Las reglas de entrada cambian y cada país puede pedir lo suyo. Antes de comprar los tiquetes, revisa los requisitos en la página oficial del consulado o de la embajada del país al que vas.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Por qué la tarjeta de crédito no siempre basta como seguro de viaje?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Porque el beneficio de la tarjeta tiene condiciones, y si no las cumples, no te cubre. Muchas tarjetas incluyen asistencia en viaje, pero cada banco y cada franquicia la define a su manera. Antes de confiarte, pide por escrito las condiciones y revisa estos puntos:",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Si se activa solo cuando pagas los tiquetes, o una parte, con esa tarjeta.",
+              "Si cubre solo al titular o también a tu pareja y tus hijos.",
+              "El monto máximo de gastos médicos y si alcanza lo que pide tu destino.",
+              "Si pagan directamente al hospital o te toca pagar y después pedir el reembolso.",
+              "Si cubre enfermedades que ya tenías, embarazo o deportes.",
+              "Cuántos días de viaje cubre y si hay que activarla antes de salir.",
+              "Si te sirve como certificado para un trámite de visa.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si alguno de esos puntos no te cuadra, un seguro de viaje aparte te da condiciones claras a tu nombre y un certificado para mostrar.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué revisar antes de comprar un seguro de viaje?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Revisa que el plan se ajuste a tu viaje, no solo el precio. Estas son las preguntas que conviene hacer:",
+          },
+          {
+            tipo: "pasos",
+            items: [
+              "¿Cuánto cubre en gastos médicos y es suficiente para el país al que vas?",
+              "¿Cubre las fechas exactas del viaje, incluidos los días de ida y regreso?",
+              "¿Qué pasa con las enfermedades que ya tengo?",
+              "¿Hay límite de edad o cambian las condiciones para adultos mayores?",
+              "¿Cubre los deportes o actividades que voy a hacer?",
+              "¿Cómo funciona la asistencia: a qué número llamo y qué debo hacer antes de ir al médico?",
+              "¿Qué documentos piden para reclamar el equipaje o los gastos?",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Declara tu estado de salud con sinceridad si te lo preguntan. El artículo 1058 del Código de Comercio dice que callar o declarar mal hechos que habrían cambiado la decisión de la aseguradora produce la nulidad relativa del seguro. Si vas a ver a la familia por varios meses, revisa también ¿Vale la pena un seguro de salud si ya tengo EPS?",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        pregunta: "¿Cuándo debo comprar el seguro de viaje?",
+        respuesta:
+          "Lo ideal es comprarlo apenas pagas los tiquetes. Si te interesa la cobertura de cancelación, muchas pólizas solo la dan si el seguro se compró antes de que apareciera la causa. Y en todo caso debe estar vigente desde el día en que sales de Colombia.",
+      },
+      {
+        pregunta: "¿Qué hago si me enfermo estando de viaje?",
+        respuesta:
+          "Llama primero a la línea de asistencia de tu póliza, salvo una urgencia vital. Ellos te dicen a dónde ir y cómo se paga. Guarda facturas, fórmulas e informes médicos, porque los vas a necesitar si te toca pedir un reembolso.",
+      },
+      {
+        pregunta: "¿Necesito seguro para viajar a Europa con pasaporte colombiano?",
+        respuesta:
+          "Para estancias cortas, con pasaporte colombiano hoy no se pide visa Schengen y, por eso, no hay un trámite de visa que te exija el seguro. Aun así, la atención médica en Europa puede ser muy costosa sin seguro. Revisa los requisitos vigentes en el consulado antes de viajar.",
+      },
+      {
+        pregunta: "¿El seguro de viaje sirve para un viaje de trabajo?",
+        respuesta:
+          "Muchos planes cubren viajes de negocios o turismo, pero algunos excluyen el trabajo manual o ciertos oficios. Dile al asesor el motivo del viaje y qué vas a hacer allá, para que la póliza que compres lo cubra.",
+      },
+    ],
+    ramoRuta: "/seguros/viajes",
+    waMensaje:
+      "Hola, leí la guía de qué cubre un seguro de viaje y quiero cotizar uno para mi próximo viaje.",
+    autor: null,
+    revisadoPor: null,
+    publicado: "2026-11-08",
+    actualizado: "2026-11-08",
+    todo: [
+      ...PENDIENTE_REVISION,
+      PENDIENTE_CASO,
+      "Verificar con el asesor: Reglamento (CE) 810/2009 (Código de visados), art. 15: seguro médico de viaje con cobertura mínima de 30.000 euros, válido en todos los Estados miembros y por toda la estancia — https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32009R0810",
+      "Verificar con el asesor: Comisión Europea, el seguro debe cubrir atención médica de urgencia, hospitalización y repatriación, incluida en caso de muerte — https://home-affairs.ec.europa.eu/policies/schengen/visa-policy/applying-schengen-visa_en",
+      "Verificar con el asesor: Reglamento (UE) 2018/1806, Anexo II: Colombia exenta de visa para estancias cortas (revisar antes de publicar, porque la lista puede cambiar y hay un mecanismo de suspensión) — https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32018R1806",
+      "Verificar con el asesor: Código de Comercio, art. 1058 (declaración del estado del riesgo) — https://normativa.colpensiones.gov.co/colpens/docs/codigo_comercio_pr032.htm",
+      "Verificar con el asesor: qué planes de viaje ofrece VanTrust, sus montos de gastos médicos y si sirven como certificado para visa Schengen. No se mencionó ETIAS ni otros requisitos de entrada de países concretos por no tener fecha ni fuente oficial verificada.",
+    ],
+  },
+
+  // 8. Seguro exequial
+  {
+    slug: "seguro-exequial-que-cubre",
+    titulo: "¿Qué cubre un seguro exequial y en qué se diferencia de un plan exequial?",
+    title: "Qué cubre un seguro exequial y cómo se diferencia del plan",
+    description:
+      "Qué cubre un seguro exequial, en qué se diferencia de un plan de funeraria, a quién protege y qué preguntar antes de firmar. Habla con tu asesor.",
+    respuesta:
+      "Un seguro exequial cubre los gastos del funeral de las personas aseguradas y lo expide una aseguradora vigilada por la Superintendencia Financiera, que indemniza en dinero. Un plan exequial, en cambio, lo vende una funeraria o una cooperativa y entrega los servicios en especie. Antes de firmar, revisa a quién cubre, desde cuándo y con qué límites.",
+    secciones: [
+      {
+        titulo: "Caso ilustrativo: el plan de la familia Ortiz en Malambo",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Este es un ejemplo para explicar cómo funciona; no es un cliente real.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Doña Ruth vive en Malambo y lleva años pagando cada mes un plan exequial con una funeraria. Siempre le dijo a su familia que estaban todos asegurados. Nadie leyó el contrato.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Cuando muere su hermano, que vivía con ella, la familia llama a la funeraria. Ahí descubren que el plan cubría a Doña Ruth, a su esposo y a sus hijos, pero no a su hermano: él nunca había sido inscrito. La familia termina pagando el servicio por su cuenta, con prisa y sin comparar.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Después, con su asesor, Doña Ruth revisa qué tiene, quiénes están inscritos y si le conviene un plan o un seguro exequial para el resto de la familia. La lección: lo que importa no es solo pagar la cuota, sino saber qué compraste, quién está cubierto y cómo se usa el día que se necesita.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué diferencia hay entre un plan exequial y un seguro exequial?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "La diferencia está en quién lo ofrece y cómo responde: el plan exequial lo presta una funeraria o una cooperativa en especie; el seguro exequial lo expide una aseguradora y paga en dinero. La base es el artículo 111 de la Ley 795 de 2003, adicionado por el artículo 86 de la Ley 1328 de 2009.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Ese artículo dice que no constituyen actividad aseguradora los servicios funerarios mediante los cuales una persona o un grupo de personas adquiere el derecho de recibir en especie servicios exequiales, pagando cuotas fijadas con antelación. Esos servicios los pueden prestar cooperativas, mutuales, entidades sin ánimo de lucro y sociedades comerciales, con excepción de las aseguradoras. Su parágrafo 3 dice que las aseguradoras autorizadas por la Superintendencia Financiera que exploten el seguro exequial deben indemnizar únicamente en dinero al tomador o a sus beneficiarios, previa comprobación del pago del servicio funerario, prestado por entidades legalmente constituidas para eso.",
+          },
+          {
+            tipo: "tabla",
+            caption: "Plan exequial vs. seguro exequial",
+            columnas: ["", "Plan exequial", "Seguro exequial"],
+            filas: [
+              ["Quién lo ofrece", "Funerarias, cooperativas, mutuales y otras entidades que no son aseguradoras.", "Aseguradoras autorizadas por la Superintendencia Financiera."],
+              ["Cómo responde", "Presta el servicio funerario directamente, en especie.", "Paga en dinero, previa comprobación del pago del servicio funerario."],
+              ["¿Es un seguro?", "No. La ley dice que no es actividad aseguradora.", "Sí. Es un contrato de seguro."],
+              ["Quién lo vigila", "La Superintendencia Financiera ha dicho que las funerarias no están bajo su vigilancia; las cooperativas las vigila la Superintendencia de la Economía Solidaria.", "La Superintendencia Financiera."],
+            ],
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué cubre un seguro exequial?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Cubre los gastos del servicio funerario de las personas aseguradas, hasta el valor y con las condiciones que diga la póliza. Para entender qué entra en un servicio funerario, sirve la definición del parágrafo 1 del mismo artículo 111:",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Servicios básicos: preparación del cuerpo, obtención de licencias de inhumación o cremación, traslado del cuerpo, carroza fúnebre, cofre, sala de velación y trámites civiles y eclesiásticos.",
+              "Servicios complementarios: arreglos florales, avisos murales y de prensa, transporte de acompañantes y acompañamiento musical.",
+              "Destino final: inhumación o cremación del cuerpo.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Cada póliza define cuáles de esos servicios reconoce y hasta qué valor. Pregunta también si cubre el traslado del cuerpo desde otra ciudad o desde el exterior, el lote o la bóveda, y si hay coberturas adicionales. Si buscas dejarle a tu familia dinero para vivir, eso no lo hace un seguro exequial; lo explicamos en ¿Cuánto seguro de vida necesito y quién lo necesita?",
+          },
+        ],
+      },
+      {
+        titulo: "¿A quién cubre un seguro exequial?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Cubre a las personas inscritas en la póliza, nada más. Por eso lo primero es revisar la lista de asegurados y no dar por hecho que toda la familia está incluida.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "En muchas pólizas se puede asegurar al titular y a un grupo familiar: pareja, hijos y, a veces, padres, hermanos u otros parientes.",
+              "Suele haber límites de edad para entrar y, en algunos casos, para seguir cubierto. Pregunta qué pasa cuando un hijo cumple cierta edad.",
+              "Muchas pólizas tienen un periodo de carencia: un tiempo desde la contratación durante el cual la muerte por enfermedad no se cubre o se cubre parcialmente. La muerte por accidente suele cubrirse desde el inicio, según la póliza.",
+              "Si alguien se va de la casa o cambia la composición de la familia, actualiza la lista.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Declara con sinceridad la información que te pidan al contratar. El artículo 1058 del Código de Comercio dice que callar o declarar mal hechos que habrían cambiado la decisión de la aseguradora produce la nulidad relativa del seguro.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué preguntar antes de contratar un plan o un seguro exequial?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Pregunta por escrito qué cubre, a quién y cómo se usa el día que se necesita. Estas preguntas te ahorran sorpresas:",
+          },
+          {
+            tipo: "pasos",
+            items: [
+              "¿Es un plan exequial o un seguro exequial? ¿Quién lo vigila?",
+              "¿Quiénes quedan cubiertos y cómo se agrega o se retira a alguien?",
+              "¿Hay periodo de carencia y límites de edad?",
+              "¿Qué servicios incluye y hasta qué valor? ¿Incluye el destino final?",
+              "¿Funciona en otras ciudades, como Cartagena o Santa Marta, y si la muerte ocurre fuera del país?",
+              "¿A qué número llama la familia y qué documentos debe presentar?",
+              "Si es un seguro: ¿cómo se hace el pago y en qué plazo?",
+              "¿Qué pasa si dejo de pagar una cuota o la prima?",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Guarda el contrato o la póliza donde tu familia lo encuentre y cuéntales a quién llamar. Si tienes dudas, tu asesor te ayuda a revisar lo que ya tienes.",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        pregunta: "¿El plan de la funeraria es un seguro?",
+        respuesta:
+          "No. El artículo 111 de la Ley 795 de 2003 dice que los servicios funerarios que se pagan por cuotas y se reciben en especie no son actividad aseguradora. El seguro exequial, en cambio, lo expide una aseguradora vigilada por la Superintendencia Financiera.",
+      },
+      {
+        pregunta: "¿Puedo tener un seguro exequial y un plan exequial al mismo tiempo?",
+        respuesta:
+          "Sí, no hay nada que lo impida. Pero revisa si te conviene: puedes terminar pagando dos veces por lo mismo. Muchas veces es mejor un solo producto bien escogido que cubra a toda la familia que dos a medias.",
+      },
+      {
+        pregunta: "¿Qué pasa si la persona fallece en otra ciudad?",
+        respuesta:
+          "Depende de tu póliza o de tu plan. Algunos incluyen el traslado del cuerpo dentro del país o desde el exterior, con límites, y otros no. Pregúntalo antes de firmar, sobre todo si alguien de tu familia viaja o vive lejos de Barranquilla.",
+      },
+      {
+        pregunta: "¿Desde cuándo queda cubierta una persona que acabo de inscribir?",
+        respuesta:
+          "Depende del periodo de carencia que fije la póliza o el plan. En muchos casos la muerte por accidente se cubre desde el inicio y la muerte por enfermedad después de un tiempo. Pide que te lo confirmen por escrito al inscribirla.",
+      },
+    ],
+    ramoRuta: "/seguros/exequial",
+    waMensaje:
+      "Hola, leí la guía de qué cubre un seguro exequial y quiero revisar cuál le conviene a mi familia.",
+    autor: null,
+    revisadoPor: null,
+    publicado: "2026-11-08",
+    actualizado: "2026-11-08",
+    todo: [
+      ...PENDIENTE_REVISION,
+      PENDIENTE_CASO,
+      "Verificar con el asesor: Ley 795 de 2003, art. 111 (adicionado por el art. 86 de la Ley 1328 de 2009): servicios funerarios en especie no son actividad aseguradora; definición de servicios funerarios (par. 1); aseguradoras indemnizan solo en dinero (par. 3) — https://normativa.colpensiones.gov.co/colpens/docs/ley_0795_2003.htm",
+      "Verificar con el asesor: Superintendencia Financiera, Concepto 2013010872-002 del 22-03-2013 (servicios funerarios no son actividad aseguradora; las funerarias no están bajo su vigilancia; las cooperativas, bajo la Superintendencia de la Economía Solidaria) — https://www.superfinanciera.gov.co/publicaciones/10081626",
+      "Verificar con el asesor: Código de Comercio, art. 1058 (declaración del estado del riesgo) — https://normativa.colpensiones.gov.co/colpens/docs/codigo_comercio_pr032.htm",
+      "Verificar con el asesor: cómo opera en la práctica el pago del seguro exequial en las aseguradoras con las que trabaja VanTrust (reembolso a la familia o pago coordinado con la funeraria), dado que la ley dice que se indemniza en dinero previa comprobación del pago del servicio.",
+      "Verificar con el asesor: periodos de carencia, límites de edad, grupo familiar asegurable y traslados en los seguros exequiales que comercializa VanTrust (se dejó en general).",
+    ],
+  },
+
+  // 9. Accidentes personales vs. vida
+  {
+    slug: "seguro-accidentes-personales-vs-vida",
+    titulo: "¿Seguro de accidentes personales o seguro de vida: cuál necesito?",
+    title: "Seguro de accidentes personales vs. seguro de vida",
+    description:
+      "Seguro de accidentes personales vs. seguro de vida: qué cubre cada uno, para quién conviene y cómo se complementan. Pregúntale a tu asesor cuál te sirve.",
+    respuesta:
+      "El seguro de accidentes personales paga solo si el daño viene de un accidente: muerte accidental, incapacidad o desmembración y, en muchas pólizas, gastos médicos. El seguro de vida paga a tus beneficiarios si mueres por casi cualquier causa, incluida una enfermedad. Al independiente que se mueve en moto o hace deporte le sirve el primero; a quien tiene una familia que depende de él, el segundo.",
+    secciones: [
+      {
+        titulo: "Caso ilustrativo: dos hermanos y dos pólizas distintas",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Este es un ejemplo para explicar cómo funciona; no es un cliente real.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Kevin es domiciliario independiente en Barranquilla y anda todo el día en moto. Por consejo de su asesor tomó un seguro de accidentes personales. Su hermano Daniel trabaja en una oficina, tiene dos hijos y tomó un seguro de vida.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Un día un carro le cierra el paso a Kevin en la Murillo y se fractura la muñeca. No puede trabajar por varias semanas. Su póliza incluía gastos médicos por accidente y una indemnización por incapacidad, y con eso cubrió parte de lo que dejó de ganar, según la tabla de su póliza. Meses después, a Daniel le diagnostican una enfermedad. Si hubiera tenido solo un seguro de accidentes, no le habría servido de nada, porque la enfermedad no es un accidente.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La lección: los dos seguros protegen cosas distintas. El de accidentes cubre el golpe que te saca de la calle; el de vida protege a tu familia si faltas, sea por lo que sea. Escoger depende de qué riesgo pesa más en tu vida.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué diferencia hay entre un seguro de accidentes personales y uno de vida?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "La diferencia es la causa que cubren. El seguro de accidentes personales es una póliza que paga cuando sufres un accidente: un hecho súbito, externo, violento e involuntario, como suelen definirlo muchas pólizas. El seguro de vida es una póliza que paga a tus beneficiarios si mueres, por accidente o por enfermedad, según sus condiciones.",
+          },
+          {
+            tipo: "tabla",
+            caption: "Seguro de accidentes personales vs. seguro de vida (según la póliza)",
+            columnas: ["", "Accidentes personales", "Vida"],
+            filas: [
+              ["Qué cubre", "Solo eventos causados por un accidente.", "La muerte por casi cualquier causa, incluida la enfermedad."],
+              ["Coberturas típicas", "Muerte accidental, incapacidad total o parcial, desmembración y, en muchas pólizas, gastos médicos por accidente.", "Muerte y, si se contrata, incapacidad total y permanente o enfermedades graves."],
+              ["A quién le paga", "A ti, si quedas incapacitado o te accidentas; a tus beneficiarios, si mueres.", "A tus beneficiarios."],
+              ["Precio", "Suele ser más bajo, porque cubre menos riesgos.", "Suele ser más alto, porque cubre más causas."],
+              ["Requisitos", "Suele pedir menos preguntas de salud.", "Según la edad y el valor, puede pedir declaración de salud y exámenes."],
+              ["Qué revisar", "Exclusiones por actividad: deportes de riesgo, moto, alcohol.", "Exclusiones, periodo de carencia y valor asegurado."],
+            ],
+          },
+        ],
+      },
+      {
+        titulo: "¿Para quién conviene el seguro de accidentes personales?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Conviene a quien está muy expuesto a accidentes y depende de su cuerpo para ganarse la vida. Algunos ejemplos:",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Independientes y trabajadores por cuenta propia, que si no trabajan no ganan y no tienen quién les pague los días de incapacidad.",
+              "Motociclistas y domiciliarios. El SOAT de la moto atiende a los lesionados en accidentes de tránsito con sus propias reglas; el seguro de accidentes personales es voluntario y aparte, y puede cubrir accidentes de cualquier tipo, no solo de tránsito.",
+              "Deportistas aficionados que entrenan fútbol, ciclismo o deportes de contacto. Revisa que tu deporte no esté excluido.",
+              "Jóvenes sin personas a cargo, para quienes un seguro de vida grande no es prioridad pero un accidente sí los dejaría sin ingresos.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Si te accidentas trabajando como empleado, tu ARL atiende el accidente de trabajo. El seguro de accidentes personales sirve también para lo que pasa fuera de la jornada: el fin de semana, en la casa o en la cancha.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Para quién conviene el seguro de vida?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Conviene a quien tiene personas que dependen de sus ingresos o deudas que no quiere dejarle a su familia. Si tienes hijos, una pareja a cargo, padres que mantienes o un crédito de vivienda, el seguro de vida es el que protege a tu familia si faltas por cualquier causa.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La enfermedad es una causa frecuente de muerte que el seguro de accidentes no cubre. Por eso, si tu prioridad es tu familia, el seguro de accidentes solo no basta. Para hacer la cuenta de cuánto asegurar, lee ¿Cuánto seguro de vida necesito y quién lo necesita?",
+          },
+        ],
+      },
+      {
+        titulo: "¿Cómo se complementan el seguro de accidentes personales y el de vida?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Se complementan porque cubren huecos distintos: el de vida protege a tu familia si mueres; el de accidentes te protege a ti si un accidente te deja sin trabajar o con una lesión. Tenerlos juntos es común y no hay norma que lo impida.",
+          },
+          {
+            tipo: "pasos",
+            items: [
+              "Empieza por lo que más te preocupa: tu familia (vida) o tu ingreso si te lesionas (accidentes).",
+              "Revisa lo que ya tienes: un vida grupo de la empresa, un vida deudor del crédito o asistencias de la tarjeta.",
+              "Pregunta si el seguro de vida que estás mirando permite agregar coberturas de incapacidad o de muerte accidental.",
+              "Declara tu ocupación y tus actividades reales: si andas en moto o practicas un deporte, dilo.",
+              "Revisa cada año si tu situación cambió: hijos, deudas, trabajo nuevo.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Lo de declarar no es un detalle. El artículo 1058 del Código de Comercio obliga al tomador a declarar sinceramente los hechos que determinan el estado del riesgo; callar o declarar mal algo que habría cambiado la decisión de la aseguradora produce la nulidad relativa del seguro. Tu asesor en VanTrust te ayuda a comparar las opciones y a llenar bien la solicitud.",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        pregunta: "¿El seguro de accidentes personales paga si me muero de un infarto?",
+        respuesta:
+          "Por lo general no, porque un infarto se considera una enfermedad y no un accidente. Para cubrir la muerte por enfermedad necesitas un seguro de vida. Revisa la definición de accidente en tu póliza, que es la que manda.",
+      },
+      {
+        pregunta: "¿Me cubre el seguro de accidentes si me caigo de la moto?",
+        respuesta:
+          "Muchas pólizas cubren los accidentes en moto, pero algunas los excluyen o los limitan, sobre todo si es tu herramienta de trabajo. Dile al asesor que usas moto antes de contratar, para que la póliza que escojas sí lo cubra.",
+      },
+      {
+        pregunta: "¿Puedo tener un seguro de vida y uno de accidentes al mismo tiempo?",
+        respuesta:
+          "Sí. Son seguros de personas y puedes tener varios. Si mueres en un accidente, en principio pueden pagar los dos, según sus condiciones. Al calcular cuánto asegurar, suma lo que ya tienes para no pagar de más.",
+      },
+      {
+        pregunta: "¿Necesito exámenes médicos para un seguro de accidentes personales?",
+        respuesta:
+          "Normalmente piden menos requisitos de salud que un seguro de vida, porque solo cubre accidentes. Aun así, debes responder con la verdad lo que te pregunten sobre tu salud, tu ocupación y tus actividades.",
+      },
+    ],
+    ramoRuta: "/seguros/accidentes-personales",
+    waMensaje:
+      "Hola, leí la guía de seguro de accidentes personales vs. vida y quiero saber cuál me conviene.",
+    autor: null,
+    revisadoPor: null,
+    publicado: "2026-11-08",
+    actualizado: "2026-11-08",
+    todo: [
+      ...PENDIENTE_REVISION,
+      PENDIENTE_CASO,
+      "Verificar con el asesor: Código de Comercio, art. 1058 (declaración del estado del riesgo, reticencia) — https://normativa.colpensiones.gov.co/colpens/docs/codigo_comercio_pr032.htm",
+      "Verificar con el asesor: definición de accidente (súbito, externo, violento e involuntario) y exclusiones por moto y deportes en las pólizas de accidentes personales que comercializa VanTrust (se dejó como \"muchas pólizas\").",
+      "Verificar con el asesor: la mención del SOAT y de la ARL es informativa y general; no se citaron normas ni coberturas por no haberlas verificado. VanTrust no vende SOAT.",
+    ],
+  },
+
+  // 10. Seguro de vida deudor
+  {
+    slug: "seguro-vida-deudor-puedo-cambiarlo",
+    titulo: "¿Puedo cambiar el seguro de vida deudor del banco por mi propia póliza?",
+    title: "Seguro de vida deudor: ¿puedes cambiarlo por el tuyo?",
+    description:
+      "Seguro de vida deudor: cuándo puedes llevar tu propia póliza endosada al banco, qué dice la norma y qué revisar en la declaración de salud. Te asesoramos.",
+    respuesta:
+      "Sí, puedes cambiar el seguro de vida deudor del banco por una póliza propia endosada a su favor. En créditos hipotecarios y de leasing habitacional, el Decreto 2555 de 2010 dice que el banco no puede rechazarla si cumple, como mínimo, las condiciones de su licitación. En otros créditos, la ley protege tu libertad de escoger aseguradora. Revisa bien la declaración de salud.",
+    secciones: [
+      {
+        titulo: "Caso ilustrativo: el apartamento en Puerto Colombia",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Este es un ejemplo para explicar cómo funciona; no es un cliente real.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Andrea y Mauricio compran apartamento en Puerto Colombia con un crédito hipotecario. El banco les incluye en la cuota el seguro de vida deudor que contrató por licitación. Mauricio ya tenía un seguro de vida individual y se pregunta si está pagando dos veces.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Con su asesor piden al banco las condiciones del seguro, comparan y cotizan una póliza que cumple, como mínimo, lo mismo que pide el banco. Al llenar la solicitud, Mauricio declara que toma medicamento para la presión; la aseguradora lo acepta con esa información. Presentan la póliza endosada al banco, que la revisa y la acepta.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "La lección: cambiar el vida deudor es un derecho, pero la póliza nueva debe cumplir lo que pide el banco, y la declaración de salud debe ser completa. Si Mauricio hubiera callado lo de la presión para que le salieran mejores condiciones, habría puesto en riesgo el pago justo cuando su familia lo necesitara.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué es el seguro de vida deudor?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "El seguro de vida deudor es una póliza que paga al banco el saldo de tu deuda si mueres o, si así se contrata, si quedas con una incapacidad total y permanente. Su objetivo es que tu familia no herede la deuda. No le deja dinero a tu familia para vivir: para eso existe el seguro de vida individual, como explicamos en ¿Cuánto seguro de vida necesito y quién lo necesita?",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Endosar una póliza es designar al banco como beneficiario de tu seguro hasta el saldo de la deuda, para que esa póliza le sirva de garantía en lugar de la que contrató él. Lo que sobre del valor asegurado, después de pagar la deuda, queda para los beneficiarios que tú designes, según la póliza.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Puedo llevar mi propia póliza de vida deudor endosada al banco?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Sí. En créditos hipotecarios y de leasing habitacional lo dice de forma expresa la norma; en los demás créditos, la ley protege tu libertad de escoger aseguradora.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Para créditos con hipoteca o leasing habitacional, el Decreto 673 de 2014 adicionó al Decreto 2555 de 2010 el artículo 2.36.2.2.5, sobre libertad de elección. Dice que el deudor puede contratar con otra aseguradora siempre que las condiciones del seguro sean, cuando menos, iguales a las del pliego de la licitación. El banco no puede rechazar pólizas que cumplan esas condiciones ni cobrar por revisarlas o aceptarlas. Si la rechaza por no cumplir, debe informarte las causales por escrito dentro de los diez días hábiles siguientes a tu solicitud.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Además, según el artículo 2.36.2.2.8 del mismo decreto, modificado por el Decreto 1534 de 2016, cuando el banco adjudica la licitación debe informarte el resultado, con el nombre de la aseguradora y el cambio de la tasa, y tu derecho a escoger otra aseguradora, indicándote la totalidad de las condiciones del seguro.",
+          },
+          {
+            tipo: "p",
+            texto:
+              "Para otros créditos, como consumo o vehículo, la Superintendencia Financiera, en su Concepto 54877 de 2023, recuerda que el numeral 2 del artículo 100 del Estatuto Orgánico del Sistema Financiero reconoce la libertad de escogencia del asegurador cuando el banco exige un seguro, y que la Circular Básica Jurídica obliga al banco a informarte por escrito cómo puedes acreditar esa garantía y sus condiciones de aceptación o rechazo.",
+          },
+        ],
+      },
+      {
+        titulo: "¿Cómo cambiar el seguro de vida deudor paso a paso?",
+        bloques: [
+          {
+            tipo: "pasos",
+            items: [
+              "Pide al banco, por escrito, las condiciones mínimas que debe cumplir la póliza: coberturas, valor asegurado, vigencia y requisitos del endoso.",
+              "Cotiza con tu asesor una póliza que cumpla, como mínimo, esas condiciones. Compara la prima, no solo la cobertura.",
+              "Llena la solicitud y la declaración de salud con toda la verdad.",
+              "Cuando la aseguradora la expida, pide el endoso a favor del banco.",
+              "Radica la póliza y el endoso en el banco y guarda la constancia con fecha.",
+              "Espera la respuesta. En hipotecario y leasing habitacional, si la rechazan, deben decirte por escrito por qué, dentro de diez días hábiles.",
+              "No canceles nada hasta que el banco confirme que aceptó tu póliza y que deja de cobrarte la suya.",
+              "Mantén la póliza al día y renuévala a tiempo; si se vence, el banco puede volver a incluirte en su seguro.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "Para que el cambio no te deje días sin cobertura, revisa también ¿Cómo cambiar de aseguradora sin quedarme desprotegido?",
+          },
+        ],
+      },
+      {
+        titulo: "¿Qué revisar en la declaración de salud del seguro de vida deudor?",
+        bloques: [
+          {
+            tipo: "p",
+            texto:
+              "Revisa que esté completa y sea verdadera, porque de ella depende que el seguro pague. La declaración de asegurabilidad es el cuestionario en el que cuentas tu estado de salud a la aseguradora antes de que te acepte.",
+          },
+          {
+            tipo: "lista",
+            items: [
+              "Artículo 1058 del Código de Comercio: debes declarar sinceramente los hechos que determinan el estado del riesgo. Callar o declarar mal algo que habría hecho que la aseguradora no te asegurara, o te cobrara más, produce la nulidad relativa del seguro.",
+              "Si el error fue inculpable, el contrato no se anula, pero la aseguradora paga solo un porcentaje, en proporción entre la prima que pagaste y la que correspondía al riesgo real.",
+              "Las sanciones no aplican si la aseguradora conocía o debía conocer los hechos antes de firmar, o si después los aceptó.",
+              "Artículo 1158: aunque la aseguradora no te pida examen médico, no quedas exento de declarar con la verdad.",
+              "Artículo 1160: pasados dos años en vida del asegurado desde que se perfeccionó el contrato, el valor del seguro de vida no puede reducirse por error en la declaración de asegurabilidad.",
+            ],
+          },
+          {
+            tipo: "p",
+            texto:
+              "En la práctica: lee cada pregunta, no firmes un formulario en blanco o llenado por otro, menciona diagnósticos, tratamientos y medicamentos, y guarda copia de lo que firmaste. Si te objetan después, revisa ¿Qué hacer si la aseguradora no quiere pagar tu reclamación?",
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        pregunta: "¿El banco me puede obligar a tomar su seguro de vida deudor?",
+        respuesta:
+          "Te puede exigir que el crédito tenga un seguro, pero no que sea el suyo. En hipotecario y leasing habitacional puedes presentar otra póliza que cumpla al menos las condiciones de la licitación, y el banco no puede rechazarla ni cobrarte por revisarla.",
+      },
+      {
+        pregunta: "¿Es más barato llevar mi propia póliza de vida deudor?",
+        respuesta:
+          "A veces sí y a veces no. Depende de tu edad, tu salud, el saldo de la deuda y la tasa del seguro del banco. Lo correcto es pedir las condiciones del banco y cotizar con las mismas coberturas antes de decidir.",
+      },
+      {
+        pregunta: "¿Puedo usar el seguro de vida que ya tenía para el crédito?",
+        respuesta:
+          "Puede servir si cumple las condiciones que pide el banco y lo endosas a su favor hasta el saldo de la deuda. Ten en cuenta que esa parte del valor asegurado irá al banco y no a tu familia, así que revisa si te sigue alcanzando.",
+      },
+      {
+        pregunta: "¿Qué pasa si no declaré una enfermedad en el seguro del crédito?",
+        respuesta:
+          "Si callaste algo que habría cambiado la decisión de la aseguradora, puede alegar nulidad relativa y negar el pago. Si fue un error inculpable, paga un porcentaje. Habla con tu asesor cuanto antes para revisar tu caso y tus opciones.",
+      },
+    ],
+    ramoRuta: "/seguros/vida",
+    waMensaje:
+      "Hola, leí la guía del seguro de vida deudor y quiero cotizar mi propia póliza para endosarla al banco.",
+    autor: null,
+    revisadoPor: null,
+    publicado: "2026-11-08",
+    actualizado: "2026-11-08",
+    todo: [
+      ...PENDIENTE_REVISION,
+      PENDIENTE_CASO,
+      "Verificar con el asesor: Decreto 2555 de 2010, arts. 2.36.2.2.1, 2.36.2.2.5 (adicionados por el Decreto 673 de 2014: libertad de elección, no rechazo, sin cobro, rechazo por escrito en 10 días hábiles) y 2.36.2.2.8 (modificado por el Decreto 1534 de 2016: información del resultado de la licitación y del derecho a escoger otra aseguradora) — https://normativa.colpensiones.gov.co/colpens/docs/decreto_2555_2010_pr035.htm",
+      "Verificar con el asesor: Superintendencia Financiera, Concepto 54877 del 05-07-2023 (art. 100 num. 2 del EOSF, libertad de escogencia del asegurador; Circular Básica Jurídica, Parte I, Título III, Capítulo I, num. 1.3.2.4) — https://normograma.com/keralty/compilacion/docs/concepto_superfinanciera_0054877_2023.htm",
+      "Verificar con el asesor: Código de Comercio, art. 1058 (reticencia, error inculpable, excepciones) — https://normativa.colpensiones.gov.co/colpens/docs/codigo_comercio_pr032.htm",
+      "Verificar con el asesor: Código de Comercio, arts. 1158 (examen médico no exime de declarar) y 1160 (irreductibilidad tras dos años) — https://normativa.colpensiones.gov.co/colpens/docs/codigo_comercio_pr035.htm",
+      "Verificar con el asesor: no se citó el Decreto 1084 de 2021 (seguros tomados por cuenta de deudores en otros créditos) porque no se pudo leer su texto en una fuente oficial. Si aplica, el asesor puede añadirlo.",
+      "Verificar con el asesor: requisitos de endoso y canal de radicación de los bancos con que trabajan los clientes de VanTrust (la Superfinanciera dijo que no hay norma que obligue a un canal digital de endosos).",
+    ],
+  },
 ];
