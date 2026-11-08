@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import Tracking from "@/components/Tracking";
 import "./globals.css";
 
 // Tipografía secundaria y de apoyo: Montserrat (Regular + Bold Italic)
@@ -57,7 +59,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className={`${montserrat.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Tracking />
+        <Analytics />
+      </body>
     </html>
   );
 }
