@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import HojaContactoProvider from "@/components/panel/HojaContacto";
 
 // El panel es privado: fuera de buscadores.
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
-  return <div className="min-h-screen bg-surface text-primary">{children}</div>;
+  return (
+    <div className="min-h-screen bg-surface text-primary">
+      <HojaContactoProvider>{children}</HojaContactoProvider>
+    </div>
+  );
 }

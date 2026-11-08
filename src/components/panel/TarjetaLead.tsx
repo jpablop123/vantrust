@@ -1,7 +1,8 @@
 "use client";
 
-import { startTransition, useActionState, useState } from "react";
-import { Phone, ChevronDown, History, StickyNote, Trophy, XCircle, FileCheck2, MessageSquareText, RotateCcw } from "lucide-react";
+import { startTransition, useActionState, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Phone, ChevronDown, MessageCircleQuestion, History, StickyNote, Trophy, XCircle, FileCheck2, MessageSquareText, RotateCcw } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { actuarSobreLead, registrarVista, type EstadoAccion } from "@/app/panel/cola/acciones";
 import { reasignarLead } from "@/app/panel/admin/acciones";
@@ -14,7 +15,9 @@ import {
   textoMotivo,
   textoResultado,
 } from "@/lib/panel/etiquetas";
-import { hace, urgenciaNuevo } from "@/lib/panel/reglas";
+import { hace } from "@/lib/panel/reglas";
+import { intentoSinRegistrar, proximaAccion, type Tono } from "@/lib/panel/proxima";
+import { useHojaContacto } from "@/components/panel/HojaContacto";
 import Selector from "@/components/panel/Selector";
 import { COLOR_CANAL, canalDe, capturaDe } from "@/lib/panel/origen";
 import { INSURERS } from "@/lib/site";
@@ -30,11 +33,12 @@ const COLOR_ETAPA: Record<string, string> = {
   archivado: "bg-gray-100 text-gray-600",
 };
 
-const COLOR_URGENCIA = {
-  reciente: "bg-green-100 text-green-800",
-  atender: "bg-amber-100 text-amber-800",
-  urgente: "bg-red-100 text-red-700 animate-pulse",
-  frio: "bg-gray-100 text-gray-600",
+const COLOR_TONO: Record<Tono, string> = {
+  verde: "bg-green-50 text-green-800",
+  ambar: "bg-amber-50 text-amber-900",
+  rojo: "bg-red-50 text-red-700",
+  gris: "bg-gray-100 text-gray-600",
+  azul: "bg-sky-50 text-sky-800",
 };
 
 const pesos = (n: number) =>
@@ -66,8 +70,8 @@ const TEXTO_EVENTO: Record<string, string> = {
   archivado: "Archivado",
   reabierto: "Reabierto",
   visto: "Vio los datos",
-  whatsapp: "Abrió WhatsApp",
-  llamada: "Llamó",
+  whatsapp: "Intento de contacto · WhatsApp",
+  llamada: "Intento de contacto · llamada",
 };
 
 function detalleEvento(e: EventoLead): string {
@@ -98,6 +102,7 @@ export default function TarjetaLead({
   nombreMiembro,
   solicitudes = 1,
   asesores,
+  abrirInicial = false,
 }: {
   lead: LeadCola;
   eventos: EventoLead[];
@@ -108,8 +113,18 @@ export default function TarjetaLead({
   solicitudes?: number;
   /** Solo para el admin: a quién se puede reasignar. */
   asesores?: { id: string; nombre: string }[];
+  /** Abrir y mostrar este lead al cargar (enlace desde Telegram). */
+  abrirInicial?: boolean;
 }) {
-  const [expandido, setExpandido] = useState(false);
+  const router = useRouter();
+  const [expandido, setExpandido] = useState(abrirInicial);
+  const fila = useRef<HTMLElement>(null);
+  // Intento de contacto hecho en esta pantalla (antes de que llegue del servidor)
+  // y momento del último resultado registrado aquí.
+  const [intentoLocal, setIntentoLocal] = useState<{ medio: "whatsapp" | "llamada"; t: number } | null>(null);
+  const [registradoLocal, setRegistradoLocal] = useState(0);
+  const abrirHoja = useHojaContacto();
+  const esperando = useRef<{ medio: "whatsapp" | "llamada"; seFue: boolean } | null>(null);
   const [modo, setModo] = useState<Modo>(null);
   const [verHistorial, setVerHistorial] = useState(false);
   const [verDetalles, setVerDetalles] = useState(false);
@@ -117,19 +132,87 @@ export default function TarjetaLead({
   const [estado, accion, enviando] = useActionState(
     async (previo: EstadoAccion, form: FormData) => {
       const r = await actuarSobreLead(previo, form);
-      if (r?.ok) setModo(null);
+      if (r?.ok) {
+        setModo(null);
+        if (form.get("accion") !== "nota") setRegistradoLocal(Date.now());
+      }
       return r;
     },
     undefined
   );
 
   const abierto = ["nuevo", "contactado", "cotizado"].includes(lead.etapa);
-  const urgencia = lead.etapa === "nuevo" ? urgenciaNuevo(new Date(lead.created_at), new Date(ahora)) : null;
   const detalles = Object.entries(lead.detalles || {});
   const vencido = lead.proximo_seguimiento && new Date(lead.proximo_seguimiento) <= new Date(ahora);
   const canal = canalDe(lead);
   const minutos = Math.round((new Date(ahora).getTime() - new Date(lead.created_at).getTime()) / 60000);
   const chip = "text-[11px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap";
+
+  // ¿Hay un intento de contacto sin resultado? (del historial o de esta pantalla)
+  const isoServidor = intentoSinRegistrar(eventos);
+  const tServidor = isoServidor ? Date.parse(isoServidor) : 0;
+  const tIntento = Math.max(tServidor, intentoLocal?.t ?? 0);
+  const pendiente = abierto && tIntento > 0 && tIntento > registradoLocal;
+  const medio: "whatsapp" | "llamada" =
+    intentoLocal && intentoLocal.t >= tServidor
+      ? intentoLocal.medio
+      : eventos.find((e) => e.created_at === isoServidor)?.tipo === "llamada" ? "llamada" : "whatsapp";
+  const preguntar = (m: "whatsapp" | "llamada") =>
+    abrirHoja({
+      leadId: lead.id,
+      nombre: lead.nombre,
+      medio: m,
+      onGuardado: () => {
+        setIntentoLocal(null);
+        setRegistradoLocal(Date.now());
+        router.refresh();
+      },
+    });
+  const frase = proximaAccion(lead, new Date(ahora), pendiente ? new Date(tIntento).toISOString() : null);
+
+  /** WhatsApp o llamada: queda como intento de contacto (frena la alerta y la reasignación). */
+  const intentar = (m: "whatsapp" | "llamada") => {
+    registrarVista(lead.id, m).then(() => router.refresh());
+    setIntentoLocal({ medio: m, t: Date.now() });
+    esperando.current = { medio: m, seFue: false };
+  };
+
+  // El listener se registra una vez; siempre llama a la versión actual.
+  const preguntarRef = useRef(preguntar);
+  useEffect(() => {
+    preguntarRef.current = preguntar;
+  });
+
+  // Al volver de WhatsApp o de la llamada se pregunta "¿Cómo te fue?".
+  useEffect(() => {
+    const salir = () => {
+      if (esperando.current && document.visibilityState === "hidden") esperando.current.seFue = true;
+    };
+    const desenfocar = () => {
+      if (esperando.current) esperando.current.seFue = true;
+    };
+    const volver = () => {
+      if (document.visibilityState !== "visible" || !esperando.current?.seFue) return;
+      const m = esperando.current.medio;
+      esperando.current = null;
+      preguntarRef.current(m);
+    };
+    document.addEventListener("visibilitychange", salir);
+    document.addEventListener("visibilitychange", volver);
+    window.addEventListener("blur", desenfocar);
+    window.addEventListener("focus", volver);
+    return () => {
+      document.removeEventListener("visibilitychange", salir);
+      document.removeEventListener("visibilitychange", volver);
+      window.removeEventListener("blur", desenfocar);
+      window.removeEventListener("focus", volver);
+    };
+  }, []);
+
+  // Enlace directo (Telegram): lleva la vista hasta el lead.
+  useEffect(() => {
+    if (abrirInicial) fila.current?.scrollIntoView({ block: "center" });
+  }, [abrirInicial]);
 
   const botonModo = (m: Exclude<Modo, null>, Icono: typeof Phone, txt: string) => (
     <button
@@ -146,7 +229,11 @@ export default function TarjetaLead({
   );
 
   return (
-    <article className={`transition-colors ${expandido ? "bg-background/50" : "hover:bg-background/40"}`}>
+    <article
+      ref={fila}
+      id={`lead-${lead.id}`}
+      className={`transition-colors scroll-mt-24 ${expandido ? "bg-background/50" : "hover:bg-background/40"} ${abrirInicial ? "ring-2 ring-accent ring-inset" : ""}`}
+    >
       {/* Fila compacta: al tocarla se abre el detalle */}
       <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-3">
         <button
@@ -174,14 +261,11 @@ export default function TarjetaLead({
             </span>
           </span>
           <span className="flex flex-wrap items-center gap-1.5 sm:justify-end shrink-0">
-            <span className={`${chip} ${COLOR_CANAL[canal]}`} title={`Llegó por: ${canal} · ${capturaDe(lead.fuente)}`}>{canal}</span>
-            {urgencia && <span className={`${chip} ${COLOR_URGENCIA[urgencia.nivel]}`}>Sin contactar<span className="sm:hidden"> · {hace(urgencia.minutos)}</span></span>}
-            {!urgencia && abierto && lead.proximo_seguimiento && (
-              <span className={`${chip} ${vencido ? "bg-red-100 text-red-700" : "bg-background text-primary/70"}`}>
-                Seguir {fechaCorta(lead.proximo_seguimiento)}
-              </span>
+            {verAsesor && (
+              <span className={`${chip} ${COLOR_CANAL[canal]}`} title={`Llegó por: ${canal} · ${capturaDe(lead.fuente)}`}>{canal}</span>
             )}
-            <span className={`${chip} ${COLOR_ETAPA[lead.etapa]}`}>{ETIQUETA_ETAPA[lead.etapa]}</span>
+            <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg ${COLOR_TONO[frase.tono]}`}>{frase.texto}</span>
+            {verAsesor && <span className={`${chip} ${COLOR_ETAPA[lead.etapa]}`}>{ETIQUETA_ETAPA[lead.etapa]}</span>}
             <span className="hidden sm:inline text-xs text-muted w-20 text-right">{hace(minutos)}</span>
           </span>
         </button>
@@ -189,7 +273,7 @@ export default function TarjetaLead({
           href={whatsappCliente(lead, nombreMiembro)}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => registrarVista(lead.id, "whatsapp")}
+          onClick={() => intentar("whatsapp")}
           aria-label={`WhatsApp a ${lead.nombre}`}
           title="Abrir WhatsApp"
           className="shrink-0 w-9 h-9 rounded-full bg-green-600 hover:bg-green-500 text-white flex items-center justify-center transition-colors"
@@ -198,6 +282,19 @@ export default function TarjetaLead({
         </a>
         <ChevronDown aria-hidden="true" className={`shrink-0 w-5 h-5 text-primary/40 transition-transform ${expandido ? "rotate-180" : ""}`} />
       </div>
+
+      {/* Intento sin resultado: queda marcado hasta que lo registren */}
+      {pendiente && (
+        <button
+          type="button"
+          onClick={() => preguntar(medio)}
+          className="w-full flex items-center gap-2 px-4 sm:px-5 py-2.5 bg-accent/15 hover:bg-accent/25 border-t border-accent/30 text-left text-sm font-semibold text-primary transition-colors"
+        >
+          <MessageCircleQuestion className="w-4 h-4 shrink-0 text-accent-dark" />
+          <span className="flex-1 min-w-0 truncate">¿Cómo te fue con {lead.nombre.split(" ")[0]}?</span>
+          <span className="shrink-0 text-accent-dark underline underline-offset-2">Registrar</span>
+        </button>
+      )}
 
       {expandido && (
       <div className="px-4 sm:px-5 pb-5">
@@ -230,7 +327,7 @@ export default function TarjetaLead({
           href={whatsappCliente(lead, nombreMiembro)}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => registrarVista(lead.id, "whatsapp")}
+          onClick={() => intentar("whatsapp")}
           className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-500 text-white font-bold text-sm px-4 py-2 rounded-lg transition-colors"
         >
           <WhatsAppIcon className="w-4 h-4" />
@@ -238,7 +335,7 @@ export default function TarjetaLead({
         </a>
         <a
           href={`tel:+57${lead.telefono.replace(/\D/g, "").slice(-10)}`}
-          onClick={() => registrarVista(lead.id, "llamada")}
+          onClick={() => intentar("llamada")}
           className="inline-flex items-center gap-2 border border-primary/15 hover:border-accent/50 text-primary font-semibold text-sm px-4 py-2 rounded-lg transition-colors"
         >
           <Phone className="w-4 h-4" />

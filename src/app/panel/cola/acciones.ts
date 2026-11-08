@@ -12,7 +12,7 @@ const ES_ASEGURADORA = (v: string) => (INSURERS as readonly string[]).includes(v
 /** "Sura, Allianz y AXA Colpatria" */
 const enLista = (xs: string[]) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} y ${xs[xs.length - 1]}`);
 
-export type EstadoAccion = { ok?: string; error?: string } | undefined;
+export type EstadoAccion = { ok?: string; error?: string; seguimiento?: string | null } | undefined;
 
 const ACCIONES = ["contacto", "cotizado", "ganado", "perdido", "nota", "reabrir"] as const;
 type Accion = (typeof ACCIONES)[number];
@@ -134,6 +134,15 @@ export async function actuarSobreLead(_: EstadoAccion, form: FormData): Promise<
     }
   }
 
+  // Saltar directo a cotizado, ganado o perdido (salvo "no contesta") también
+  // es un contacto: cuenta para el tiempo de respuesta y el último contacto.
+  const huboContacto =
+    accion === "cotizado" || accion === "ganado" || (accion === "perdido" && cambios.motivo_perdida !== "no_contesta");
+  if (huboContacto) {
+    cambios.ultimo_contacto_at = ahora;
+    if (!lead.primer_contacto_at) cambios.primer_contacto_at = ahora;
+  }
+
   if (Object.keys(cambios).length) {
     const { error } = await db.from("leads").update(cambios).eq("id", lead.id);
     if (error) return { error: "No se pudo guardar. Intenta de nuevo." };
@@ -148,7 +157,10 @@ export async function actuarSobreLead(_: EstadoAccion, form: FormData): Promise<
     });
   }
   revalidatePath("/panel");
-  return { ok: "Guardado" };
+  return {
+    ok: "Guardado",
+    seguimiento: "proximo_seguimiento" in cambios ? (cambios.proximo_seguimiento as string | null) : undefined,
+  };
 }
 
 const ESPERA_MIN: Record<"visto" | "whatsapp" | "llamada", number> = { visto: 30, whatsapp: 2, llamada: 2 };
