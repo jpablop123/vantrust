@@ -11,8 +11,7 @@ El panel vive en `/panel` (rama `feat/panel-leads`). Usa Supabase para dos cosas
    3. `20261109000000_panel_asesores.sql`
    4. `20261109000100_panel_cola.sql` (etapas, asignación por turnos e historial)
    5. `20261109000200_panel_accesos_leads.sql` (cierra la API pública y registra quién ve cada lead)
-   6. `20261109000300_panel_ventas.sql` (ventas, renovaciones, comisión y participación)
-   7. `20261109000400_panel_sin_atender.sql` (alerta y reasignación de leads sin atender)
+   6. `20261109000400_panel_sin_atender.sql` (alerta y reasignación de leads sin atender)
 
    Las siguientes partes del panel agregan más migraciones; se aplican igual.
 3. En **Authentication > Sign In / Providers**, deja activo "Email" y **desactiva "Allow new users to sign up"**. Las cuentas solo las crea el admin.
@@ -80,13 +79,6 @@ $$);
 ```
 
 Para pausarlo: `select cron.unschedule('vantrust-leads-sin-atender');`
-
-## Ventas y comisión
-
-- Al marcar un lead como **Vendido**, el asesor escribe la prima y la aseguradora. Eso crea una fila en `ventas`. Cada renovación de esa póliza se registra desde el mismo lead con **Registrar renovación**, y genera otra venta.
-- La comisión es la prima por el % del ramo (tabla `comisiones_ramo`, editable en **Panel > Ventas**). La parte de la página es un % de esa comisión (`panel_config.participacion_pct`, hoy 40). Ese % queda guardado en cada venta: cambiarlo después no altera lo ya cerrado.
-- Si el ramo no tiene % configurado, la venta queda "sin %". Al definir el % del ramo, esas ventas se completan solas, y el admin puede corregir el % de una venta puntual.
-- Comisión y participación solo las ve el admin. "Te deben" suma la participación de las ventas no marcadas como pagadas.
 
 ## Seguridad de la base (RLS)
 

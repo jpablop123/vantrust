@@ -6,11 +6,10 @@ import { miembroActual } from "@/lib/panel/sesion";
 import { leadEditable } from "@/lib/panel/leads";
 import { DESCANSO_DIAS, esMotivo, esResultado, puedePasar } from "@/lib/panel/reglas";
 import type { Etapa } from "@/lib/panel/etiquetas";
-import { registrarVenta } from "@/lib/panel/ventas";
 
 export type EstadoAccion = { ok?: string; error?: string } | undefined;
 
-const ACCIONES = ["contacto", "cotizado", "ganado", "renovacion", "perdido", "nota", "reabrir"] as const;
+const ACCIONES = ["contacto", "cotizado", "ganado", "perdido", "nota", "reabrir"] as const;
 type Accion = (typeof ACCIONES)[number];
 
 /** 9:00 a. m. en Colombia (UTC-5, sin horario de verano), N días después de hoy. */
@@ -54,14 +53,6 @@ export async function actuarSobreLead(_: EstadoAccion, form: FormData): Promise<
   const ahora = new Date().toISOString();
   const cambios: Record<string, unknown> = {};
   let evento: { tipo: string; detalle?: Record<string, unknown> } | null = null;
-  let venta: { tipo: "nueva" | "renovacion"; prima: number; aseguradora: string } | null = null;
-  const leerVenta = () => {
-    const prima = Number(String(form.get("prima") || "").replace(/[^\d]/g, ""));
-    const aseguradora = texto(form.get("aseguradora"), 80);
-    if (!prima || prima < 1000) return { error: "Escribe el valor de la prima." };
-    if (!aseguradora) return { error: "Escribe con qué aseguradora se cerró." };
-    return { prima, aseguradora };
-  };
   const pasarA = (etapa: Etapa) => {
     if (!puedePasar(lead.etapa, etapa)) return false;
     cambios.etapa = etapa;
@@ -99,11 +90,11 @@ export async function actuarSobreLead(_: EstadoAccion, form: FormData): Promise<
       break;
     }
     case "ganado": {
-      const v = leerVenta();
-      if ("error" in v) return v;
-      const { prima, aseguradora } = v;
-      if (!pasarA("ganado")) return { error: "Este lead no se puede marcar como vendido." };
-      venta = { tipo: "nueva", prima, aseguradora };
+      const prima = Number(String(form.get("prima") || "").replace(/[^\d]/g, ""));
+      const aseguradora = texto(form.get("aseguradora"), 80);
+      if (!prima || prima < 1000) return { error: "Escribe el valor de la prima." };
+      if (!aseguradora) return { error: "Escribe con qué aseguradora se cerró." };
+      if (!pasarA("ganado")) return { error: "Este lead no se puede cerrar como ganado." };
       Object.assign(cambios, {
         prima_valor: prima,
         aseguradora_cierre: aseguradora,
@@ -111,14 +102,6 @@ export async function actuarSobreLead(_: EstadoAccion, form: FormData): Promise<
         proximo_seguimiento: null,
       });
       evento = { tipo: "ganado", detalle: { prima, aseguradora } };
-      break;
-    }
-    case "renovacion": {
-      if (lead.etapa !== "ganado") return { error: "Solo se renuevan pólizas vendidas." };
-      const v = leerVenta();
-      if ("error" in v) return v;
-      venta = { tipo: "renovacion", ...v };
-      evento = { tipo: "renovado", detalle: { prima: v.prima, aseguradora: v.aseguradora } };
       break;
     }
     case "perdido": {
@@ -145,18 +128,6 @@ export async function actuarSobreLead(_: EstadoAccion, form: FormData): Promise<
   if (Object.keys(cambios).length) {
     const { error } = await db.from("leads").update(cambios).eq("id", lead.id);
     if (error) return { error: "No se pudo guardar. Intenta de nuevo." };
-  }
-  if (venta) {
-    try {
-      await registrarVenta(db, {
-        leadId: lead.id,
-        ramo: lead.tipo_seguro,
-        por: miembro.id,
-        ...venta,
-      });
-    } catch {
-      return { error: "Se guardó el cierre pero no la venta. Avísale al admin." };
-    }
   }
   if (evento) {
     await db.from("lead_eventos").insert({

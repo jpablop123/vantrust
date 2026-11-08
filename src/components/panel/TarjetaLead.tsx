@@ -16,7 +16,7 @@ import {
 } from "@/lib/panel/etiquetas";
 import { hace, urgenciaNuevo } from "@/lib/panel/reglas";
 
-type Modo = null | "contacto" | "cotizado" | "ganado" | "renovacion" | "perdido" | "nota";
+type Modo = null | "contacto" | "cotizado" | "ganado" | "perdido" | "nota";
 
 const COLOR_ETAPA: Record<string, string> = {
   nuevo: "bg-accent/15 text-accent-dark",
@@ -55,11 +55,10 @@ const TEXTO_EVENTO: Record<string, string> = {
   seguimiento: "Seguimiento",
   nota: "Nota",
   cotizado: "Cotizado",
-  ganado: "Vendido",
+  ganado: "Ganado",
   perdido: "Perdido",
   archivado: "Archivado",
   reabierto: "Reabierto",
-  renovado: "Renovó la póliza",
   visto: "Vio los datos",
   whatsapp: "Abrió WhatsApp",
   llamada: "Llamó",
@@ -242,8 +241,7 @@ export default function TarjetaLead({
       <div className="mt-4 pt-4 border-t border-primary/10 flex flex-wrap gap-2">
         {abierto && botonModo("contacto", MessageSquareText, "Registrar contacto")}
         {abierto && lead.etapa !== "cotizado" && botonModo("cotizado", FileCheck2, "Cotizado")}
-        {abierto && botonModo("ganado", Trophy, "Vendido")}
-        {lead.etapa === "ganado" && botonModo("renovacion", RotateCcw, "Registrar renovación")}
+        {abierto && botonModo("ganado", Trophy, "Ganado")}
         {abierto && botonModo("perdido", XCircle, "Perdido")}
         {botonModo("nota", StickyNote, "Nota")}
         {!abierto && lead.etapa !== "ganado" && (
@@ -311,7 +309,7 @@ export default function TarjetaLead({
             <Campo label="¿Qué aseguradoras le cotizaste? (opcional)" name="aseguradoras" placeholder="Ej: Sura, Bolívar y AXA" />
           )}
 
-          {(modo === "ganado" || modo === "renovacion") && (
+          {modo === "ganado" && (
             <div className="grid sm:grid-cols-2 gap-3">
               <Campo label="Valor de la prima (COP)" name="prima" placeholder="1.850.000" inputMode="numeric" required />
               <Campo label="Aseguradora" name="aseguradora" placeholder="Ej: Sura" required />

@@ -117,7 +117,7 @@ export default function ColaCliente({
         <Contador valor={grupos.nuevos.length} texto="Nuevos sin contactar" destacado={grupos.nuevos.length > 0} />
         <Contador valor={grupos.paraHoy.length} texto="Seguimientos para hoy" />
         <Contador valor={grupos.enCurso.length} texto="En curso" />
-        <Contador valor={ganados.length} texto={ganados.length ? `Vendidos · ${pesos(primaGanada)}` : "Vendidos (14 días)"} />
+        <Contador valor={ganados.length} texto={ganados.length ? `Ganados · ${pesos(primaGanada)}` : "Ganados (14 días)"} />
       </div>
 
       <label className="mt-6 flex items-center gap-2 bg-white border border-primary/10 rounded-xl px-4 py-3 focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25">
