@@ -48,6 +48,9 @@ export default function Tracking() {
     window.fbq?.("track", "PageView");
   }, [pathname]);
 
+  // El panel interno no se mide: son empleados, no visitantes.
+  if (pathname?.startsWith("/panel")) return null;
+
   return (
     <>
       {META_PIXEL_ID && (

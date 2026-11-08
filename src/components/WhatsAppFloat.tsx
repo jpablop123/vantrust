@@ -17,7 +17,7 @@ export default function WhatsAppFloat() {
 
   // /gracias ya tiene su propio botón con el resumen del lead.
   // Las landings de anuncios (/l/*) tienen su propia barra con el mensaje de la landing.
-  if (pathname.startsWith("/gracias") || pathname.startsWith("/l/")) return null;
+  if (pathname.startsWith("/gracias") || pathname.startsWith("/l/") || pathname.startsWith("/panel")) return null;
 
   // /seguros/<slug> y /pymes/<poliza> (que se traduce al slug de seguros.ts).
   const [, seccion, slug] = pathname.match(/^\/(seguros|pymes)\/([^/]+)/) ?? [];
