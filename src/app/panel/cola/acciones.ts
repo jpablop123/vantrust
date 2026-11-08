@@ -6,6 +6,11 @@ import { miembroActual } from "@/lib/panel/sesion";
 import { leadEditable } from "@/lib/panel/leads";
 import { DESCANSO_DIAS, esMotivo, esResultado, puedePasar } from "@/lib/panel/reglas";
 import type { Etapa } from "@/lib/panel/etiquetas";
+import { INSURERS } from "@/lib/site";
+
+const ES_ASEGURADORA = (v: string) => (INSURERS as readonly string[]).includes(v);
+/** "Sura, Allianz y AXA Colpatria" */
+const enLista = (xs: string[]) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} y ${xs[xs.length - 1]}`);
 
 export type EstadoAccion = { ok?: string; error?: string } | undefined;
 
@@ -84,16 +89,20 @@ export async function actuarSobreLead(_: EstadoAccion, form: FormData): Promise<
     }
     case "cotizado": {
       if (!pasarA("cotizado")) return { error: "Este lead no se puede marcar como cotizado." };
-      const aseguradoras = texto(form.get("aseguradoras"), 200);
+      // Las de la lista se validan contra el catálogo; "otra" es texto libre.
+      const elegidas = form.getAll("aseguradora_item").map(String).filter(ES_ASEGURADORA);
+      const otra = texto(form.get("aseguradora_otra"), 80);
+      const aseguradoras = enLista([...new Set(elegidas)].concat(otra ? [otra] : [])).slice(0, 200);
       evento = { tipo: "cotizado", detalle: aseguradoras ? { aseguradoras } : {} };
       cambios.proximo_seguimiento = fechaSeguimiento("3d");
       break;
     }
     case "ganado": {
       const prima = Number(String(form.get("prima") || "").replace(/[^\d]/g, ""));
-      const aseguradora = texto(form.get("aseguradora"), 80);
+      const elegida = String(form.get("aseguradora") || "");
+      const aseguradora = ES_ASEGURADORA(elegida) ? elegida : elegida === "otra" ? texto(form.get("aseguradora_otra"), 80) : "";
       if (!prima || prima < 1000) return { error: "Escribe el valor de la prima." };
-      if (!aseguradora) return { error: "Escribe con qué aseguradora se cerró." };
+      if (!aseguradora) return { error: "Elige con qué aseguradora se cerró." };
       if (!pasarA("ganado")) return { error: "Este lead no se puede cerrar como ganado." };
       Object.assign(cambios, {
         prima_valor: prima,

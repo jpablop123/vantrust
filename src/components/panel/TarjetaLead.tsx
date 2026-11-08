@@ -17,6 +17,7 @@ import {
 import { hace, urgenciaNuevo } from "@/lib/panel/reglas";
 import Selector from "@/components/panel/Selector";
 import { COLOR_CANAL, canalDe, capturaDe } from "@/lib/panel/origen";
+import { INSURERS } from "@/lib/site";
 
 type Modo = null | "contacto" | "cotizado" | "ganado" | "perdido" | "nota";
 
@@ -304,7 +305,16 @@ export default function TarjetaLead({
       </div>
 
       {modo && (
-        <form action={accion} className="mt-4 bg-background rounded-xl p-4 space-y-3">
+        <form
+          // Sin action={}: React 19 vaciaría los campos al enviar y, si hay un
+          // error, el asesor perdería lo que escribió. Al guardar bien, se cierra.
+          onSubmit={(e) => {
+            e.preventDefault();
+            const datos = new FormData(e.currentTarget);
+            startTransition(() => accion(datos));
+          }}
+          className="mt-4 bg-background rounded-xl p-4 space-y-3"
+        >
           <input type="hidden" name="leadId" value={lead.id} />
           <input type="hidden" name="accion" value={modo} />
 
@@ -340,13 +350,13 @@ export default function TarjetaLead({
           )}
 
           {modo === "cotizado" && (
-            <Campo label="¿Qué aseguradoras le cotizaste? (opcional)" name="aseguradoras" placeholder="Ej: Sura, Bolívar y AXA" />
+            <ElegirAseguradoras />
           )}
 
           {modo === "ganado" && (
             <div className="grid sm:grid-cols-2 gap-3">
               <Campo label="Valor de la prima (COP)" name="prima" placeholder="1.850.000" inputMode="numeric" required />
-              <Campo label="Aseguradora" name="aseguradora" placeholder="Ej: Sura" required />
+              <ElegirAseguradora />
             </div>
           )}
 
@@ -440,6 +450,69 @@ function Campo({
         />
       </label>
     </div>
+  );
+}
+
+/** Ganado: una sola aseguradora, de la lista o escrita a mano. */
+function ElegirAseguradora() {
+  const [valor, setValor] = useState("");
+  return (
+    <div>
+      <span className="block text-sm font-semibold text-primary mb-1.5">Aseguradora</span>
+      <Selector
+        name="aseguradora"
+        etiqueta="Aseguradora"
+        valor={valor}
+        onCambio={setValor}
+        placeholder="Elige la aseguradora"
+        opciones={[...INSURERS.map((a) => ({ valor: a, texto: a })), { valor: "otra", texto: "Otra…" }]}
+      />
+      {valor === "otra" && (
+        <input
+          name="aseguradora_otra"
+          required
+          maxLength={80}
+          autoFocus
+          aria-label="Nombre de la aseguradora"
+          placeholder="Nombre de la aseguradora"
+          className="mt-2 w-full px-3 py-2 rounded-lg border border-primary/15 bg-white text-primary outline-none focus:border-accent focus:ring-2 focus:ring-accent/25 text-[15px]"
+        />
+      )}
+    </div>
+  );
+}
+
+/** Cotizado: varias aseguradoras, se marcan tocándolas. */
+function ElegirAseguradoras() {
+  const [otra, setOtra] = useState(false);
+  const pastilla =
+    "inline-block px-3 py-1.5 rounded-full border border-primary/15 bg-white text-sm text-primary/80 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-accent";
+  return (
+    <fieldset>
+      <legend className="text-sm font-semibold text-primary mb-2">¿Qué aseguradoras le cotizaste? (opcional)</legend>
+      <div className="flex flex-wrap gap-2">
+        {INSURERS.map((a) => (
+          <label key={a} className="cursor-pointer">
+            <input type="checkbox" name="aseguradora_item" value={a} className="peer sr-only" />
+            <span className={pastilla}>{a}</span>
+          </label>
+        ))}
+        <label className="cursor-pointer">
+          <input type="checkbox" checked={otra} onChange={(e) => setOtra(e.target.checked)} className="peer sr-only" />
+          <span className={pastilla}>Otra…</span>
+        </label>
+      </div>
+      {otra && (
+        <input
+          name="aseguradora_otra"
+          maxLength={80}
+          autoFocus
+          aria-label="Otra aseguradora"
+          placeholder="Nombre de la otra aseguradora"
+          className="mt-2 w-full sm:w-80 px-3 py-2 rounded-lg border border-primary/15 bg-white text-primary outline-none focus:border-accent focus:ring-2 focus:ring-accent/25 text-[15px]"
+        />
+      )}
+    </fieldset>
   );
 }
 
