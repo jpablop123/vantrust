@@ -12,6 +12,32 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { INSURERS } from "@/lib/site";
+import Image, { type StaticImageData } from "next/image";
+import logoAllianz from "../../public/aseguradoras/allianz.png";
+import logoAxa from "../../public/aseguradoras/axa-colpatria.png";
+import logoCoomeva from "../../public/aseguradoras/coomeva.png";
+import logoEquidad from "../../public/aseguradoras/equidad.png";
+import logoHdi from "../../public/aseguradoras/hdi.png";
+import logoMundial from "../../public/aseguradoras/mundial.png";
+import logoSbs from "../../public/aseguradoras/sbs.png";
+import logoBolivar from "../../public/aseguradoras/bolivar.png";
+import logoSura from "../../public/aseguradoras/sura.png";
+import logoZurich from "../../public/aseguradoras/zurich.png";
+
+// Logos de las aseguradoras aliadas (fuentes en docs/diseno/logos-aseguradoras.md).
+// Si se agrega una aseguradora a INSURERS sin logo, se muestra su nombre.
+const LOGOS: Record<string, StaticImageData> = {
+  Allianz: logoAllianz,
+  "AXA Colpatria": logoAxa,
+  Coomeva: logoCoomeva,
+  "Equidad Seguros": logoEquidad,
+  "HDI Seguros": logoHdi,
+  "Mundial Seguros": logoMundial,
+  "SBS Seguros": logoSbs,
+  "Seguros Bolívar": logoBolivar,
+  Sura: logoSura,
+  Zurich: logoZurich,
+};
 
 const diferenciales = [
   { icon: Search, text: "Analizamos varias aseguradoras para encontrar la mejor opción" },
@@ -141,16 +167,35 @@ export default function Nosotros() {
           <p className="text-muted text-sm mb-8">
             Trabajamos con las compañías más sólidas del mercado colombiano
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            {INSURERS.map((name) => (
-              <span
-                key={name}
-                className="bg-white border border-primary/10 text-primary/80 font-semibold text-sm px-5 py-2.5 rounded-full shadow-sm"
-              >
-                {name}
-              </span>
-            ))}
-          </div>
+          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 max-w-5xl mx-auto">
+            {INSURERS.map((name) => {
+              const logo = LOGOS[name];
+              return (
+                <li
+                  key={name}
+                  title={name}
+                  className="bg-white border border-primary/10 rounded-2xl shadow-sm h-24 sm:h-28 px-5 flex items-center justify-center transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:border-accent/40"
+                >
+                  {logo ? (
+                    <Image
+                      src={logo}
+                      alt={name}
+                      sizes="160px"
+                      // Los logos casi cuadrados necesitan más alto para pesar
+                      // lo mismo que los horizontales.
+                      className={`w-auto h-auto max-w-full object-contain ${
+                        logo.width / logo.height < 1.8
+                          ? "max-h-14 sm:max-h-16"
+                          : "max-h-10 sm:max-h-12"
+                      }`}
+                    />
+                  ) : (
+                    <span className="text-primary/80 font-semibold text-sm text-center">{name}</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </motion.div>
       </div>
     </section>
