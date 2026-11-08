@@ -10,6 +10,7 @@ import {
 import { normalizarCelular, celularValido } from "@/lib/validacion";
 import { sendCapiLead } from "@/lib/meta-capi";
 import { getAsesor } from "@/lib/asesor";
+import { enviarTelegram } from "@/lib/telegram";
 
 // Flujo en dos pasos:
 //   POST  → paso 1 (nombre + WhatsApp + ramo). Crea el lead "parcial" y avisa
@@ -364,14 +365,6 @@ function atribucionLines(at: Atribucion = {}): string[] {
 }
 
 async function sendTelegramNotification(data: LeadData, estado: Estado) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-
-  if (!token || !chatId) {
-    console.warn("Telegram not configured, skipping");
-    return;
-  }
-
   const tipoLabel = INSURANCE_LABELS[data.tipoSeguro] || data.tipoSeguro;
   const horarioLabel = HORARIO_LABELS[data.horario] || data.horario || "No especificado";
   const vehiculo = [data.marca_carro, data.modelo_carro, data.anno_carro]
@@ -417,17 +410,7 @@ async function sendTelegramNotification(data: LeadData, estado: Estado) {
     ...atribucionLines(data.atribucion),
   ];
 
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: lines.join("\n"),
-      parse_mode: "HTML",
-      disable_web_page_preview: true,
-    }),
-  });
-  await throwIfNotOk(res, "Telegram");
+  await enviarTelegram(lines.join("\n"));
 }
 
 /** Corre las tareas, registra las que fallen y nunca lanza. */

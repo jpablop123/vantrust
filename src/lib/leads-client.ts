@@ -31,10 +31,11 @@ export type LeadResult =
 
 async function enviar(
   method: "POST" | "PATCH",
-  body: Record<string, unknown>
+  body: Record<string, unknown>,
+  url = "/api/leads"
 ): Promise<LeadResult> {
   try {
-    const res = await fetch("/api/leads", {
+    const res = await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -93,4 +94,40 @@ export function completarLead(
   opts: { emailNuevo?: boolean } = {}
 ): Promise<LeadResult> {
   return enviar("PATCH", { id, ...payload, emailNuevo: !!opts.emailNuevo });
+}
+
+export interface RenovacionPayload {
+  nombre: string;
+  telefono: string;
+  ramo: string;
+  aseguradora?: string;
+  placa?: string;
+  fecha_vencimiento: string; // YYYY-MM-DD
+}
+
+/** Registro en la base de renovaciones. Cuenta como Lead en Meta y GA4. */
+export async function crearRenovacion(
+  payload: RenovacionPayload,
+  opts: { autorizacion: boolean }
+): Promise<LeadResult> {
+  const eventId = newEventId();
+  const r = await enviar(
+    "POST",
+    {
+      ...payload,
+      autorizacion: opts.autorizacion,
+      atribucion: leerAtribucion(),
+      event_id: eventId,
+      ...leerCookiesMeta(),
+    },
+    "/api/renovaciones"
+  );
+  if (r.ok) {
+    track(
+      "Lead",
+      { content_category: `renovacion_${payload.ramo}`, fuente: "renovacion" },
+      eventId
+    );
+  }
+  return r;
 }
