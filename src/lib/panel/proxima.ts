@@ -98,3 +98,11 @@ export function proximaAccion(lead: LeadCola, ahora: Date, intento: string | nul
   if (c.dias === 0) return { texto: `${verbo} · ${c.texto}`, tono: "ambar" };
   return { texto: `${verbo} · ${c.texto}`, tono: "gris" };
 }
+
+/** Cómo nombrar al cliente en una frase: primer nombre, o completo si es empresa. */
+export function nombreCorto(nombre: string): string {
+  const n = nombre.trim();
+  // SAS, S.A.S., S.A., E.U. en mayúscula; Ltda en cualquier forma.
+  const empresa = /\b(S\.?\s?A\.?\s?S|S\.\s?A|SA|E\.?\s?U)\.?$/.test(n) || /\bltda\.?$/i.test(n);
+  return empresa ? n : n.split(/\s+/)[0];
+}

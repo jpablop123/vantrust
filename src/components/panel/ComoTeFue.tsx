@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { createPortal } from "react-dom";
 import { CheckCircle2, X } from "lucide-react";
 import { actuarSobreLead } from "@/app/panel/cola/acciones";
-import { cuando } from "@/lib/panel/proxima";
+import { cuando, nombreCorto } from "@/lib/panel/proxima";
 
 type Opcion = { clave: string; texto: string; campos: Record<string, string>; peligro?: boolean };
 
@@ -40,7 +40,7 @@ export default function ComoTeFue({
   const [nota, setNota] = useState("");
   const [listo, setListo] = useState<string | null>(null);
   const primero = useRef<HTMLButtonElement>(null);
-  const primerNombre = nombre.split(" ")[0];
+  const primerNombre = nombreCorto(nombre);
 
   useEffect(() => {
     primero.current?.focus();

@@ -16,7 +16,7 @@ import {
   textoResultado,
 } from "@/lib/panel/etiquetas";
 import { hace } from "@/lib/panel/reglas";
-import { intentoSinRegistrar, proximaAccion, type Tono } from "@/lib/panel/proxima";
+import { intentoSinRegistrar, nombreCorto, proximaAccion, type Tono } from "@/lib/panel/proxima";
 import { useHojaContacto } from "@/components/panel/HojaContacto";
 import Selector from "@/components/panel/Selector";
 import { COLOR_CANAL, canalDe, capturaDe } from "@/lib/panel/origen";
@@ -264,7 +264,7 @@ export default function TarjetaLead({
             {verAsesor && (
               <span className={`${chip} ${COLOR_CANAL[canal]}`} title={`Llegó por: ${canal} · ${capturaDe(lead.fuente)}`}>{canal}</span>
             )}
-            <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg ${COLOR_TONO[frase.tono]}`}>{frase.texto}</span>
+            {!pendiente && <span className={`text-xs font-semibold px-2.5 py-1 rounded-lg ${COLOR_TONO[frase.tono]}`}>{frase.texto}</span>}
             {verAsesor && <span className={`${chip} ${COLOR_ETAPA[lead.etapa]}`}>{ETIQUETA_ETAPA[lead.etapa]}</span>}
             <span className="hidden sm:inline text-xs text-muted w-20 text-right">{hace(minutos)}</span>
           </span>
@@ -285,15 +285,22 @@ export default function TarjetaLead({
 
       {/* Intento sin resultado: queda marcado hasta que lo registren */}
       {pendiente && (
-        <button
-          type="button"
-          onClick={() => preguntar(medio)}
-          className="w-full flex items-center gap-2 px-4 sm:px-5 py-2.5 bg-accent/15 hover:bg-accent/25 border-t border-accent/30 text-left text-sm font-semibold text-primary transition-colors"
-        >
-          <MessageCircleQuestion className="w-4 h-4 shrink-0 text-accent-dark" />
-          <span className="flex-1 min-w-0 truncate">¿Cómo te fue con {lead.nombre.split(" ")[0]}?</span>
-          <span className="shrink-0 text-accent-dark underline underline-offset-2">Registrar</span>
-        </button>
+        <div className="px-4 sm:px-5 pb-3 -mt-1">
+          <div className="flex items-center gap-3 rounded-xl border border-accent/40 bg-accent/10 pl-3 pr-2 py-2">
+            <MessageCircleQuestion className="w-5 h-5 shrink-0 text-accent-dark" aria-hidden="true" />
+            <div className="flex-1 min-w-0 leading-tight">
+              <p className="text-sm font-bold text-primary break-words">¿Cómo te fue con {nombreCorto(lead.nombre)}?</p>
+              <p className="text-xs text-muted mt-0.5">{frase.texto}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => preguntar(medio)}
+              className="shrink-0 bg-primary hover:bg-primary-light text-white text-sm font-bold px-3.5 py-2 rounded-lg transition-colors"
+            >
+              Registrar
+            </button>
+          </div>
+        </div>
       )}
 
       {expandido && (
