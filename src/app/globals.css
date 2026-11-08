@@ -204,9 +204,13 @@ body {
   animation: spin-slow 6s linear infinite;
 }
 
-/* ── Ruido sutil para dar textura a secciones oscuras ── */
+/* ── Ruido sutil para dar textura a secciones oscuras ──
+   Mosaico PNG pre-renderizado (public/noise.png). Antes era un SVG con
+   feTurbulence: el navegador lo re-rasterizaba a tamaño completo y en móvil
+   bloqueaba el hilo principal ~1,5 s (Lighthouse Performance 74 → 100). */
 .bg-noise {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  background-image: url("/noise.png");
+  background-size: 128px 128px;
 }
 
 /* Scrollbar en colores de marca */
@@ -226,4 +230,15 @@ body {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(191, 161, 92, 0.6);
+}
+
+/* Entrada del hero sin ocultar el texto: solo desplazamiento (el LCP se
+   registra en el primer pintado, no después de hidratar). */
+@keyframes hero-in {
+  from { transform: translateY(16px); }
+  to { transform: none; }
+}
+.hero-in { animation: hero-in 0.6s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-in { animation: none; }
 }

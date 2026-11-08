@@ -135,16 +135,14 @@ export default function Hero() {
             >
               <span className="inline-flex items-center gap-2 bg-white/5 border border-accent/25 text-accent px-4 py-1.5 rounded-full text-sm font-medium mb-7 backdrop-blur-sm">
                 <span className="w-2 h-2 bg-accent rounded-full animate-pulse" />
-                Agencia de seguros en Colombia
+                Agencia de seguros en Barranquilla
               </span>
             </motion.div>
 
-            <motion.h1
-              className="text-[2.75rem] leading-[1.05] sm:text-6xl lg:text-7xl font-bold text-white mb-7 tracking-tight"
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.12 }}
-            >
+            {/* H1 y subtítulo visibles desde el primer pintado (son el LCP en
+                móvil): animación solo CSS de desplazamiento, sin opacity 0
+                esperando a que hidrate React. */}
+            <h1 className="hero-in text-[2.75rem] leading-[1.05] sm:text-6xl lg:text-7xl font-bold text-white mb-7 tracking-tight">
               Protege lo que{" "}
               <span className="relative inline-block italic text-gold-gradient">
                 más importa
@@ -152,18 +150,13 @@ export default function Hero() {
               </span>
               <br />
               al mejor precio
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              className="text-lg sm:text-xl text-white/55 max-w-lg mb-9 leading-relaxed"
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.26 }}
-            >
+            <p className="hero-in text-lg sm:text-xl text-white/55 max-w-lg mb-9 leading-relaxed">
               Comparamos las principales aseguradoras del país y nos comunicamos
               contigo en un plazo aproximado de 1 hora con opciones reales. Sin
               costo extra.
-            </motion.p>
+            </p>
 
             <motion.div
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4"
