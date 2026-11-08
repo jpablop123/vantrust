@@ -64,6 +64,9 @@ const RAMO_LABELS: Record<string, string> = {
   vehiculo: "Seguro de Automóvil",
   cumplimiento: "Póliza de Cumplimiento",
   pyme: "Seguro para tu empresa",
+  rc: "Póliza de Responsabilidad Civil",
+  transporte: "Seguro de Transporte de Mercancías",
+  todo_riesgo: "Póliza Todo Riesgo",
   otro: "asesoría",
 };
 
