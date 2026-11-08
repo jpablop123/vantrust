@@ -95,6 +95,8 @@ export const PAGINAS_RAMO: PaginaRamo[] = [
     guias: [
       "que-es-poliza-de-cumplimiento-licitacion",
       "requisitos-poliza-de-cumplimiento",
+      "cuanto-cuesta-poliza-de-cumplimiento",
+      "poliza-de-cumplimiento-contrato-entre-particulares",
       "poliza-de-cumplimiento-vs-responsabilidad-civil",
     ],
     waMensaje: "Hola, necesito una póliza de cumplimiento para una licitación.",
@@ -152,7 +154,10 @@ export const PAGINAS_RAMO: PaginaRamo[] = [
           "Muchas pólizas incluyen gastos de defensa y costas judiciales, con los límites y condiciones que fije cada aseguradora. Tu asesor te muestra esa cláusula antes de contratar.",
       },
     ],
-    guias: ["poliza-de-cumplimiento-vs-responsabilidad-civil"],
+    guias: [
+      "poliza-responsabilidad-civil-extracontractual-negocio",
+      "poliza-de-cumplimiento-vs-responsabilidad-civil",
+    ],
     waMensaje:
       "Hola, necesito una póliza de responsabilidad civil extracontractual para mi empresa.",
   },
@@ -198,6 +203,10 @@ export const PAGINAS_RAMO: PaginaRamo[] = [
         respuesta:
           "El tipo de mercancía, su valor, el origen y destino, el medio de transporte y la frecuencia de los despachos.",
       },
+    ],
+    guias: [
+      "seguro-transporte-de-mercancias-que-cubre",
+      "seguro-para-flota-de-vehiculos-empresa",
     ],
     waMensaje: "Hola, necesito asegurar el transporte de mercancías de mi empresa.",
   },
@@ -254,6 +263,10 @@ export const PAGINAS_RAMO: PaginaRamo[] = [
         respuesta:
           "Debe reflejar lo que cuesta reponer los bienes. Si se asegura por menos, la indemnización puede reducirse en proporción (infraseguro). Tu asesor te ayuda a fijarlo.",
       },
+    ],
+    guias: [
+      "seguro-para-pyme-que-cubre",
+      "lucro-cesante-seguro-negocio",
     ],
     waMensaje: "Hola, quiero cotizar un seguro todo riesgo para los activos de mi empresa.",
   },
@@ -320,7 +333,12 @@ export const PAGINAS_RAMO: PaginaRamo[] = [
     guias: [
       "que-cubre-seguro-todo-riesgo-carro",
       "deducible-seguro-de-carro",
+      "precio-seguro-todo-riesgo-barranquilla",
       "que-hacer-si-chocas",
+      "carro-inundado-arroyo-barranquilla-seguro",
+      "que-hacer-si-roban-tu-carro-seguro",
+      "aseguradora-no-paga-siniestro-que-hacer",
+      "cambiar-de-aseguradora-al-renovar",
     ],
     waMensaje: "Hola, quiero cotizar el seguro de mi carro. Placa: ",
   },

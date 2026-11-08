@@ -6,13 +6,13 @@
 // Sin `revisadoPor` y `autor`, la guía queda en noindex y no se enlaza.
 
 import type { Guia } from "./tipos";
+import { PENDIENTE_REVISION } from "./guias-comun";
+import { GUIAS_AUTO } from "./guias/auto";
+import { GUIAS_SINIESTROS } from "./guias/siniestros";
+import { GUIAS_PYMES } from "./guias/pymes";
+import { GUIAS_PERSONAS } from "./guias/personas";
 
-const PENDIENTE_REVISION = [
-  "Autor: asesor real de VanTrust con nombre, cargo y foto.",
-  "Revisión y aprobación del texto por un asesor (llenar `revisadoPor`).",
-];
-
-export const GUIAS: Guia[] = [
+const GUIAS_CUMPLIMIENTO: Guia[] = [
   {
     slug: "que-es-poliza-de-cumplimiento-licitacion",
     titulo: "¿Qué es una póliza de cumplimiento y cuándo la piden en una licitación?",
@@ -257,17 +257,14 @@ export const GUIAS: Guia[] = [
   },
 ];
 
-/** Las 12 guías del plan que aún no tienen borrador (slugs reservados). */
-export const GUIAS_PENDIENTES = [
-  { slug: "que-cubre-seguro-todo-riesgo-carro", titulo: "¿Qué cubre un seguro todo riesgo de carro en Colombia?" },
-  { slug: "que-hacer-si-chocas", titulo: "Qué hacer si chocas: paso a paso" },
-  { slug: "deducible-seguro-de-carro", titulo: "Deducible del seguro de carro: qué es y cómo elegirlo" },
-  { slug: "seguro-de-salud-si-ya-tengo-eps", titulo: "¿Vale la pena un seguro de salud complementario si ya tengo EPS?" },
-  { slug: "seguro-de-vida-cuanto-asegurar", titulo: "Seguro de vida: cuánto asegurar y quién lo necesita" },
-  { slug: "seguro-de-arrendamiento-que-cubre", titulo: "Seguro de arrendamiento: qué cubre para propietarios" },
-  { slug: "seguro-de-hogar-que-cubre", titulo: "Seguro de hogar: qué cubre y qué no" },
-  { slug: "cambiar-de-aseguradora-al-renovar", titulo: "Cómo cambiar de aseguradora sin quedarte desprotegido al renovar" },
-  { slug: "agencia-de-seguros-vs-aseguradora-directa", titulo: "Corredor/agencia de seguros vs. comprar directo a la aseguradora" },
+// Cumplimiento primero (las más antiguas), luego por prioridad de negocio:
+// pymes y auto, siniestros, personas.
+export const GUIAS: Guia[] = [
+  ...GUIAS_CUMPLIMIENTO,
+  ...GUIAS_PYMES,
+  ...GUIAS_AUTO,
+  ...GUIAS_SINIESTROS,
+  ...GUIAS_PERSONAS,
 ];
 
 export function getGuia(slug: string): Guia | undefined {
