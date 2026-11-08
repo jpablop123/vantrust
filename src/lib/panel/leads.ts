@@ -102,12 +102,18 @@ export async function leadEditable(id: string, miembro: Miembro) {
   if (!db) return null;
   const { data } = await db
     .from("leads")
-    .select("id, etapa, asignado_a, primer_contacto_at")
+    .select("id, etapa, asignado_a, primer_contacto_at, tipo_seguro")
     .eq("id", id)
     .maybeSingle();
   if (!data) return null;
   if (miembro.rol !== "admin" && data.asignado_a !== miembro.id) return null;
-  return data as { id: string; etapa: Etapa; asignado_a: string | null; primer_contacto_at: string | null };
+  return data as {
+    id: string;
+    etapa: Etapa;
+    asignado_a: string | null;
+    primer_contacto_at: string | null;
+    tipo_seguro: string;
+  };
 }
 
 // ── Vista del admin ────────────────────────────────────────────────────────

@@ -6,7 +6,7 @@ import { POR_PAGINA, equipo, eventosDe, leadsAdmin, type FiltrosAdmin as Filtros
 
 const PESTANAS: [Pestana, string][] = [
   ["abiertos", "Abiertos"], ["nuevo", "Nuevos"], ["contactado", "Contactados"], ["cotizado", "Cotizados"],
-  ["ganado", "Ganados"], ["perdido", "Perdidos"], ["todos", "Todos"],
+  ["ganado", "Vendidos"], ["perdido", "Perdidos"], ["todos", "Todos"],
 ];
 
 /** Todos los leads para el admin, con filtros, reasignación y paginación. */

@@ -31,7 +31,7 @@ export const ETIQUETA_ETAPA: Record<Etapa, string> = {
   nuevo: "Nuevo",
   contactado: "Contactado",
   cotizado: "Cotizado",
-  ganado: "Ganado",
+  ganado: "Vendido",
   perdido: "Perdido",
   archivado: "Archivado",
 };
@@ -60,3 +60,9 @@ export const textoResultado = (v: string | null) =>
   RESULTADOS.find((r) => r.valor === v)?.texto ?? "";
 export const textoMotivo = (v: string | null) =>
   MOTIVOS_PERDIDA.find((m) => m.valor === v)?.texto ?? "";
+
+/** Ramos que pueden tener % de comisión (claves de tipo_seguro). */
+export const RAMOS_COMISION = [
+  "vehiculo", "salud", "hogar", "vida", "accidentes", "exequial", "viajes", "mascotas",
+  "pyme", "cumplimiento", "rc", "transporte", "todo_riesgo", "otro",
+] as const;

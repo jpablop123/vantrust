@@ -6,7 +6,7 @@ import { cerrarSesion } from "@/app/panel/acciones";
 import type { Miembro } from "@/lib/panel/sesion";
 
 /** Barra superior del panel. Las pestañas de admin solo se ven si el rol lo permite. */
-export default function BarraPanel({ miembro, actual = "leads" }: { miembro: Miembro; actual?: "leads" | "equipo" }) {
+export default function BarraPanel({ miembro, actual = "leads" }: { miembro: Miembro; actual?: "leads" | "equipo" | "ventas" }) {
   return (
     <header className="bg-primary text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
@@ -16,7 +16,7 @@ export default function BarraPanel({ miembro, actual = "leads" }: { miembro: Mie
         </Link>
         {miembro.rol === "admin" && (
           <nav aria-label="Secciones del panel" className="flex items-center gap-1 mr-auto ml-2 sm:ml-6">
-            {([["leads", "/panel", "Leads"], ["equipo", "/panel/equipo", "Equipo"]] as const).map(([k, href, txt]) => (
+            {([["leads", "/panel", "Leads"], ["ventas", "/panel/ventas", "Ventas"], ["equipo", "/panel/equipo", "Equipo"]] as const).map(([k, href, txt]) => (
               <Link
                 key={k}
                 href={href}
