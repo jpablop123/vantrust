@@ -9,6 +9,10 @@ import Paginacion from "@/components/panel/Paginacion";
 import SiguienteLead from "@/components/panel/SiguienteLead";
 import type { EventoLead, LeadCola } from "@/lib/panel/leads";
 import { etiquetaRamo } from "@/lib/panel/etiquetas";
+import { IconoRamo } from "@/components/panel/Avatar";
+
+/** "auto" y "vehiculo" son el mismo ramo: se agrupan por su etiqueta. */
+const claveRamo = (tipo: string) => etiquetaRamo(tipo);
 
 const pesos = (n: number) =>
   new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(n);
@@ -57,6 +61,9 @@ export default function ColaCliente({
   const router = useRouter();
   const [busqueda, setBusqueda] = useState("");
   const [orden, setOrden] = useState<OrdenCola>("prioridad");
+  const [ramo, setRamo] = useState("");
+  // Leads del ramo elegido (o todos): de aquí sale todo lo demás.
+  const delRamo = useMemo(() => (ramo ? leads.filter((l) => claveRamo(l.tipo_seguro) === ramo) : leads), [leads, ramo]);
 
   // Se actualiza sola cada minuto mientras la pestaña está a la vista.
   useEffect(() => {
@@ -75,14 +82,14 @@ export default function ColaCliente({
     const q = busqueda.trim().toLowerCase();
     const digitos = q.replace(/\D/g, "");
     const filtrados = q
-      ? leads.filter(
+      ? delRamo.filter(
           (l) =>
             l.nombre.toLowerCase().includes(q) ||
             (digitos.length >= 3 && l.telefono.replace(/\D/g, "").includes(digitos)) ||
             etiquetaRamo(l.tipo_seguro).toLowerCase().includes(q) ||
             (l.placa ?? "").toLowerCase().includes(q)
         )
-      : leads;
+      : delRamo;
     const fin = finDeHoy(new Date(ahora)).getTime();
     const abiertos = filtrados.filter((l) => ["nuevo", "contactado", "cotizado"].includes(l.etapa));
     const paraHoy = abiertos
@@ -114,7 +121,7 @@ export default function ColaCliente({
           ? t(b.created_at) - t(a.created_at)
           : t(a.created_at) - t(b.created_at);
     return { paraHoy: paraHoy.sort(cmp), nuevos: nuevos.sort(cmp), enCurso: enCurso.sort(cmp), cerrados: cerrados.sort(cmp) };
-  }, [leads, busqueda, ahora, orden]);
+  }, [delRamo, busqueda, ahora, orden]);
 
   // Misma persona (últimos 10 dígitos del teléfono) con varias solicitudes.
   const solicitudes = useMemo(() => {
@@ -148,7 +155,7 @@ export default function ColaCliente({
   const siguiente = useMemo(() => {
     if (busqueda.trim()) return undefined;
     const ref = new Date(ahora).getTime();
-    const abiertosTodos = leads.filter((l) => ["nuevo", "contactado", "cotizado"].includes(l.etapa));
+    const abiertosTodos = delRamo.filter((l) => ["nuevo", "contactado", "cotizado"].includes(l.etapa));
     const nuevos = abiertosTodos.filter((l) => l.etapa === "nuevo").sort((a, b) => t(a.created_at) - t(b.created_at));
     const tibio = nuevos.find((l) => ref - t(l.created_at) <= 864e5);
     const fin = finDeHoy(new Date(ahora)).getTime();
@@ -156,7 +163,7 @@ export default function ColaCliente({
       .filter((l) => l.etapa !== "nuevo" && t(l.proximo_seguimiento) < fin)
       .sort((a, b) => t(a.proximo_seguimiento) - t(b.proximo_seguimiento))[0];
     return tibio ?? hoy ?? nuevos[nuevos.length - 1];
-  }, [leads, ahora, busqueda]);
+  }, [delRamo, ahora, busqueda]);
 
   // Avance del día: leads con un resultado registrado hoy vs. lo que falta.
   const diaHoy = new Date(new Date(ahora).getTime() - 5 * 3600e3).toISOString().slice(0, 10);
@@ -167,7 +174,11 @@ export default function ColaCliente({
         new Date(new Date(e.created_at).getTime() - 5 * 3600e3).toISOString().slice(0, 10) === diaHoy
     )
   ).length;
-  const faltanHoy = grupos.nuevos.length + grupos.paraHoy.length;
+  // El avance es del día completo, sin importar el ramo elegido abajo.
+  const finDia = finDeHoy(new Date(ahora)).getTime();
+  const faltanHoy = leads.filter(
+    (l) => l.etapa === "nuevo" || (["contactado", "cotizado"].includes(l.etapa) && t(l.proximo_seguimiento) < finDia)
+  ).length;
   const totalHoy = atendidosHoy + faltanHoy;
 
   const tarjeta = (l: LeadCola) => (
@@ -188,6 +199,38 @@ export default function ColaCliente({
   const fecha = new Intl.DateTimeFormat("es-CO", { timeZone: "America/Bogota", weekday: "long", day: "numeric", month: "long" })
     .format(new Date(ahora))
     .replace(/\s/g, " ");
+  // ¿En qué pestaña cae un lead? (sin búsqueda ni filtro de ramo)
+  const finHoy = finDeHoy(new Date(ahora)).getTime();
+  const enPestana = (l: LeadCola, p: Pestana) => {
+    const abierto = ["nuevo", "contactado", "cotizado"].includes(l.etapa);
+    if (p === "cerrados") return !abierto;
+    if (!abierto) return false;
+    if (p === "nuevos") return l.etapa === "nuevo";
+    if (l.etapa === "nuevo") return false;
+    const hoy = t(l.proximo_seguimiento) < finHoy;
+    return p === "hoy" ? hoy : !hoy;
+  };
+
+  // Ramos de la pestaña actual con su conteo (sin el filtro de ramo, para
+  // poder cambiar de uno a otro).
+  const ramosPestana = (() => {
+    const n = new Map<string, { clave: string; n: number; tipo: string }>();
+    for (const l of leads) {
+      if (!enPestana(l, pestana)) continue;
+      const k = claveRamo(l.tipo_seguro);
+      const r = n.get(k) ?? { clave: k, n: 0, tipo: l.tipo_seguro };
+      r.n++;
+      n.set(k, r);
+    }
+    return [...n.values()].sort((a, b) => b.n - a.n || a.clave.localeCompare(b.clave, "es"));
+  })();
+
+  const cambiarPestana = (p: Pestana) => {
+    setPestana(p);
+    // Si el ramo elegido no tiene leads en la otra pestaña, vuelve a "Todos".
+    if (ramo && !leads.some((l) => enPestana(l, p) && claveRamo(l.tipo_seguro) === ramo)) setRamo("");
+  };
+
   const visibles = (k: Pestana) => listas[k].filter((l) => l.id !== siguiente?.id);
 
   return (
@@ -241,7 +284,7 @@ export default function ColaCliente({
                 <button
                   key={p.clave}
                   type="button"
-                  onClick={() => setPestana(p.clave)}
+                  onClick={() => cambiarPestana(p.clave)}
                   aria-current={activa ? "page" : undefined}
                   className={`relative flex flex-col items-center justify-center py-2 rounded-xl transition-colors ${
                     activa ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:bg-background"
@@ -255,6 +298,30 @@ export default function ColaCliente({
             })}
           </div>
         </nav>
+
+        {/* Por tipo de seguro: solo los ramos que hay en esta pestaña */}
+        {ramosPestana.length > 1 && (
+          <div role="group" aria-label="Tipo de seguro" className="mt-1 mb-1 -mx-4 px-4 sm:mx-0 sm:px-0 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none]">
+            {[{ clave: "", n: ramosPestana.reduce((s, r) => s + r.n, 0), tipo: "" }, ...ramosPestana].map((r) => {
+              const activo = ramo === r.clave;
+              return (
+                <button
+                  key={r.clave || "todos"}
+                  type="button"
+                  onClick={() => setRamo(activo && r.clave ? "" : r.clave)}
+                  aria-pressed={activo}
+                  className={`shrink-0 inline-flex items-center gap-1.5 pl-3 pr-2.5 py-1.5 rounded-full text-sm font-semibold border transition-colors ${
+                    activo ? "bg-primary text-white border-primary" : "bg-white text-primary/75 border-primary/10 hover:border-accent/50"
+                  }`}
+                >
+                  {r.tipo && <IconoRamo tipo={r.tipo} className={`w-3.5 h-3.5 ${activo ? "text-accent" : "text-primary/50"}`} />}
+                  {r.clave ? r.clave.split(" ")[0] : "Todos"}
+                  <span className={`text-xs tabular-nums ${activo ? "text-white/70" : "text-primary/40"}`}>{r.n}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         <div className="mt-2 flex gap-2">
           <label className="flex-1 min-w-0 flex items-center gap-2 bg-white border border-primary/10 rounded-xl px-3.5 py-2.5 focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25">
