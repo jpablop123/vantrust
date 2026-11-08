@@ -1,13 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { normalizarPlaca, placaValida } from "@/lib/validacion";
 import { enviarPlaca } from "@/lib/placa-pendiente";
+import { trackInicioCotizacion } from "@/lib/tracking";
+
+/** Lleva al cotizador del home en la pestaña de ese ramo. */
+function irAlCotizador(ramo: "auto" | "salud" | "hogar") {
+  window.dispatchEvent(new CustomEvent("vt-ramo", { detail: ramo }));
+  document.getElementById("cotizar")?.scrollIntoView({ behavior: "smooth" });
+}
 
 /**
  * Primera acción del hero: escribir la placa. Al enviar, lleva al cotizador
- * de autos con la placa ya puesta y el cursor en "Tu nombre". La placa es
- * opcional: sin ella, el botón solo lleva al cotizador.
+ * de autos con la placa ya puesta y el cursor en "Tu nombre" (luego viaja en
+ * el lead). Acepta carro (ABC123) y moto (ABC12D). Es opcional: sin placa, el
+ * botón solo lleva al cotizador. Al enviar se cuenta InitiateCheckout (una
+ * vez por pestaña, ver lib/tracking).
  */
 export default function HeroPlaca() {
   const [placa, setPlaca] = useState("");
@@ -19,15 +29,15 @@ export default function HeroPlaca() {
       setError(true);
       return;
     }
-    window.dispatchEvent(new CustomEvent("vt-ramo", { detail: "auto" }));
+    trackInicioCotizacion("vehiculo", "hero_placa");
     if (placa) enviarPlaca(placa);
-    document.getElementById("cotizar")?.scrollIntoView({ behavior: "smooth" });
+    irAlCotizador("auto");
   };
 
   return (
     <form onSubmit={enviar} noValidate className="w-full max-w-xl">
       <label htmlFor="hero-placa" className="block text-white/70 text-sm font-medium mb-3">
-        Escribe tu placa y te cotizamos con 10 aseguradoras
+        Escribe la placa de tu carro o moto y te cotizamos con 10 aseguradoras
       </label>
       <div className="flex flex-col sm:flex-row items-stretch gap-3">
         {/* Con forma de placa: el formato se reconoce de un vistazo. */}
@@ -64,9 +74,34 @@ export default function HeroPlaca() {
       </div>
       {error && (
         <p id="hero-placa-error" className="mt-2 text-red-300 text-sm">
-          Revisa la placa (ej: ABC123 o ABC12D para moto).
+          Revisa la placa: ABC123 para carro o ABC12D para moto.
         </p>
       )}
+      <p className="mt-4 text-sm text-white/55">
+        ¿Otro seguro?{" "}
+        <button
+          type="button"
+          onClick={() => irAlCotizador("salud")}
+          className="text-accent font-semibold underline underline-offset-4 hover:text-accent-light"
+        >
+          Salud
+        </button>
+        <span className="mx-2 text-white/25">·</span>
+        <button
+          type="button"
+          onClick={() => irAlCotizador("hogar")}
+          className="text-accent font-semibold underline underline-offset-4 hover:text-accent-light"
+        >
+          Hogar
+        </button>
+        <span className="mx-2 text-white/25">·</span>
+        <Link
+          href="/seguros#empresas"
+          className="text-accent font-semibold underline underline-offset-4 hover:text-accent-light"
+        >
+          Para mi empresa
+        </Link>
+      </p>
     </form>
   );
 }
