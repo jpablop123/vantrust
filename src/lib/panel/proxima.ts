@@ -68,35 +68,55 @@ const VERBO: Record<string, string> = {
   ya_tiene: "Pregunta cuándo vence su póliza",
 };
 
-/** La frase de la fila: qué hacer ahora con este lead. */
-export function proximaAccion(lead: LeadCola, ahora: Date, intento: string | null): { texto: string; tono: Tono } {
+export interface Proxima {
+  /** Frase completa: "Pregunta por la cotización · hoy 9:00 a. m." */
+  texto: string;
+  tono: Tono;
+  /** Solo la acción: "Pregunta por la cotización". */
+  accion: string;
+  /** Solo el cuándo: "Hoy 9:00 a. m.", "Atrasado 2 días", "38 min". */
+  cuando: string;
+  /** El cuándo para la fila, lo más corto posible: "9:00 a. m.", "2 d tarde". */
+  corto: string;
+}
+
+const mayuscula = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/** Qué hacer ahora con este lead (la frase de la fila). */
+export function proximaAccion(lead: LeadCola, ahora: Date, intento: string | null): Proxima {
+  const p = (accion: string, cuando: string, tono: Tono, corto = cuando): Proxima => ({
+    texto: cuando ? `${accion} · ${cuando.charAt(0).toLowerCase()}${cuando.slice(1)}` : accion,
+    tono,
+    accion,
+    cuando,
+    corto,
+  });
+
   if (lead.etapa === "ganado")
-    return {
-      texto: ["Ganado", lead.prima_valor ? pesos(lead.prima_valor) : "", lead.aseguradora_cierre ?? ""].filter(Boolean).join(" · "),
-      tono: "verde",
-    };
+    return p(["Ganado", lead.prima_valor ? pesos(lead.prima_valor) : ""].filter(Boolean).join(" · "), lead.aseguradora_cierre ?? "", "verde");
   if (lead.etapa === "perdido" || lead.etapa === "archivado")
-    return { texto: `Perdido${lead.motivo_perdida ? ` · ${textoMotivo(lead.motivo_perdida)}` : ""}`, tono: "gris" };
+    return p("Perdido", lead.motivo_perdida ? textoMotivo(lead.motivo_perdida) : "", "gris");
 
   if (intento) {
     const min = Math.max(0, Math.round((ahora.getTime() - Date.parse(intento)) / 60000));
-    return { texto: `Le escribiste ${hace(min)}`, tono: "azul" };
+    return { ...p("Le escribiste", mayuscula(hace(min)), "azul", duracion(min)), texto: `Le escribiste ${hace(min)}` };
   }
 
   if (lead.etapa === "nuevo") {
     const u = urgenciaNuevo(new Date(lead.created_at), ahora);
-    if (u.nivel === "frio") return { texto: `Sin contactar hace ${duracion(u.minutos)}`, tono: "gris" };
+    if (u.nivel === "frio") return { ...p("Sin contactar", duracion(u.minutos), "gris"), texto: `Sin contactar hace ${duracion(u.minutos)}` };
     const tono: Tono = u.nivel === "reciente" ? "verde" : u.nivel === "atender" ? "ambar" : "rojo";
-    return { texto: `Escríbele ya · lleva ${duracion(u.minutos)}`, tono };
+    return { ...p("Escríbele ya", duracion(u.minutos), tono), texto: `Escríbele ya · lleva ${duracion(u.minutos)}` };
   }
 
   const verbo =
-    lead.etapa === "cotizado" ? "Pregunta por la cotización" : VERBO[lead.resultado_contacto ?? ""] ?? "Haz seguimiento";
-  if (!lead.proximo_seguimiento) return { texto: verbo, tono: "ambar" };
+    lead.etapa === "cotizado" ? "Sigue la cotización" : VERBO[lead.resultado_contacto ?? ""] ?? "Haz seguimiento";
+  if (!lead.proximo_seguimiento) return p(verbo, "", "ambar");
   const c = cuando(lead.proximo_seguimiento, ahora);
-  if (c.dias < 0) return { texto: `${verbo} · atrasado ${c.dias === -1 ? "desde ayer" : c.texto}`, tono: "rojo" };
-  if (c.dias === 0) return { texto: `${verbo} · ${c.texto}`, tono: "ambar" };
-  return { texto: `${verbo} · ${c.texto}`, tono: "gris" };
+  if (c.dias < 0)
+    return p(verbo, c.dias === -1 ? "Atrasado desde ayer" : `Atrasado ${c.texto}`, "rojo", c.dias === -1 ? "Ayer" : `${-c.dias} d tarde`);
+  const corto = c.dias === 0 ? c.texto.replace(/^hoy\s/, "") : c.dias === 1 ? "Mañana" : mayuscula(c.texto);
+  return p(verbo, mayuscula(c.texto), c.dias === 0 ? "ambar" : "gris", corto);
 }
 
 /** Cómo nombrar al cliente en una frase: primer nombre, o completo si es empresa. */

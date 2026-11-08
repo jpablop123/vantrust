@@ -35,11 +35,7 @@ export default async function PanelInicio({
   return (
     <>
       <BarraPanel miembro={miembro} />
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 sm:pt-8 pb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Mi cola</h1>
-        <p className="hidden sm:block text-muted mt-1 mb-3">
-          Tus leads asignados. Escríbeles, registra cómo te fue y el panel te recuerda cuándo volver.
-        </p>
+      <main>
         <ColaCliente leads={leads} eventos={eventos} ahora={new Date().toISOString()} esAdmin={false} nombreMiembro={miembro.nombre} abrir={lead} />
       </main>
     </>

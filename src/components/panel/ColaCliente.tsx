@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search } from "lucide-react";
+import { PartyPopper, Search } from "lucide-react";
 import TarjetaLead from "@/components/panel/TarjetaLead";
 import Selector from "@/components/panel/Selector";
 import Paginacion from "@/components/panel/Paginacion";
+import SiguienteLead from "@/components/panel/SiguienteLead";
 import type { EventoLead, LeadCola } from "@/lib/panel/leads";
 import { etiquetaRamo } from "@/lib/panel/etiquetas";
 
@@ -142,6 +143,33 @@ export default function ColaCliente({
   });
   const actual = PESTANAS.find((p) => p.clave === pestana)!;
 
+  // El que toca ahora: nuevos que no se han enfriado (el que más lleva
+  // esperando), luego los seguimientos de hoy, luego los nuevos fríos.
+  const siguiente = useMemo(() => {
+    if (busqueda.trim()) return undefined;
+    const ref = new Date(ahora).getTime();
+    const abiertosTodos = leads.filter((l) => ["nuevo", "contactado", "cotizado"].includes(l.etapa));
+    const nuevos = abiertosTodos.filter((l) => l.etapa === "nuevo").sort((a, b) => t(a.created_at) - t(b.created_at));
+    const tibio = nuevos.find((l) => ref - t(l.created_at) <= 864e5);
+    const fin = finDeHoy(new Date(ahora)).getTime();
+    const hoy = abiertosTodos
+      .filter((l) => l.etapa !== "nuevo" && t(l.proximo_seguimiento) < fin)
+      .sort((a, b) => t(a.proximo_seguimiento) - t(b.proximo_seguimiento))[0];
+    return tibio ?? hoy ?? nuevos[nuevos.length - 1];
+  }, [leads, ahora, busqueda]);
+
+  // Avance del día: leads con un resultado registrado hoy vs. lo que falta.
+  const diaHoy = new Date(new Date(ahora).getTime() - 5 * 3600e3).toISOString().slice(0, 10);
+  const atendidosHoy = Object.values(eventos).filter((evs) =>
+    evs.some(
+      (e) =>
+        ["contactado", "resultado", "cotizado", "ganado", "perdido"].includes(e.tipo) &&
+        new Date(new Date(e.created_at).getTime() - 5 * 3600e3).toISOString().slice(0, 10) === diaHoy
+    )
+  ).length;
+  const faltanHoy = grupos.nuevos.length + grupos.paraHoy.length;
+  const totalHoy = atendidosHoy + faltanHoy;
+
   const tarjeta = (l: LeadCola) => (
     <TarjetaLead
       key={l.id}
@@ -155,75 +183,109 @@ export default function ColaCliente({
     />
   );
 
+  const horaCo = new Date(new Date(ahora).getTime() - 5 * 3600e3).getUTCHours();
+  const saludo = horaCo < 12 ? "Buenos días" : horaCo < 19 ? "Buenas tardes" : "Buenas noches";
+  const fecha = new Intl.DateTimeFormat("es-CO", { timeZone: "America/Bogota", weekday: "long", day: "numeric", month: "long" })
+    .format(new Date(ahora))
+    .replace(/\s/g, " ");
+  const visibles = (k: Pestana) => listas[k].filter((l) => l.id !== siguiente?.id);
+
   return (
     <div>
-      {abrir && !buscado && (
-        <p role="status" className="mb-4 text-sm bg-amber-50 text-amber-900 border border-amber-200 rounded-xl px-4 py-3">
-          Ese lead ya no está en tu cola (lo reasignaron o se cerró hace más de 14 días).
-        </p>
-      )}
-
-      {/* Pestañas: lo urgente primero. Quedan fijas arriba al bajar. */}
-      <nav
-        aria-label="Secciones de la cola"
-        className="sticky top-0 z-20 -mx-4 px-4 sm:mx-0 sm:px-0 py-2 bg-surface/95 backdrop-blur flex gap-1.5 overflow-x-auto"
-      >
-        {PESTANAS.map((p) => {
-          const activa = p.clave === pestana;
-          const n = listas[p.clave].length;
-          const alerta = p.clave === "nuevos" && n > 0;
-          return (
-            <button
-              key={p.clave}
-              type="button"
-              onClick={() => setPestana(p.clave)}
-              aria-current={activa ? "page" : undefined}
-              className={`shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-sm font-bold border transition-colors ${
-                activa ? "bg-primary text-white border-primary" : "bg-white text-primary/70 border-primary/10 hover:border-accent/50"
-              }`}
-            >
-              {p.texto}
-              <span
-                className={`min-w-5 h-5 px-1.5 rounded-full text-xs inline-flex items-center justify-center tabular-nums ${
-                  alerta ? "bg-accent text-primary" : activa ? "bg-white/15 text-white" : "bg-primary/5 text-primary/50"
-                }`}
-              >
-                {n}
+      {/* Encabezado: saludo y avance del día */}
+      <section className="bg-primary text-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-6 pb-20">
+          <p className="text-sm text-white/50 first-letter:uppercase">{fecha}</p>
+          <h1 className="mt-1 text-2xl sm:text-3xl font-bold tracking-tight">
+            {saludo}, <span className="italic text-gold-gradient">{nombreMiembro.split(" ")[0]}</span>
+          </h1>
+          <div className="mt-5">
+            <div className="flex items-baseline justify-between text-sm">
+              <span className="text-white/70">
+                {totalHoy === 0 ? "No tienes pendientes para hoy" : <>Hoy llevas <b className="text-white">{atendidosHoy}</b> de {totalHoy}</>}
               </span>
-            </button>
-          );
-        })}
-      </nav>
+              {faltanHoy > 0 && <span className="text-accent font-semibold">{faltanHoy} por atender</span>}
+            </div>
+            <div className="mt-2 h-2 rounded-full bg-white/10 overflow-hidden" role="progressbar" aria-valuemin={0} aria-valuemax={totalHoy} aria-valuenow={atendidosHoy} aria-label="Avance del día">
+              <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${totalHoy ? (atendidosHoy / totalHoy) * 100 : 100}%` }} />
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <div className="mt-3 flex gap-2">
-        <label className="flex-1 min-w-0 flex items-center gap-2 bg-white border border-primary/10 rounded-xl px-3.5 py-2.5 focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25">
-          <Search className="w-4 h-4 shrink-0 text-primary/40" aria-hidden="true" />
-          <span className="sr-only">Buscar</span>
-          <input
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            placeholder="Buscar nombre, teléfono, placa"
-            className="flex-1 min-w-0 bg-transparent outline-none text-primary placeholder-primary/35 text-[15px]"
-          />
-        </label>
-        <Selector etiqueta="Ordenar por" valor={orden} onCambio={(v) => setOrden(v as OrdenCola)} opciones={ORDENES_COLA} ancho="w-36 sm:w-56" />
-      </div>
-
-      {pestana === "cerrados" && ganados.length > 0 && (
-        <p className="mt-4 text-sm text-muted">
-          {ganados.length} {ganados.length === 1 ? "ganado" : "ganados"} en 14 días · <b className="text-primary">{pesos(primaGanada)}</b> en primas
-        </p>
-      )}
-
-      <section className="mt-4" aria-label={actual.texto}>
-        {listas[pestana].length ? (
-          <ListaPaginada key={pestana} leads={listas[pestana]} render={tarjeta} abrir={abrir} />
-        ) : (
-          <p className="text-muted text-sm bg-white border border-dashed border-primary/15 rounded-2xl p-5">
-            {busqueda ? "Nada coincide con la búsqueda en esta pestaña." : actual.vacio}
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 -mt-14 pb-10">
+        {abrir && !buscado && (
+          <p role="status" className="mb-4 text-sm bg-amber-50 text-amber-900 border border-amber-200 rounded-xl px-4 py-3">
+            Ese lead ya no está en tu cola (lo reasignaron o se cerró hace más de 14 días).
           </p>
         )}
-      </section>
+
+        {siguiente ? (
+          <SiguienteLead key={siguiente.id} lead={siguiente} eventos={eventos[siguiente.id] ?? []} ahora={ahora} nombreMiembro={nombreMiembro} />
+        ) : !busqueda.trim() ? (
+          <section className="bg-white rounded-3xl border border-primary/10 shadow-xl shadow-primary/10 p-6 text-center">
+            <PartyPopper className="w-10 h-10 text-accent-dark mx-auto" />
+            <p className="mt-2 text-lg font-bold text-primary">Estás al día</p>
+            <p className="text-sm text-muted">No tienes leads por atender ahora. Te avisamos por Telegram cuando llegue uno.</p>
+          </section>
+        ) : null}
+
+        {/* Pestañas: control segmentado, fijo arriba al bajar */}
+        <nav aria-label="Secciones de la cola" className="sticky top-0 z-20 -mx-4 px-4 sm:mx-0 sm:px-0 pt-5 pb-2 bg-surface/95 backdrop-blur">
+          <div className="grid grid-cols-4 gap-1 p-1 bg-white rounded-2xl border border-primary/10 shadow-sm">
+            {PESTANAS.map((p) => {
+              const activa = p.clave === pestana;
+              const n = listas[p.clave].length;
+              const alerta = p.clave === "nuevos" && n > 0 && !activa;
+              return (
+                <button
+                  key={p.clave}
+                  type="button"
+                  onClick={() => setPestana(p.clave)}
+                  aria-current={activa ? "page" : undefined}
+                  className={`relative flex flex-col items-center justify-center py-2 rounded-xl transition-colors ${
+                    activa ? "bg-primary text-white shadow-sm" : "text-primary/60 hover:bg-background"
+                  }`}
+                >
+                  <span className={`text-lg font-bold leading-none tabular-nums ${activa ? "text-accent" : alerta ? "text-accent-dark" : ""}`}>{n}</span>
+                  <span className="mt-1 text-[11px] sm:text-xs font-semibold leading-none">{p.texto}</span>
+                  {alerta && <span className="absolute top-1.5 right-2 w-2 h-2 rounded-full bg-red-500" aria-hidden="true" />}
+                </button>
+              );
+            })}
+          </div>
+        </nav>
+
+        <div className="mt-2 flex gap-2">
+          <label className="flex-1 min-w-0 flex items-center gap-2 bg-white border border-primary/10 rounded-xl px-3.5 py-2.5 focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/25">
+            <Search className="w-4 h-4 shrink-0 text-primary/40" aria-hidden="true" />
+            <span className="sr-only">Buscar</span>
+            <input
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+              placeholder="Buscar nombre, teléfono, placa"
+              className="flex-1 min-w-0 bg-transparent outline-none text-primary placeholder-primary/35 text-[15px]"
+            />
+          </label>
+          <Selector etiqueta="Ordenar por" valor={orden} onCambio={(v) => setOrden(v as OrdenCola)} opciones={ORDENES_COLA} ancho="w-36 sm:w-48" />
+        </div>
+
+        {pestana === "cerrados" && ganados.length > 0 && (
+          <p className="mt-4 text-sm text-muted">
+            {ganados.length} {ganados.length === 1 ? "ganado" : "ganados"} en 14 días · <b className="text-primary">{pesos(primaGanada)}</b> en primas
+          </p>
+        )}
+
+        <section className="mt-3" aria-label={actual.texto}>
+          {visibles(pestana).length ? (
+            <ListaPaginada key={pestana} leads={visibles(pestana)} render={tarjeta} abrir={abrir} />
+          ) : (
+            <p className="text-muted text-sm bg-white border border-dashed border-primary/15 rounded-2xl p-5 text-center">
+              {busqueda ? "Nada coincide con la búsqueda en esta pestaña." : listas[pestana].length ? "El único lead de aquí es el de arriba." : actual.vacio}
+            </p>
+          )}
+        </section>
+      </div>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { startTransition, useActionState, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Phone, ChevronDown, MessageCircleQuestion, History, StickyNote, Trophy, XCircle, FileCheck2, MessageSquareText, RotateCcw } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { actuarSobreLead, registrarVista, type EstadoAccion } from "@/app/panel/cola/acciones";
@@ -16,9 +15,10 @@ import {
   textoResultado,
 } from "@/lib/panel/etiquetas";
 import { hace } from "@/lib/panel/reglas";
-import { intentoSinRegistrar, nombreCorto, proximaAccion, type Tono } from "@/lib/panel/proxima";
-import { useHojaContacto } from "@/components/panel/HojaContacto";
+import { nombreCorto, proximaAccion, type Tono } from "@/lib/panel/proxima";
+import { useIntento } from "@/components/panel/useIntento";
 import Selector from "@/components/panel/Selector";
+import Avatar, { IconoRamo } from "@/components/panel/Avatar";
 import { COLOR_CANAL, canalDe, capturaDe } from "@/lib/panel/origen";
 import { INSURERS } from "@/lib/site";
 
@@ -33,6 +33,20 @@ const COLOR_ETAPA: Record<string, string> = {
   archivado: "bg-gray-100 text-gray-600",
 };
 
+const TEXTO_TONO: Record<Tono, string> = {
+  verde: "text-green-700",
+  ambar: "text-amber-700",
+  rojo: "text-red-600",
+  gris: "text-muted",
+  azul: "text-sky-700",
+};
+const BARRA_TONO: Record<Tono, string> = {
+  verde: "bg-green-500",
+  ambar: "bg-amber-400",
+  rojo: "bg-red-500",
+  gris: "bg-transparent",
+  azul: "bg-sky-400",
+};
 const COLOR_TONO: Record<Tono, string> = {
   verde: "bg-green-50 text-green-800",
   ambar: "bg-amber-50 text-amber-900",
@@ -88,7 +102,7 @@ function detalleEvento(e: EventoLead): string {
 }
 
 /** Enlace de WhatsApp al cliente con un saludo ya escrito. */
-function whatsappCliente(lead: LeadCola, asesor: string) {
+export function whatsappCliente(lead: LeadCola, asesor: string) {
   const tel = lead.telefono.replace(/\D/g, "").slice(-10);
   const saludo = `Hola ${lead.nombre.split(" ")[0]}, te habla ${asesor.split(" ")[0]} de VanTrust. Recibimos tu solicitud de seguro de ${etiquetaRamo(lead.tipo_seguro).toLowerCase()} y quiero ayudarte a comparar opciones. ¿Tienes un momento?`;
   return `https://wa.me/57${tel}?text=${encodeURIComponent(saludo)}`;
@@ -103,6 +117,7 @@ export default function TarjetaLead({
   solicitudes = 1,
   asesores,
   abrirInicial = false,
+  soloDetalle = false,
 }: {
   lead: LeadCola;
   eventos: EventoLead[];
@@ -115,26 +130,22 @@ export default function TarjetaLead({
   asesores?: { id: string; nombre: string }[];
   /** Abrir y mostrar este lead al cargar (enlace desde Telegram). */
   abrirInicial?: boolean;
+  /** Solo el detalle, sin la fila (dentro de la tarjeta "Siguiente"). */
+  soloDetalle?: boolean;
 }) {
-  const router = useRouter();
-  const [expandido, setExpandido] = useState(abrirInicial);
+  const [expandido, setExpandido] = useState(abrirInicial || soloDetalle);
   const fila = useRef<HTMLElement>(null);
-  // Intento de contacto hecho en esta pantalla (antes de que llegue del servidor)
-  // y momento del último resultado registrado aquí.
-  const [intentoLocal, setIntentoLocal] = useState<{ medio: "whatsapp" | "llamada"; t: number } | null>(null);
-  const [registradoLocal, setRegistradoLocal] = useState(0);
-  const abrirHoja = useHojaContacto();
-  const esperando = useRef<{ medio: "whatsapp" | "llamada"; seFue: boolean } | null>(null);
+  const { pendiente, medio, intentoIso, intentar, preguntar, marcarRegistrado } = useIntento(lead, eventos);
   const [modo, setModo] = useState<Modo>(null);
   const [verHistorial, setVerHistorial] = useState(false);
-  const [verDetalles, setVerDetalles] = useState(false);
+  const [verDetalles, setVerDetalles] = useState(soloDetalle);
   // Al guardar bien se cierra el formulario abierto.
   const [estado, accion, enviando] = useActionState(
     async (previo: EstadoAccion, form: FormData) => {
       const r = await actuarSobreLead(previo, form);
       if (r?.ok) {
         setModo(null);
-        if (form.get("accion") !== "nota") setRegistradoLocal(Date.now());
+        if (form.get("accion") !== "nota") marcarRegistrado();
       }
       return r;
     },
@@ -148,66 +159,7 @@ export default function TarjetaLead({
   const minutos = Math.round((new Date(ahora).getTime() - new Date(lead.created_at).getTime()) / 60000);
   const chip = "text-[11px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap";
 
-  // ¿Hay un intento de contacto sin resultado? (del historial o de esta pantalla)
-  const isoServidor = intentoSinRegistrar(eventos);
-  const tServidor = isoServidor ? Date.parse(isoServidor) : 0;
-  const tIntento = Math.max(tServidor, intentoLocal?.t ?? 0);
-  const pendiente = abierto && tIntento > 0 && tIntento > registradoLocal;
-  const medio: "whatsapp" | "llamada" =
-    intentoLocal && intentoLocal.t >= tServidor
-      ? intentoLocal.medio
-      : eventos.find((e) => e.created_at === isoServidor)?.tipo === "llamada" ? "llamada" : "whatsapp";
-  const preguntar = (m: "whatsapp" | "llamada") =>
-    abrirHoja({
-      leadId: lead.id,
-      nombre: lead.nombre,
-      medio: m,
-      onGuardado: () => {
-        setIntentoLocal(null);
-        setRegistradoLocal(Date.now());
-        router.refresh();
-      },
-    });
-  const frase = proximaAccion(lead, new Date(ahora), pendiente ? new Date(tIntento).toISOString() : null);
-
-  /** WhatsApp o llamada: queda como intento de contacto (frena la alerta y la reasignación). */
-  const intentar = (m: "whatsapp" | "llamada") => {
-    registrarVista(lead.id, m).then(() => router.refresh());
-    setIntentoLocal({ medio: m, t: Date.now() });
-    esperando.current = { medio: m, seFue: false };
-  };
-
-  // El listener se registra una vez; siempre llama a la versión actual.
-  const preguntarRef = useRef(preguntar);
-  useEffect(() => {
-    preguntarRef.current = preguntar;
-  });
-
-  // Al volver de WhatsApp o de la llamada se pregunta "¿Cómo te fue?".
-  useEffect(() => {
-    const salir = () => {
-      if (esperando.current && document.visibilityState === "hidden") esperando.current.seFue = true;
-    };
-    const desenfocar = () => {
-      if (esperando.current) esperando.current.seFue = true;
-    };
-    const volver = () => {
-      if (document.visibilityState !== "visible" || !esperando.current?.seFue) return;
-      const m = esperando.current.medio;
-      esperando.current = null;
-      preguntarRef.current(m);
-    };
-    document.addEventListener("visibilitychange", salir);
-    document.addEventListener("visibilitychange", volver);
-    window.addEventListener("blur", desenfocar);
-    window.addEventListener("focus", volver);
-    return () => {
-      document.removeEventListener("visibilitychange", salir);
-      document.removeEventListener("visibilitychange", volver);
-      window.removeEventListener("blur", desenfocar);
-      window.removeEventListener("focus", volver);
-    };
-  }, []);
+  const frase = proximaAccion(lead, new Date(ahora), intentoIso);
 
   // Enlace directo (Telegram): lleva la vista hasta el lead.
   useEffect(() => {
@@ -234,6 +186,8 @@ export default function TarjetaLead({
       id={`lead-${lead.id}`}
       className={`transition-colors scroll-mt-24 ${expandido ? "bg-background/50" : "hover:bg-background/40"} ${abrirInicial ? "ring-2 ring-accent ring-inset" : ""}`}
     >
+{soloDetalle ? null : verAsesor ? (
+<>
       {/* Fila compacta: al tocarla se abre el detalle */}
       <div className="flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-3">
         <button
@@ -283,8 +237,69 @@ export default function TarjetaLead({
         <ChevronDown aria-hidden="true" className={`shrink-0 w-5 h-5 text-primary/40 transition-transform ${expandido ? "rotate-180" : ""}`} />
       </div>
 
+</>
+) : (
+<>
+      {/* Bandeja del asesor: iniciales, nombre, qué hacer y cuándo */}
+      <div className="relative flex items-center gap-3 px-4 sm:px-5 py-3.5">
+        {abierto && frase.tono !== "gris" && (
+          <span aria-hidden="true" className={`absolute left-0 top-3 bottom-3 w-1 rounded-r-full ${BARRA_TONO[frase.tono]}`} />
+        )}
+        <button
+          type="button"
+          onClick={() => {
+            if (!expandido) registrarVista(lead.id, "visto");
+            setExpandido((v) => !v);
+          }}
+          aria-expanded={expandido}
+          className="flex-1 min-w-0 flex items-center gap-3 text-left"
+        >
+          <Avatar nombre={lead.nombre} />
+          <span className="flex-1 min-w-0">
+            <span className="flex items-baseline justify-between gap-2">
+              <span className="font-bold text-primary truncate">{lead.nombre}</span>
+              {!pendiente && frase.cuando && (
+                <span className={`shrink-0 text-xs font-semibold ${TEXTO_TONO[frase.tono]}`}>{frase.corto}</span>
+              )}
+            </span>
+            <span className="mt-0.5 flex items-center gap-1.5 text-sm min-w-0">
+              {solicitudes > 1 && (
+                <span title="Mismo teléfono: es la misma persona" className="shrink-0 text-[11px] font-bold px-1.5 rounded bg-primary text-white">
+                  ×{solicitudes}
+                </span>
+              )}
+              <span className="text-muted shrink-0 inline-flex items-center gap-1">
+                <IconoRamo tipo={lead.tipo_seguro} className="w-3.5 h-3.5" />
+                {etiquetaRamo(lead.tipo_seguro).split(" ")[0]}
+              </span>
+              {!pendiente && (
+                <>
+                  <span className="text-primary/20" aria-hidden="true">·</span>
+                  <span className={`truncate font-medium ${frase.tono === "gris" ? "text-primary/60" : TEXTO_TONO[frase.tono]}`}>{frase.accion}</span>
+                </>
+              )}
+            </span>
+          </span>
+        </button>
+        {abierto && (
+          <a
+            href={whatsappCliente(lead, nombreMiembro)}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => intentar("whatsapp")}
+            aria-label={`WhatsApp a ${lead.nombre}`}
+            title="Abrir WhatsApp"
+            className="shrink-0 w-10 h-10 rounded-full bg-green-600 hover:bg-green-500 text-white flex items-center justify-center transition-colors shadow-sm shadow-green-900/20"
+          >
+            <WhatsAppIcon className="w-[18px] h-[18px]" />
+          </a>
+        )}
+      </div>
+
+</>
+)}
       {/* Intento sin resultado: queda marcado hasta que lo registren */}
-      {pendiente && (
+      {pendiente && !soloDetalle && (
         <div className="px-4 sm:px-5 pb-3 -mt-1">
           <div className="flex items-center gap-3 rounded-xl border border-accent/40 bg-accent/10 pl-3 pr-2 py-2">
             <MessageCircleQuestion className="w-5 h-5 shrink-0 text-accent-dark" aria-hidden="true" />
@@ -304,7 +319,7 @@ export default function TarjetaLead({
       )}
 
       {expandido && (
-      <div className="px-4 sm:px-5 pb-5">
+      <div className={`px-4 sm:px-5 pb-5 ${soloDetalle ? "pt-1" : ""}`}>
       {/* Estado del seguimiento */}
       {(lead.resultado_contacto || lead.proximo_seguimiento || lead.etapa === "ganado" || lead.etapa === "perdido") && (
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm">
@@ -328,7 +343,8 @@ export default function TarjetaLead({
         <p className="mt-2 text-sm text-primary/70 bg-background rounded-lg px-3 py-2">“{lead.nota_seguimiento}”</p>
       )}
 
-      {/* Contacto directo */}
+      {/* Contacto directo (en "Siguiente" ya están arriba) */}
+      {!soloDetalle && (
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <a
           href={whatsappCliente(lead, nombreMiembro)}
@@ -361,6 +377,7 @@ export default function TarjetaLead({
           <ChevronDown className={`w-4 h-4 transition-transform ${verDetalles ? "rotate-180" : ""}`} />
         </button>
       </div>
+      )}
 
       {verDetalles && (
         <dl className="mt-3 grid sm:grid-cols-2 gap-x-6 gap-y-1.5 text-sm bg-background rounded-xl p-4">
